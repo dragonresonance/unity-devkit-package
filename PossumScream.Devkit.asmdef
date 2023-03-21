@@ -1,0 +1,23 @@
+{
+    "name": "Devkit",
+    "rootNamespace": "PossumScream",
+    "references": [
+        "GUID:06c67899dc98bc84f9287b2c31874502",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:21b0c8d1703a94250bfac916590cea4f",
+        "GUID:457756d89b35d2941b3e7b37b4ece6f1",
+        "GUID:56bb574dc1a062d418a6a47ef8188217",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
