@@ -1,8 +1,3 @@
-using UnityEngine;
-
-
-
-
 namespace PossumScream.Extensions
 {
 	public static class BoolExtensions

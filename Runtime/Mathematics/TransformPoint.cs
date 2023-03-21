@@ -3,13 +3,58 @@ using UnityEngine;
 
 
 
-namespace PossumScream.Behaviours
+namespace PossumScream.Mathematics
 {
-	public abstract partial class PossumBehaviour : MonoBehaviour
+	public readonly struct TransformPoint
 	{
-		#pragma warning disable 0414
-		[SerializeField] private string _description = "";
-		#pragma warning restore 0414
+		private readonly Quaternion _rotation;
+		private readonly Vector3 _backward;
+		private readonly Vector3 _down;
+		private readonly Vector3 _forward;
+		private readonly Vector3 _left;
+		private readonly Vector3 _position;
+		private readonly Vector3 _right;
+		private readonly Vector3 _up;
+
+
+
+
+		#region Constructors
+
+
+			public TransformPoint(Transform sourceTransform)
+			{
+				this._forward = sourceTransform.forward;
+				this._position = sourceTransform.position;
+				this._right = sourceTransform.right;
+				this._rotation = sourceTransform.rotation;
+				this._up = sourceTransform.up;
+
+				this._backward = -this._forward;
+				this._down = -this._up;
+				this._left = -this._right;
+			}
+
+
+		#endregion
+
+
+
+
+		#region Getters and Setters
+
+
+			public Quaternion rotation => this._rotation;
+			public Vector3 backward => this._backward;
+			public Vector3 down => this._down;
+			public Vector3 forward => this._forward;
+			public Vector3 left => this._left;
+			public Vector3 position => this._position;
+			public Vector3 right => this._right;
+			public Vector3 up => this._up;
+
+
+		#endregion
 	}
 }
 
