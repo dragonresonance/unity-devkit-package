@@ -42,7 +42,7 @@ namespace PossumScream.Editor.Compilation
 		};
 
 
-		private static readonly HashSet<string> CurrentDefinedSymbols = new HashSet<string>();
+		private static readonly HashSet<string> CurrentDefinedSymbols = new();
 
 
 
@@ -144,7 +144,7 @@ namespace PossumScream.Editor.Compilation
 
 			private static void setupRenderPipeline(ref bool needDefineRevalidation)
 			{
-				string currentRPPreprocessorDirective = PreprocessorDirectivesHandler.getCurrentRPPreprocessorDirective();
+				string currentRPPreprocessorDirective = getCurrentRPPreprocessorDirective();
 
 
 				if (!CurrentDefinedSymbols.Contains(currentRPPreprocessorDirective) ||

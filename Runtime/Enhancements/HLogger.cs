@@ -14,11 +14,11 @@ namespace PossumScream.Enhancements
 {
 	public static class HLogger
 	{
-		private const string EmphasisColor = "#64c8fa";
-		private const string ErrorColor = "#fa6464";
-		private const string ExceptionColor = "#c864fa";
-		private const string InfoColor = "#fafafa";
-		private const string WarningColor = "#fac864";
+		public const string EmphasisColor = "#64c8fa";
+		public const string ErrorColor = "#fa6464";
+		public const string ExceptionColor = "#c864fa";
+		public const string InfoColor = "#fafafa";
+		public const string WarningColor = "#fac864";
 
 
 
