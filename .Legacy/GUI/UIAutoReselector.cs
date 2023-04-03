@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -20,10 +21,8 @@ namespace PossumScream.CoolComponents.GUI
 	public class UIAutoReselector : ScriptableBehaviour
 	{
 		[Header("Components")]
-		[InfoBox(@"At least 1 item is required.
-Will attempt to select in order.
-If no valid Selectable is found, will not select anything.", EInfoBoxType.Warning)]
-		[SerializeField] private List<Selectable> _reselectionTargets = null;
+		[SerializeField] [FormerlySerializedAs("_reselectionTargets")] private List<Selectable> _orderedReselectionTargets = null;
+		[SerializeField] private bool _tryReselectChildIfNoTargets = false;
 
 
 		[Header("Devices")]
@@ -47,12 +46,19 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 
 
 
+		[ShowNonSerializedField] private List<Selectable> _cachedSelectableChildren = new();
+
+
+
+
 		#region Events
 
 
 			private void OnEnable()
 			{
-				InputDeviceSwitchingManager.Instance.inputDeviceSwitch += OnDeviceSwitch;
+				if (InputDeviceSwitchingManager.tryGetInstance(out InputDeviceSwitchingManager inputDeviceSwitchingManagerInstance)) {
+					inputDeviceSwitchingManagerInstance.inputDeviceSwitch += OnDeviceSwitch;
+				}
 
 				if (this._tryReselectionOnEnable) {
 					assessReselection();
@@ -62,7 +68,9 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 
 			private void OnDisable()
 			{
-				InputDeviceSwitchingManager.Instance.inputDeviceSwitch -= OnDeviceSwitch;
+				if (InputDeviceSwitchingManager.tryGetInstance(out InputDeviceSwitchingManager inputDeviceSwitchingManagerInstance)) {
+					inputDeviceSwitchingManagerInstance.inputDeviceSwitch -= OnDeviceSwitch;
+				}
 
 				if (this._deselectOnDisable) {
 					base.logInfo("Deselecting...", this);
@@ -72,6 +80,14 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 						}
 					}
 				}
+			}
+
+
+
+
+			private void OnTransformChildrenChanged()
+			{
+				cacheSelectableChildren();
 			}
 
 
@@ -100,23 +116,25 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 				{
 					if (this._devicesWithoutReselection.Contains(InputDeviceSwitchingManager.Instance.currentDeviceName)) return;
 
-					if ((EventSystem.current.currentSelectedGameObject is not null) &&
-					    EventSystem.current.currentSelectedGameObject.TryGetComponent<Selectable>(out Selectable currentSelectedSelectable)) {
+
+					GameObject currentSelectedGameobject = EventSystem.current.currentSelectedGameObject;
+
+
+					if ((currentSelectedGameobject != null) &&
+					    currentSelectedGameobject.TryGetComponent(out Selectable currentSelectedSelectable)) {
 						switch (this._reselectionCondition) {
-
-							/*default:
-							case ReselectionCondition.AlwaysReselect: {
+							default:
+							case ReselectionCondition.AlwaysReselect:
 								// Always continue
-							} break;*/
-
-							case ReselectionCondition.IfInReselectionTargets: {
-								if (!this._reselectionTargets.Contains(currentSelectedSelectable)) return;
-							} break;
-
-							case ReselectionCondition.IfNotInReselectionTargets: {
-								if (this._reselectionTargets.Contains(currentSelectedSelectable)) return;
-							} break;
-
+								break;
+							case ReselectionCondition.IfNotInReselectionTargets:
+								if (this._orderedReselectionTargets.Contains(currentSelectedSelectable)) return;
+								if (this._tryReselectChildIfNoTargets && this._cachedSelectableChildren.Contains(currentSelectedSelectable)) return;
+								break;
+							case ReselectionCondition.IfInReselectionTargets:
+								if (!this._orderedReselectionTargets.Contains(currentSelectedSelectable)) return;
+								if (this._tryReselectChildIfNoTargets && !this._cachedSelectableChildren.Contains(currentSelectedSelectable)) return;
+								break;
 						}
 					}
 
@@ -136,7 +154,7 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 						yield return null;
 					}
 
-					foreach (Selectable reselectionTarget in this._reselectionTargets) {
+					foreach (Selectable reselectionTarget in this._orderedReselectionTargets) {
 						if (UIAutoReselector.isSelectableSelectable(reselectionTarget)) {
 							base.logInfo($"Reselecting the selectable {reselectionTarget.name} target...", this);
 							{
@@ -149,12 +167,6 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 			}
 
 
-		#endregion
-
-
-
-
-		#region Utilities
 
 
 			public static bool isSelectableSelectable(Selectable selectable)
@@ -168,10 +180,19 @@ If no valid Selectable is found, will not select anything.", EInfoBoxType.Warnin
 
 
 
-		#region Getters and Setters
+		#region Actions
 
 
-			public List<Selectable> reselectionTargets => this._reselectionTargets;
+			private void cacheSelectableChildren()
+			{
+				this._cachedSelectableChildren.Clear();
+
+				foreach (Transform childTransform in base.transform) {
+					if (childTransform.TryGetComponent(out Selectable selectableTarget)) {
+						this._cachedSelectableChildren.Add(selectableTarget);
+					}
+				}
+			}
 
 
 		#endregion
