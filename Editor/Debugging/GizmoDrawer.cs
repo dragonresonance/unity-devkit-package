@@ -24,9 +24,9 @@ namespace PossumScream.Editor.Debugging
 		/* - */ [SerializeField] private Vector3Int _negativeAxeFactors = Vector3Int.zero;
 		[SerializeField] [Min(0f)] private float _gizmoSize = 1f;
 		[SerializeField] [Range(0f, 1f)] private float _arrowHeadPercentage = 0.15f;
-		[SerializeField] private Color _xAxeColor = Color.red;
-		[SerializeField] private Color _yAxeColor = Color.green;
-		[SerializeField] private Color _zAxeColor = Color.blue;
+		[SerializeField] private Color _xAxisColor = Color.red;
+		[SerializeField] private Color _yAxisColor = Color.green;
+		[SerializeField] private Color _zAxisColor = Color.blue;
 
 
 
@@ -54,7 +54,7 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(xPositiveVectorEnd = Vector3.LerpUnclamped(transformPoint.position, xPositiveGizmoEnd, this._positiveAxeFactors.x)),
-						this._xAxeColor);
+						this._xAxisColor);
 
 					// Head
 					/*Debug.DrawLine(xPositiveVectorEnd,
@@ -65,10 +65,10 @@ namespace PossumScream.Editor.Debugging
 						this._xAxeColor);*/
 					Debug.DrawLine(xPositiveVectorEnd,
 						Vector3.LerpUnclamped(xPositiveVectorEnd, zPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._xAxeColor);
+						this._xAxisColor);
 					Debug.DrawLine(xPositiveVectorEnd,
 						Vector3.LerpUnclamped(xPositiveVectorEnd, zNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._xAxeColor);
+						this._xAxisColor);
 				}
 
 
@@ -80,7 +80,7 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(xNegativeVectorEnd = Vector3.LerpUnclamped(transformPoint.position, xNegativeGizmoEnd, this._negativeAxeFactors.x)),
-						this._xAxeColor);
+						this._xAxisColor);
 
 					// Head
 					/*Debug.DrawLine(xNegativeVectorEnd,
@@ -91,10 +91,10 @@ namespace PossumScream.Editor.Debugging
 						this._xAxeColor);*/
 					Debug.DrawLine(xNegativeVectorEnd,
 						Vector3.LerpUnclamped(xNegativeVectorEnd, zPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._xAxeColor);
+						this._xAxisColor);
 					Debug.DrawLine(xNegativeVectorEnd,
 						Vector3.LerpUnclamped(xNegativeVectorEnd, zNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._xAxeColor);
+						this._xAxisColor);
 				}
 
 
@@ -106,15 +106,15 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(yPositiveVectorEnd = Vector3.LerpUnclamped(transformPoint.position, yPositiveGizmoEnd, this._positiveAxeFactors.y)),
-						this._yAxeColor);
+						this._yAxisColor);
 
 					// Head
 					Debug.DrawLine(yPositiveVectorEnd,
 						Vector3.LerpUnclamped(yPositiveVectorEnd, xPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._yAxeColor);
+						this._yAxisColor);
 					Debug.DrawLine(yPositiveVectorEnd,
 						Vector3.LerpUnclamped(yPositiveVectorEnd, xNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._yAxeColor);
+						this._yAxisColor);
 					/*Debug.DrawLine(yPositiveVectorEnd,
 						Vector3.LerpUnclamped(yPositiveVectorEnd, zPositiveGizmoEnd, this._arrowHeadPercentage),
 						this._yAxeColor);
@@ -132,15 +132,15 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(yNegativeVectorEnd = Vector3.LerpUnclamped(transformPoint.position, yNegativeGizmoEnd, this._negativeAxeFactors.y)),
-						this._yAxeColor);
+						this._yAxisColor);
 
 					// Head
 					Debug.DrawLine(yNegativeVectorEnd,
 						Vector3.LerpUnclamped(yNegativeVectorEnd, xPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._yAxeColor);
+						this._yAxisColor);
 					Debug.DrawLine(yNegativeVectorEnd,
 						Vector3.LerpUnclamped(yNegativeVectorEnd, xNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._yAxeColor);
+						this._yAxisColor);
 					/*Debug.DrawLine(yNegativeVectorEnd,
 						Vector3.LerpUnclamped(yNegativeVectorEnd, zPositiveGizmoEnd, this._arrowHeadPercentage),
 						this._yAxeColor);
@@ -158,7 +158,7 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(zPositiveVectorEnd = Vector3.LerpUnclamped(transformPoint.position, zPositiveGizmoEnd, this._positiveAxeFactors.z)),
-						this._zAxeColor);
+						this._zAxisColor);
 
 					// Head
 					/*Debug.DrawLine(zPositiveVectorEnd,
@@ -169,10 +169,10 @@ namespace PossumScream.Editor.Debugging
 						this._zAxeColor);*/
 					Debug.DrawLine(zPositiveVectorEnd,
 						Vector3.LerpUnclamped(zPositiveVectorEnd, yPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._zAxeColor);
+						this._zAxisColor);
 					Debug.DrawLine(zPositiveVectorEnd,
 						Vector3.LerpUnclamped(zPositiveVectorEnd, yNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._zAxeColor);
+						this._zAxisColor);
 				}
 
 
@@ -184,7 +184,7 @@ namespace PossumScream.Editor.Debugging
 					// Body
 					Debug.DrawLine(transformPoint.position,
 						(zNegativeVectorEnd = Vector3.LerpUnclamped(transformPoint.position, zNegativeGizmoEnd, this._negativeAxeFactors.z)),
-						this._zAxeColor);
+						this._zAxisColor);
 
 					// Head
 					/*Debug.DrawLine(zNegativeVectorEnd,
@@ -195,10 +195,10 @@ namespace PossumScream.Editor.Debugging
 						this._zAxeColor);*/
 					Debug.DrawLine(zNegativeVectorEnd,
 						Vector3.LerpUnclamped(zNegativeVectorEnd, yPositiveGizmoEnd, this._arrowHeadPercentage),
-						this._zAxeColor);
+						this._zAxisColor);
 					Debug.DrawLine(zNegativeVectorEnd,
 						Vector3.LerpUnclamped(zNegativeVectorEnd, yNegativeGizmoEnd, this._arrowHeadPercentage),
-						this._zAxeColor);
+						this._zAxisColor);
 				}
 			}
 

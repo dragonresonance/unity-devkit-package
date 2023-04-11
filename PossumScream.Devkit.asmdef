@@ -2,7 +2,6 @@
     "name": "Devkit",
     "rootNamespace": "PossumScream",
     "references": [
-        "GUID:06c67899dc98bc84f9287b2c31874502",
         "GUID:15fc0a57446b3144c949da3e2b9737a9",
         "GUID:21b0c8d1703a94250bfac916590cea4f",
         "GUID:457756d89b35d2941b3e7b37b4ece6f1",

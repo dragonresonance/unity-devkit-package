@@ -11,9 +11,8 @@
 
 ## Dependencies
 
+- [```https://github.com/davidtabernerom/SimpleJSON.git#master```](https://github.com/davidtabernerom/SimpleJSON.git#master)
 - [```https://github.com/dbrizov/NaughtyAttributes.git#upm```](https://github.com/dbrizov/NaughtyAttributes.git#upm)
-- [```https://github.com/possumscream/JetBrainsMono.git#master```](https://github.com/possumscream/JetBrainsMono.git#master)
-- [```https://github.com/possumscream/SimpleJSON.git#master```](https://github.com/possumscream/SimpleJSON.git#master)
 
 
 ## License
