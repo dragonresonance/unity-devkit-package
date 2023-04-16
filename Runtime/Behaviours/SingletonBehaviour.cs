@@ -3,16 +3,10 @@ using UnityEngine;
 
 
 
-namespace PossumScream.BlazingBehaviours
+namespace PossumScream.Behaviours
 {
-	[DisallowMultipleComponent]
-	public abstract class ScriptableSceneSingleton<T> : ScriptableBehaviour where T : Component
+	public abstract class SingletonBehaviour<T> : InstantiableBehaviour<T> where T : Component
 	{
-		private static T m_instance = null;
-
-
-
-
 		#region Events
 
 
@@ -21,50 +15,13 @@ namespace PossumScream.BlazingBehaviours
 				if (m_instance == null) {
 					m_instance = this as T;
 				}
-
-				if (m_instance != this) {
+				else if (m_instance != this) {
 					Destroy(this);
+					return;
 				}
 
-				LateAwake();
+				base.LateAwake();
 			}
-
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static bool tryGetInstance(out T instance)
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				instance = m_instance;
-				return (m_instance is not null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T Instance => m_instance;
 
 
 		#endregion

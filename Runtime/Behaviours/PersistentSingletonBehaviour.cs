@@ -1,24 +1,12 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
 
 
-namespace PossumScream.BlazingBehaviours
+namespace PossumScream.Behaviours
 {
-	[DisallowMultipleComponent]
-	public abstract class ScriptableOptableSingleton<T> : ScriptableBehaviour where T : Component
+	public abstract class PersistentSingletonBehaviour<T> : InstantiableBehaviour<T> where T : Component
 	{
-		[SerializeField] private bool _makePersistentOnAwake = false;
-
-
-
-
-		private static T m_instance = null;
-
-
-
-
 		#region Events
 
 
@@ -26,76 +14,15 @@ namespace PossumScream.BlazingBehaviours
 			{
 				if (m_instance == null) {
 					m_instance = this as T;
-
-					if (this._makePersistentOnAwake) {
-						makePersistent();
-					}
+					DontDestroyOnLoad(this.gameObject);
 				}
-
-				if (m_instance != this) {
+				else if (m_instance != this) {
 					Destroy(this);
 					return;
 				}
 
-				LateAwake();
+				base.LateAwake();
 			}
-
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static bool tryGetInstance(out T instance)
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				instance = m_instance;
-				return (m_instance is not null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Actions
-
-
-			public void makePersistent()
-			{
-				DontDestroyOnLoad(this.gameObject);
-			}
-
-
-			public void makeEphemeral()
-			{
-				SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetActiveScene());
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T Instance => m_instance;
 
 
 		#endregion

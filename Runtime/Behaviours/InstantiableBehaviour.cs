@@ -3,32 +3,17 @@ using UnityEngine;
 
 
 
-namespace PossumScream.BlazingBehaviours
+namespace PossumScream.Behaviours
 {
 	[DisallowMultipleComponent]
-	public abstract class ScriptablePersistentSingleton<T> : ScriptableBehaviour where T : Component
+	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
 	{
-		private static T m_instance = null;
+		internal static T m_instance = null;
 
 
 
 
 		#region Events
-
-
-			protected void Awake()
-			{
-				if (m_instance == null) {
-					m_instance = this as T;
-					DontDestroyOnLoad(this.gameObject);
-				}
-
-				if (m_instance != this) {
-					Destroy(this);
-				}
-
-				LateAwake();
-			}
 
 
 			protected virtual void LateAwake()
@@ -45,15 +30,20 @@ namespace PossumScream.BlazingBehaviours
 		#region Controls
 
 
-			public static bool tryGetInstance(out T instance)
+			public static T GetInstance()
 			{
 				if (m_instance == null) {
 					m_instance = FindObjectOfType(typeof(T)) as T;
 				}
 
 
-				instance = m_instance;
-				return (m_instance is not null);
+				return m_instance;
+			}
+
+
+			public static bool TryGetInstance(out T instance)
+			{
+				return ((instance = GetInstance()) is not null);
 			}
 
 
@@ -65,7 +55,7 @@ namespace PossumScream.BlazingBehaviours
 		#region Getters and Setters
 
 
-			public static T Instance => m_instance;
+			public static T CachedInstance => m_instance;
 
 
 		#endregion
