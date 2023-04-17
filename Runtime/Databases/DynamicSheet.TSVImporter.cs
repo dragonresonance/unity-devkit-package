@@ -21,16 +21,16 @@ namespace PossumScream.Databases
 
 			public bool TryImportTSV(string content, string separator = "	", string delimiter = "\"")
 			{
-				if (this._dataMatrix is not List<List<string>> stringMatrix) return false;
+				if (this is not DynamicSheet<string> stringBasedDynamicSheet) return false;
 
 
 				// Clear matrix content
 				{
-					stringMatrix.Clear();
+					stringBasedDynamicSheet.Clear();
 				}
 
 
-				// Dump content lines as lists of separated cells
+				// Dump content lines as lists of cells
 				{
 					// Get all raw lines
 					string[] contentLines = content.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -86,7 +86,7 @@ namespace PossumScream.Databases
 						}
 
 						// Add the row of cells to the matrix
-						stringMatrix.Add(finalCells);
+						stringBasedDynamicSheet.AddRow(finalCells);
 					}
 				}
 

@@ -8,18 +8,8 @@ namespace PossumScream.Databases
 {
 	public partial class DynamicSheet<T>
 	{
+		private int _maxCols = 0;
 		private readonly List<List<T>> _dataMatrix = new();
-
-
-
-
-		#region Constructors
-
-
-			public DynamicSheet() {}
-
-
-		#endregion
 
 
 
@@ -54,6 +44,21 @@ namespace PossumScream.Databases
 
 
 
+			public bool ContainsRowHeader(T header)
+			{
+				return (GetRowIndexOf(header) > -1);
+			}
+
+
+			public bool ContainsColumnHeader(T header)
+			{
+				return (GetColumnIndexOf(header) > -1);
+			}
+
+
+
+
+
 			public void AddRow(IEnumerable<T> row)
 			{
 				AddRow(new List<T>(row));
@@ -63,6 +68,7 @@ namespace PossumScream.Databases
 			public void AddRow(List<T> row)
 			{
 				this._dataMatrix.Add(row);
+				checkForHigherColCount(row.Count);
 			}
 
 
@@ -70,8 +76,22 @@ namespace PossumScream.Databases
 			{
 				int itemIndex = 0;
 				foreach (T item in column) {
-					this._dataMatrix[itemIndex++].Add(item);
+					if (itemIndex == this.rows) {
+						AddRow(new List<T>());
+					}
+
+					this._dataMatrix[itemIndex].Add(item);
+					checkForHigherColCount(this._dataMatrix[itemIndex].Count);
+
+					itemIndex++;
 				}
+			}
+
+
+			public void Clear()
+			{
+				this._dataMatrix.Clear();
+				this._maxCols = 0;
 			}
 
 
@@ -98,11 +118,29 @@ namespace PossumScream.Databases
 
 
 
+		#region Actions
+
+
+			private bool checkForHigherColCount(int cols)
+			{
+				if (cols <= this._maxCols) return false;
+
+				this._maxCols = cols;
+
+				return true;
+			}
+
+
+		#endregion
+
+
+
+
 		#region Properties
 
 
 			public List<List<T>> dataMatrix => this._dataMatrix;
-			public int columns => this._dataMatrix[0].Count;
+			public int columns => this._maxCols;
 			public int rows => this._dataMatrix.Count;
 
 
