@@ -1,4 +1,6 @@
+using NaughtyAttributes;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 
@@ -17,9 +19,15 @@ namespace PossumScream.Databases
 		#region Controls
 
 
-			public T GetCell(int row, int col)
+			public T GetCellByIndexes(int rowIndex, int columnIndex)
 			{
-				return this._dataMatrix[row][col];
+				return this._dataMatrix[rowIndex][columnIndex];
+			}
+
+
+			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
+			{
+				this._dataMatrix[rowIndex][columnIndex] = value;
 			}
 
 
@@ -27,7 +35,7 @@ namespace PossumScream.Databases
 
 			public int GetRowIndexOf(T header)
 			{
-				for (int rowIndex = 0; rowIndex < this._dataMatrix.Count; rowIndex++) {
+				for (int rowIndex = 0; rowIndex < this.rows; rowIndex++) {
 					if (this._dataMatrix[rowIndex][0].Equals(header)) return rowIndex;
 				}
 
@@ -58,40 +66,57 @@ namespace PossumScream.Databases
 
 
 
-
-			public void AddRow(IEnumerable<T> row)
+			public int AddRow()
 			{
-				AddRow(new List<T>(row));
+				return AddRow(new List<T>());
 			}
 
 
-			public void AddRow(List<T> row)
+			public int AddRow(IEnumerable<T> row)
+			{
+				return AddRow(new List<T>(row));
+			}
+
+
+			public int AddRow(List<T> row)
 			{
 				this._dataMatrix.Add(row);
-				checkForHigherColCount(row.Count);
+				padDataMatrix();
+
+				return (this.rows - 1);
 			}
 
 
-			public void AddColumn(IEnumerable<T> column)
+			public int AddColumn()
+			{
+				padDataMatrix(1);
+				return (this.columns - 1);
+			}
+
+
+			public int AddColumn(IEnumerable<T> column)
 			{
 				int itemIndex = 0;
 				foreach (T item in column) {
+					// Add a row per each column without one
 					if (itemIndex == this.rows) {
-						AddRow(new List<T>());
+						AddRow();
 					}
 
 					this._dataMatrix[itemIndex].Add(item);
-					checkForHigherColCount(this._dataMatrix[itemIndex].Count);
 
 					itemIndex++;
 				}
+
+				updateMaxColCount();
+				return (this.columns - 1);
 			}
 
 
 			public void Clear()
 			{
 				this._dataMatrix.Clear();
-				this._maxCols = 0;
+				updateMaxColCount();
 			}
 
 
@@ -104,7 +129,7 @@ namespace PossumScream.Databases
 
 				for (var rowIndex = 0; rowIndex < this._dataMatrix.Count; rowIndex++) {
 					for (var colIndex = 0; colIndex < this._dataMatrix[rowIndex].Count; colIndex++) {
-						targetSheet.SetCell(rowIndex, colIndex, GetCell(rowIndex, colIndex));
+						targetSheet.SetCellByIndexes(rowIndex, colIndex, GetCellByIndexes(rowIndex, colIndex));
 					}
 				}
 
@@ -121,13 +146,28 @@ namespace PossumScream.Databases
 		#region Actions
 
 
-			private bool checkForHigherColCount(int cols)
+			[Button(enabledMode:EButtonEnableMode.Editor)]
+			private void updateMaxColCount()
 			{
-				if (cols <= this._maxCols) return false;
+				this._maxCols = 0;
+				foreach (List<T> row in this._dataMatrix.Where(row => (row.Count > this._maxCols))) {
+					this._maxCols = row.Count;
+				}
+			}
 
-				this._maxCols = cols;
 
-				return true;
+			[Button(enabledMode:EButtonEnableMode.Editor)]
+			private void padDataMatrix(int offset = 0)
+			{
+				updateMaxColCount();
+
+				foreach (List<T> row in this._dataMatrix) {
+					while (row.Count < (this.columns + offset)) {
+						row.Add(default);
+					}
+				}
+
+				this._maxCols += offset;
 			}
 
 
@@ -157,7 +197,7 @@ namespace PossumScream.Databases
 
 
 				foreach (List<T> row in this._dataMatrix) {
-					stringBuilder.AppendLine(string.Join("|", row));
+					stringBuilder.AppendLine($"· {string.Join(" | ", row)}");
 				}
 
 

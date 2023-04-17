@@ -35,15 +35,15 @@ namespace PossumScream.Databases
 		#region Controls
 
 
-			public T GetCell(int row, int column)
+			public T GetCellByIndexes(int rowIndex, int columnIndex)
 			{
-				return this._dataMatrix[row][column];
+				return this._dataMatrix[rowIndex][columnIndex];
 			}
 
 
-			public void SetCell(int row, int column, T value)
+			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
 			{
-				this._dataMatrix[row][column] = value;
+				this._dataMatrix[rowIndex][columnIndex] = value;
 			}
 
 
@@ -69,6 +69,34 @@ namespace PossumScream.Databases
 
 				return -1;
 			}
+
+
+
+
+			public bool ContainsRowHeader(T header)
+			{
+				return (GetRowIndexOf(header) > -1);
+			}
+
+
+			public bool ContainsColumnHeader(T header)
+			{
+				return (GetColumnIndexOf(header) > -1);
+			}
+
+
+
+
+			/*public DynamicSheet<T> ToDynamicSheet() // TODO
+			{
+				DynamicSheet<T> targetSheet = new DynamicSheet<T>();
+
+
+				//
+
+
+				return targetSheet;
+			}*/
 
 
 		#endregion
@@ -97,7 +125,7 @@ namespace PossumScream.Databases
 
 
 				foreach (T[] row in this._dataMatrix) {
-					stringBuilder.AppendLine(string.Join("|", row));
+					stringBuilder.AppendLine($"· {string.Join(" | ", row)}");
 				}
 
 
