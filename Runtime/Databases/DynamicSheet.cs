@@ -19,20 +19,6 @@ namespace PossumScream.Databases
 		#region Controls
 
 
-			public T GetCellByIndexes(int rowIndex, int columnIndex)
-			{
-				return this._dataMatrix[rowIndex][columnIndex];
-			}
-
-
-			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
-			{
-				this._dataMatrix[rowIndex][columnIndex] = value;
-			}
-
-
-
-
 			public int GetRowIndexOf(T header)
 			{
 				for (int rowIndex = 0; rowIndex < this.rows; rowIndex++) {
@@ -66,9 +52,55 @@ namespace PossumScream.Databases
 
 
 
+			public T[] GetRowByIndex(int rowIndex)
+			{
+				return this._dataMatrix[rowIndex].ToArray();
+			}
+
+
+			public T[] GetColumnByIndex(int columnIndex)
+			{
+				return this._dataMatrix.Select(row => row[columnIndex]).ToArray();
+			}
+
+
+			public T[] GetHeadersRow()
+			{
+				return GetRowByIndex(0);
+			}
+
+
+			public T[] GetHeadersColumn()
+			{
+				return GetColumnByIndex(0);
+			}
+
+
+
+
+			public T GetCellByIndexes(int rowIndex, int columnIndex)
+			{
+				return this._dataMatrix[rowIndex][columnIndex];
+			}
+
+
+			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
+			{
+				this._dataMatrix[rowIndex][columnIndex] = value;
+			}
+
+
+
+
 			public int AddRow()
 			{
 				return AddRow(new List<T>());
+			}
+
+
+			public int AddRow(T header)
+			{
+				return AddRow(new List<T>() { header });
 			}
 
 
@@ -81,6 +113,7 @@ namespace PossumScream.Databases
 			public int AddRow(List<T> row)
 			{
 				this._dataMatrix.Add(row);
+				updateMaxColCount();
 				padDataMatrix();
 
 				return (this.rows - 1);
@@ -89,8 +122,14 @@ namespace PossumScream.Databases
 
 			public int AddColumn()
 			{
-				padDataMatrix(1);
+				padDataMatrix(1, true);
 				return (this.columns - 1);
+			}
+
+
+			public int AddColumn(T header)
+			{
+				return AddColumn(new[] { header });
 			}
 
 
@@ -127,8 +166,8 @@ namespace PossumScream.Databases
 				CachedSheet<T> targetSheet = new CachedSheet<T>(this.rows, this.columns);
 
 
-				for (var rowIndex = 0; rowIndex < this._dataMatrix.Count; rowIndex++) {
-					for (var colIndex = 0; colIndex < this._dataMatrix[rowIndex].Count; colIndex++) {
+				for (int rowIndex = 0; rowIndex < this._dataMatrix.Count; rowIndex++) {
+					for (int colIndex = 0; colIndex < this._dataMatrix[rowIndex].Count; colIndex++) {
 						targetSheet.SetCellByIndexes(rowIndex, colIndex, GetCellByIndexes(rowIndex, colIndex));
 					}
 				}
@@ -157,17 +196,23 @@ namespace PossumScream.Databases
 
 
 			[Button(enabledMode:EButtonEnableMode.Editor)]
-			private void padDataMatrix(int offset = 0)
+			private void padDataMatrix()
 			{
-				updateMaxColCount();
+				padDataMatrix(0, false); // The updateMaxColCount param REALLY SHOULD be specified
+			}
 
+
+			private void padDataMatrix(int offset, bool updateMaxColCount)
+			{
 				foreach (List<T> row in this._dataMatrix) {
 					while (row.Count < (this.columns + offset)) {
 						row.Add(default);
 					}
 				}
 
-				this._maxCols += offset;
+				if (updateMaxColCount) {
+					this._maxCols += offset;
+				}
 			}
 
 
@@ -180,14 +225,15 @@ namespace PossumScream.Databases
 
 
 			public List<List<T>> dataMatrix => this._dataMatrix;
+			public int cells => (this.rows * this.columns);
 			public int columns => this._maxCols;
 			public int rows => this._dataMatrix.Count;
 
 
 			public T this[T row, T column]
 			{
-				get => this._dataMatrix[GetRowIndexOf(row)][GetColumnIndexOf(column)];
-				set => this._dataMatrix[GetRowIndexOf(row)][GetColumnIndexOf(column)] = value;
+				get => GetCellByIndexes(GetRowIndexOf(row), GetColumnIndexOf(column));
+				set => SetCellByIndexes(GetRowIndexOf(row), GetColumnIndexOf(column), value);
 			}
 
 

@@ -35,20 +35,6 @@ namespace PossumScream.Databases
 		#region Controls
 
 
-			public T GetCellByIndexes(int rowIndex, int columnIndex)
-			{
-				return this._dataMatrix[rowIndex][columnIndex];
-			}
-
-
-			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
-			{
-				this._dataMatrix[rowIndex][columnIndex] = value;
-			}
-
-
-
-
 			public int GetRowIndexOf(T header)
 			{
 				for (int rowIndex = 0; rowIndex < this._rows; rowIndex++) {
@@ -87,16 +73,76 @@ namespace PossumScream.Databases
 
 
 
-			/*public DynamicSheet<T> ToDynamicSheet() // TODO
+			public T[] GetRowByIndex(int rowIndex)
+			{
+				T[] row = new T[this.columns];
+
+
+				for (int colIndex = 0; colIndex < this.columns; colIndex++) {
+					row[colIndex] = this._dataMatrix[rowIndex][colIndex];
+				}
+
+
+				return row;
+			}
+
+
+			public T[] GetColumnByIndex(int columnIndex)
+			{
+				T[] column = new T[this.rows];
+
+
+				for (int rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+					column[rowIndex] = this._dataMatrix[rowIndex][columnIndex];
+				}
+
+
+				return column;
+			}
+
+
+			public T[] GetHeadersRow()
+			{
+				return GetRowByIndex(0);
+			}
+
+
+			public T[] GetHeadersColumn()
+			{
+				return GetColumnByIndex(0);
+			}
+
+
+
+
+			public T GetCellByIndexes(int rowIndex, int columnIndex)
+			{
+				return this._dataMatrix[rowIndex][columnIndex];
+			}
+
+
+			public void SetCellByIndexes(int rowIndex, int columnIndex, T value)
+			{
+				this._dataMatrix[rowIndex][columnIndex] = value;
+			}
+
+
+
+
+			public DynamicSheet<T> ToDynamicSheet()
 			{
 				DynamicSheet<T> targetSheet = new DynamicSheet<T>();
 
 
-				//
+				for (int rowIndex = 0; rowIndex < this._dataMatrix.Length; rowIndex++) {
+					for (int colIndex = 0; colIndex < this._dataMatrix[rowIndex].Length; colIndex++) {
+						targetSheet.SetCellByIndexes(rowIndex, colIndex, GetCellByIndexes(rowIndex, colIndex));
+					}
+				}
 
 
 				return targetSheet;
-			}*/
+			}
 
 
 		#endregion
@@ -108,14 +154,15 @@ namespace PossumScream.Databases
 
 
 			public T[][] dataMatrix => this._dataMatrix;
+			public int cells => (this.rows * this.columns);
 			public int columns => this._cols;
 			public int rows => this._rows;
 
 
 			public T this[T row, T column]
 			{
-				get => this._dataMatrix[GetRowIndexOf(row)][GetColumnIndexOf(column)];
-				set => this._dataMatrix[GetRowIndexOf(row)][GetColumnIndexOf(column)] = value;
+				get => GetCellByIndexes(GetRowIndexOf(row), GetColumnIndexOf(column));
+				set => SetCellByIndexes(GetRowIndexOf(row), GetColumnIndexOf(column), value);
 			}
 
 

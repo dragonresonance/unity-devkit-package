@@ -1,5 +1,5 @@
-using PossumScream.Enhancements;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System;
 using UnityEngine;
@@ -27,79 +27,90 @@ namespace PossumScream.Databases
 
 				stringBasedDynamicSheet.Clear();
 
-				string[] contentLines = content.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-				foreach (string line in contentLines) {
-					// Append the line directly
-					stringBasedDynamicSheet.AddRow(makeCellRow(line, separator, delimiter));
-				}
+				////string[] contentLines = content.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+				string[] contentLines = content.Split("\r\n".ToCharArray(), 2, StringSplitOptions.RemoveEmptyEntries);
 
 
-				return true;
+				if (contentLines.Length == 0) return true;
+
+
+				// Append the header line with no repeating items
+				stringBasedDynamicSheet.AddRow(makeCellRow(contentLines[0], separator, delimiter, true));
+
+				////for (int lineIndex = 1; lineIndex < contentLines.Length; lineIndex++) {
+				////	// Append the line directly
+				////	stringBasedDynamicSheet.AddRow(makeCellRow(contentLines[lineIndex], separator, delimiter));
+				////}
+				////
+				////
+				////return true;
+
+
+				return TryJoinTSV(content, separator, delimiter);
 			}
 
 
 
 
-			/*public bool TryJoinTSV(TextAsset textAsset, string separator = "\t", string delimiter = "\"", bool updateRowIfExisting = true)
+			public bool TryJoinTSV(TextAsset textAsset, string separator = "\t", string delimiter = "\"")
 			{
-				return TryJoinTSV(textAsset.text, separator, delimiter, updateRowIfExisting);
+				return TryJoinTSV(textAsset.text, separator, delimiter);
 			}
 
 
-			public bool TryJoinTSV(string content, string separator = "\t", string delimiter = "\"", bool updateRowIfExisting = true)
+			public bool TryJoinTSV(string content, string separator = "\t", string delimiter = "\"")
 			{
+				if (this.cells == 0) return TryImportTSV(content, separator, delimiter); // At least one cell is necessary
 				if (this is not DynamicSheet<string> stringBasedDynamicSheet) return false;
 
 
-				string[] contentLines = content.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-				List<string> headerRow = makeCellRow(contentLines[0], separator, delimiter);
-				HLogger.Log($"headerRow: {string.Join("|", headerRow)}");
-
-				foreach (string line in contentLines) {
-					HLogger.Log($"	LINE");
-					List<string> contentRow = makeCellRow(line, separator, delimiter);
-					HLogger.Log($"contentRow: {string.Join("|", contentRow)}");
-					int targetRowIndex = stringBasedDynamicSheet.GetRowIndexOf(contentRow[0]);
-					HLogger.Log($"targetRowIndex: {targetRowIndex}");
+				string[] joiningContentLines = content.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+				List<string> sheetHeadersRow = stringBasedDynamicSheet._dataMatrix[0];
 
 
-					if (targetRowIndex > -1) {
-						// Existing row
-						HLogger.Log($"existing row");
-						if (!updateRowIfExisting) continue;
+				// Join the row of -new- headers without repeating items
+				List<string> joiningHeadersRow = makeCellRow(joiningContentLines[0], separator, delimiter, true);
+
+
+				foreach (string header in joiningHeadersRow.Where(header => !sheetHeadersRow.Contains(header))) {
+					sheetHeadersRow.Add(header);
+				}
+
+				stringBasedDynamicSheet.updateMaxColCount();
+				stringBasedDynamicSheet.padDataMatrix();
+
+
+				// Join the rows of content
+				for (int joiningRowIndex = 1; joiningRowIndex < joiningContentLines.Length; joiningRowIndex++) {
+					List<string> joiningRow = makeCellRow(joiningContentLines[joiningRowIndex], separator, delimiter);
+
+
+					// Check if row header exist and create it if not
+					int targetRowIndex;
+					string joiningHeader = joiningRow[0];
+					if ((targetRowIndex = stringBasedDynamicSheet.GetRowIndexOf(joiningHeader)) <= 0) { // Row does not exist or is copy of header (first row)
+						// Create the row with the target header
+						targetRowIndex = stringBasedDynamicSheet.AddRow(joiningHeader);
 					}
-					else {
-						// New row
-						HLogger.Log($"new row");
-						targetRowIndex = stringBasedDynamicSheet.AddRow();
-					}
-					HLogger.Log($"targetRowIndex: {targetRowIndex}");
 
-					// Place each cell in its correct place
-					for (int cellIndex = 0; cellIndex < contentRow.Count; cellIndex++) {
-						HLogger.Log($"	CELL");
-						//var contentCell = contentRow[cellIndex];
-						int targetColumnIndex = stringBasedDynamicSheet.GetColumnIndexOf(headerRow[cellIndex]);
-						HLogger.Log($"targetColumnIndex: {targetColumnIndex}");
+					stringBasedDynamicSheet.updateMaxColCount();
+					stringBasedDynamicSheet.padDataMatrix();
 
 
-						if (targetColumnIndex == -1) {
-							// New (empty) column
-							HLogger.Log($"new column");
-							targetColumnIndex = stringBasedDynamicSheet.AddColumn();
+					// Insert cell data in its correct place, only if has col header
+					for (int joiningCellIndex = 1; joiningCellIndex < joiningHeadersRow.Count; joiningCellIndex++) {
+						int targetColIndex = stringBasedDynamicSheet.GetColumnIndexOf(joiningHeadersRow[joiningCellIndex]);
+
+
+						if (targetColIndex > 0) {
+							stringBasedDynamicSheet.SetCellByIndexes(targetRowIndex, targetColIndex, joiningRow[joiningCellIndex]);
 						}
-						HLogger.Log($"targetColumnIndex: {targetColumnIndex}");
-
-						HLogger.Log($"stringBasedDynamicSheet: {stringBasedDynamicSheet.ToString()}");
-						HLogger.Log($"SetCellByIndexes: {targetRowIndex}, {targetColumnIndex} <- {contentRow[cellIndex]}");
-						stringBasedDynamicSheet.SetCellByIndexes(targetRowIndex, targetColumnIndex, contentRow[cellIndex]);
-						HLogger.Log($"stringBasedDynamicSheet: {stringBasedDynamicSheet.ToString()}");
 					}
 				}
 
 
 				return true;
-			}*/
+			}
 
 
 		#endregion
@@ -110,7 +121,7 @@ namespace PossumScream.Databases
 		#region Actions
 
 
-			public List<string> makeCellRow(string line, string separator, string delimiter)
+			public List<string> makeCellRow(string line, string separator, string delimiter, bool skipRepeatingItems = false)
 			{
 				List<string> cellRow = new List<string>();
 				StringBuilder cellContentBuffer = new StringBuilder();
@@ -144,10 +155,10 @@ namespace PossumScream.Databases
 						// A cell should no have both starting and ending delimiters
 						if (finalCellContentString.StartsWith(delimiter) &&
 						    finalCellContentString.EndsWith(delimiter)) {
-							cellRow.Add(finalCellContentString.Substring(1,
-								(finalCellContentString.Length - 2)));
+							finalCellContentString = finalCellContentString.Substring(1, (finalCellContentString.Length - 2));
 						}
-						else {
+
+						if (!skipRepeatingItems || !cellRow.Contains(finalCellContentString)) {
 							cellRow.Add(finalCellContentString);
 						}
 
@@ -155,8 +166,8 @@ namespace PossumScream.Databases
 					}
 				}
 
-				// If a delimited cell is unfinished, dump anyways
-				if (cellContentBuffer.Length > 0) {
+				// If a delimited cell is unfinished and does not exist, dump anyways
+				if ((cellContentBuffer.Length > 0) && (!skipRepeatingItems || !cellRow.Contains(cellContentBuffer.ToString()))) {
 					cellRow.Add(cellContentBuffer.ToString());
 				}
 
