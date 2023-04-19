@@ -26,7 +26,7 @@ namespace PossumScream.Localization
 
 			protected override void LateAwake()
 			{
-				reimportLocalizationAssets();
+				ReimportLocalizationAssets();
 			}
 
 
@@ -39,7 +39,7 @@ namespace PossumScream.Localization
 
 
 			[Button(enabledMode:EButtonEnableMode.Always)]
-			public void reimportLocalizationAssets()
+			public void ReimportLocalizationAssets()
 			{
 				DynamicSheet<string> localizationDynamicSheet = new DynamicSheet<string>();
 
@@ -57,7 +57,7 @@ namespace PossumScream.Localization
 
 
 
-			public string getTranslation(string rowKey, string columnKey)
+			public string GetTranslation(string rowKey, string columnKey)
 			{
 				return this._localizationSheet[rowKey, columnKey];
 			}
