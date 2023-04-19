@@ -1,38 +1,65 @@
+using NaughtyAttributes;
+using PossumScream.Behaviours;
+using PossumScream.Databases;
 using UnityEngine;
 
 
 
 
-namespace PossumScream.Databases
+namespace PossumScream.Localization
 {
-	public partial class DynamicSheet<T>
+	public class LocalizationMaster : PersistentSingletonBehaviour<LocalizationMaster>
 	{
+		[Header("Assets")]
+		[SerializeField] private TextAsset[] _tsvLocalizationAssets = {};
+
+
+
+
+		private CachedSheet<string> _localizationSheet;
+
+
+
+
+		#region Events
+
+
+			protected override void LateAwake()
+			{
+				reimportLocalizationAssets();
+			}
+
+
+		#endregion
+
+
+
+
 		#region Controls
 
 
-			public bool TryImportTSV(TextAsset textAsset, string separator = "\t", string delimiter = "'")
+			[Button(enabledMode:EButtonEnableMode.Always)]
+			public void reimportLocalizationAssets()
 			{
-				return TryImportCSV(textAsset, separator, delimiter);
+				DynamicSheet<string> localizationDynamicSheet = new DynamicSheet<string>();
+
+
+				foreach (TextAsset localizationAsset in this._tsvLocalizationAssets) {
+					if (!localizationDynamicSheet.TryJoinTSV(localizationAsset)) {
+						LogError($"Could not join the {localizationAsset.name} localization file", localizationAsset);
+					}
+				}
+
+
+				this._localizationSheet = localizationDynamicSheet.ToCachedSheet();
 			}
 
 
-			public bool TryImportTSV(string content, string separator = "\t", string delimiter = "'")
+
+
+			public string getTranslation(string rowKey, string columnKey)
 			{
-				return TryImportCSV(content, separator, delimiter);
-			}
-
-
-
-
-			public bool TryJoinTSV(TextAsset textAsset, string separator = "\t", string delimiter = "'")
-			{
-				return TryJoinCSV(textAsset, separator, delimiter);
-			}
-
-
-			public bool TryJoinTSV(string content, string separator = "\t", string delimiter = "'")
-			{
-				return TryJoinCSV(content, separator, delimiter);
+				return this._localizationSheet[rowKey, columnKey];
 			}
 
 
