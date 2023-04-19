@@ -21,7 +21,7 @@ namespace PossumScream.Behaviours
 					return;
 				}
 
-				base.LateAwake();
+				LateAwake();
 			}
 
 
