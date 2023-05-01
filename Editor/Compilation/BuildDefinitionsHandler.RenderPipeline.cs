@@ -1,72 +1,53 @@
-using UnityEngine;
+#if UNITY_EDITOR
+
+
+using UnityEngine.Rendering;
 
 
 
 
-namespace PossumScream.Behaviours
+namespace PossumScream.Editor.Compilation
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public partial class BuildDefinitionsHandler // Render Pipeline
 	{
-		internal static T m_instance = null;
+		private static readonly string[] RenderPipelineValidDefinitions = {
+			/* 0 */ "UNITY_BRP", // Fallback
+			/* 1 */ "UNITY_URP",
+			/* 2 */ "UNITY_HDRP",
+		};
 
 
 
 
-		#region Events
+		#region Actions
 
 
-			protected virtual void LateAwake()
+			private static void checkRenderPipelineDefinitions()
 			{
-				return;
+				forceDefinitionFromList(RenderPipelineValidDefinitions, getCurrentRenderPipelineDefinition());
 			}
 
 
-		#endregion
 
 
-
-
-		#region Controls
-
-
-			public static void PurgeInstance()
+			private static string getCurrentRenderPipelineDefinition()
 			{
-				m_instance = null;
+				if (GraphicsSettings.currentRenderPipeline is null) return RenderPipelineValidDefinitions[0];
+
+				return GraphicsSettings.currentRenderPipeline.GetType().Name switch {
+					"HDRenderPipelineAsset" => RenderPipelineValidDefinitions[2],
+					"UniversalRenderPipelineAsset" => RenderPipelineValidDefinitions[1],
+					_ => RenderPipelineValidDefinitions[0],
+				};
 			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
 
 
 		#endregion
 	}
 }
+
+
+#endif
 
 
 

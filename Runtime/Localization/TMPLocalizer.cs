@@ -4,7 +4,10 @@
 using NaughtyAttributes;
 using PossumScream.Behaviours;
 using PossumScream.CoolComponents.Savedata;
-using PossumScream.Databases;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System;
+using TMPro;
 using UnityEngine;
 
 
@@ -12,16 +15,19 @@ using UnityEngine;
 
 namespace PossumScream.Localization
 {
-	public class LocalizationMaster : PersistentSingletonBehaviour<LocalizationMaster>
+	public class TMPLocalizer : PossumBehaviour
 	{
 		[Header("Assets")]
 		[Required] [SerializeField] private SOStringSavedata _languageSavedata = null;
-		[SerializeField] private TextAsset[] _tsvLocalizationAssets = {};
 
 
+		[Header("Configuration")]
+		[SerializeField] private TMP_Text[] _targetComponents = {};
+		[SerializeField] private string _rowKey = "TEST_KEY";
 
 
-		private CachedSheet<string> _localizationSheet;
+		[Header("Settings")]
+		[SerializeField] private List<string> _compositeStringParameters = new();
 
 
 
@@ -29,9 +35,15 @@ namespace PossumScream.Localization
 		#region Events
 
 
-			protected override void LateAwake()
+			private void OnEnable()
 			{
-				ReimportLocalizationAssets();
+				Translate();
+			}
+
+
+			private void OnValidate()
+			{
+				this._rowKey = Regex.Match(this._rowKey, @"[A-Za-z0-9-_]+").ToString();
 			}
 
 
@@ -44,34 +56,41 @@ namespace PossumScream.Localization
 
 
 			[Button]
-			public void ReimportLocalizationAssets()
+			public void Translate()
 			{
-				DynamicSheet<string> localizationDynamicSheet = new DynamicSheet<string>();
+				#if UNITY_EDITOR
+					if (this._targetComponents.Length == 0) {
+						LogError("The list of components to be translated is empty", this);
+					}
+				#endif
 
+				foreach (TMP_Text component in this._targetComponents) {
+					try {
+						string translation = LocalizationMaster.GetInstance().GetTranslation(
+							this._rowKey,
+							this._languageSavedata.value);
 
-				foreach (TextAsset localizationAsset in this._tsvLocalizationAssets) {
-					if (!localizationDynamicSheet.TryJoinTSV(localizationAsset)) {
-						LogError($"Could not join the {localizationAsset.name} localization file", localizationAsset);
+						component.text = (this._compositeStringParameters.Count == 0)
+							? translation
+							// ReSharper disable once CoVariantArrayConversion
+							: string.Format(translation, this._compositeStringParameters.ToArray());
+					}
+					catch (IndexOutOfRangeException) {
+						LogError($"Could not get translation for key \"{this._rowKey}\" in \"{this._languageSavedata.value}\"", this);
 					}
 				}
-
-
-				this._localizationSheet = localizationDynamicSheet.ToCachedSheet();
 			}
 
 
+		#endregion
 
 
-			public string GetTranslation(string rowKey)
-			{
-				return GetTranslation(rowKey, this._languageSavedata.value);
-			}
 
 
-			public string GetTranslation(string rowKey, string columnKey)
-			{
-				return this._localizationSheet[rowKey, columnKey];
-			}
+		#region Parameters
+
+
+			public List<string> compositeStringParameters => this._compositeStringParameters;
 
 
 		#endregion

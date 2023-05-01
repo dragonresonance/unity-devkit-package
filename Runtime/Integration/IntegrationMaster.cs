@@ -1,14 +1,34 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX) || !EOS_DISABLE
+#define DISABLESTEAMWORKS
+#endif
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || EOS_PREVIEW_PLATFORM) || !DISABLESTEAMWORKS
+#define EOS_DISABLE
+#endif
+
+
+using PossumScream.Behaviours;
 using UnityEngine;
 
 
+#if !DISABLESTEAMWORKS
+using PossumScream.Integration.Steamworks;
+using Steamworks;
+#endif
 
 
-namespace PossumScream.Behaviours
+#if !EOS_DISABLE
+using PossumScream.Integration.EOS;
+#endif
+
+
+
+
+namespace PossumScream.Integration
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public partial class IntegrationMaster : PersistentSingletonBehaviour<IntegrationMaster>
 	{
-		internal static T m_instance = null;
+		[Header("Components")]
+		[SerializeField] private IntegrationTester _integrationTester = null;
 
 
 
@@ -16,10 +36,14 @@ namespace PossumScream.Behaviours
 		#region Events
 
 
-			protected virtual void LateAwake()
+			#if !DISABLESTEAMWORKS || !EOS_DISABLE
+			private void Start()
 			{
-				return;
+				if (this._integrationTester == null) return;
+
+				this._integrationTester.TestInitialization();
 			}
+			#endif
 
 
 		#endregion
@@ -30,38 +54,7 @@ namespace PossumScream.Behaviours
 		#region Controls
 
 
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
+			//
 
 
 		#endregion

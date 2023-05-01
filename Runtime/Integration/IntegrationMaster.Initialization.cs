@@ -1,55 +1,34 @@
-using UnityEngine;
+#if !DISABLESTEAMWORKS
+using PossumScream.Integration.Steamworks;
+#endif
+
+
+#if !EOS_DISABLE
+using PossumScream.Integration.EOS;
+#endif
 
 
 
 
-namespace PossumScream.Behaviours
+namespace PossumScream.Integration
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public partial class IntegrationMaster // Initialization
 	{
-		internal static T m_instance = null;
-
-
-
-
-		#region Events
-
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
 		#region Controls
 
 
-			public static void PurgeInstance()
+			public bool CheckInitialization()
 			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
+				#if !DISABLESTEAMWORKS
+					// Steamworks
+					return SteamManager.TryGetInstance(out SteamManager steamManagerInstance) && steamManagerInstance.Initialized;
+				#elif !EOS_DISABLE
+					// Epic Online Services
+					return EpicManager.TryGetInstance(out EpicManager epicManagerInstance) && epicManagerInstance.Initialized;
+				#else
+					// No integration
+					return false;
+				#endif
 			}
 
 
@@ -58,10 +37,10 @@ namespace PossumScream.Behaviours
 
 
 
-		#region Getters and Setters
+		#region Actions
 
 
-			public static T CachedInstance => m_instance;
+			//
 
 
 		#endregion

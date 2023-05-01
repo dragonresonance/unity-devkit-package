@@ -1,67 +1,39 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || EOS_PREVIEW_PLATFORM)
+#define EOS_DISABLE
+#endif
+
+
+using NaughtyAttributes;
+using PossumScream.Behaviours;
 using UnityEngine;
 
 
+#if !EOS_DISABLE
+//
+#endif
 
 
-namespace PossumScream.Behaviours
+
+
+namespace PossumScream.Integration.EOS
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public class EpicManager : PersistentSingletonBehaviour<EpicManager>
 	{
-		internal static T m_instance = null;
+		[Header("Configuration")]
+		#pragma warning disable CS0414
+		// ReSharper disable once NotAccessedField.Local
+		[SerializeField] [Label("[DANGER!] Edit Critical Configuration")] private bool _editCriticalConfiguration = false;
+		#pragma warning restore CS0414
+
+		[EnableIf("_editCriticalConfiguration")] [SerializeField] private bool _initialized = false;
 
 
 
 
-		#region Events
+		#region Properties
 
 
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
+			public bool Initialized => this._initialized;
 
 
 		#endregion

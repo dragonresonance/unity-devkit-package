@@ -1,72 +1,33 @@
-using UnityEngine;
+#if UNITY_EDITOR
 
 
-
-
-namespace PossumScream.Behaviours
+namespace PossumScream.Editor.Compilation
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public partial class BuildDefinitionsHandler // Logging
 	{
-		internal static T m_instance = null;
+		private static readonly string[] LoggingValidDefinitions = {
+			/* 0 */ "_NO_LOGGING", // Default
+			/* 1 */ "NO_LOGGING",
+		};
 
 
 
 
-		#region Events
+		#region Actions
 
 
-			protected virtual void LateAwake()
+			private static void checkLoggingDefinitions()
 			{
-				return;
+				checkAndReplenishDefinitionFromList(LoggingValidDefinitions, 0);
 			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
 
 
 		#endregion
 	}
 }
+
+
+#endif
 
 
 

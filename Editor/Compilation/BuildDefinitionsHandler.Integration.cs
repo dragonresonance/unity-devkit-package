@@ -1,72 +1,39 @@
-using UnityEngine;
+#if UNITY_EDITOR
 
 
-
-
-namespace PossumScream.Behaviours
+namespace PossumScream.Editor.Compilation
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public partial class BuildDefinitionsHandler // Integration
 	{
-		internal static T m_instance = null;
+		private static readonly string[] SteamworksValidDefinitions = {
+			/* 0 */ "DISABLESTEAMWORKS", // Default
+			/* 1 */ "_DISABLESTEAMWORKS",
+		};
+
+		private static readonly string[] EpicOnlineServicesValidDefinitions = {
+			/* 0 */ "EOS_DISABLE", // Default
+			/* 1 */ "_EOS_DISABLE",
+		};
 
 
 
 
-		#region Events
+		#region Actions
 
 
-			protected virtual void LateAwake()
+			private static void checkIntegrationDefinitions()
 			{
-				return;
+				checkAndReplenishDefinitionFromList(EpicOnlineServicesValidDefinitions, 0);
+				checkAndReplenishDefinitionFromList(SteamworksValidDefinitions, 0);
 			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
 
 
 		#endregion
 	}
 }
+
+
+#endif
 
 
 
