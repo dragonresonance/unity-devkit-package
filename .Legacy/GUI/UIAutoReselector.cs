@@ -46,7 +46,7 @@ namespace PossumScream.CoolComponents.GUI
 
 
 
-		[ShowNonSerializedField] private List<Selectable> _cachedSelectableChildren = new();
+		private List<Selectable> _cachedSelectableChildren = new();
 
 
 
@@ -59,6 +59,8 @@ namespace PossumScream.CoolComponents.GUI
 				if (InputDeviceSwitchingManager.tryGetInstance(out InputDeviceSwitchingManager inputDeviceSwitchingManagerInstance)) {
 					inputDeviceSwitchingManagerInstance.inputDeviceSwitch += OnDeviceSwitch;
 				}
+
+				cacheSelectableChildren();
 
 				if (this._tryReselectionOnEnable) {
 					assessReselection();
@@ -148,13 +150,25 @@ namespace PossumScream.CoolComponents.GUI
 			[Button("(Force to) Perform Reselection", EButtonEnableMode.Playmode)]
 			public IEnumerator performReselection()
 			{
-				base.logInfo($"Performing reselection...", this);
+				base.logInfo($"Performing reselection over {this._orderedReselectionTargets.Count}|{this._cachedSelectableChildren.Count} items...", this);
 				{
 					for (int yieldedFrame = 1; yieldedFrame <= this._yieldedFramesBeforeReselection; yieldedFrame++) {
 						yield return null;
 					}
 
 					foreach (Selectable reselectionTarget in this._orderedReselectionTargets) {
+						if (UIAutoReselector.isSelectableSelectable(reselectionTarget)) {
+							base.logInfo($"Reselecting the selectable {reselectionTarget.name} target...", this);
+							{
+								EventSystem.current.SetSelectedGameObject(reselectionTarget.gameObject);
+							}
+							break;
+						}
+					}
+
+					if (!this._tryReselectChildIfNoTargets) yield break;
+
+					foreach (Selectable reselectionTarget in this._cachedSelectableChildren) {
 						if (UIAutoReselector.isSelectableSelectable(reselectionTarget)) {
 							base.logInfo($"Reselecting the selectable {reselectionTarget.name} target...", this);
 							{
