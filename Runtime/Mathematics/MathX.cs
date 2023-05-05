@@ -1,3 +1,8 @@
+using UnityEngine;
+
+
+
+
 namespace PossumScream.Mathematics
 {
 	public struct MathX
@@ -22,6 +27,34 @@ namespace PossumScream.Mathematics
 			public static float Framerate(int frames, float time)
 			{
 				return (frames / time);
+			}
+
+
+		#endregion
+
+
+
+
+		#region Unity Components Operations
+
+
+			public static float LinearToMixerVolume(float linearVolume)
+			{
+				return (Mathf.Log10(Mathf.Clamp(linearVolume, 0.0001f, 10f)) * 20f);
+			}
+
+
+			public static float MixerToLinearVolume(float mixerVolume)
+			{
+				return Mathf.Pow(10f, (Mathf.Clamp(mixerVolume, -80f, 20f) / 20f));
+			}
+
+
+
+
+			public static float SceneCorrectedProgress(AsyncOperation sceneLoadOperation)
+			{
+				return Mathf.Clamp01(sceneLoadOperation.progress / 0.9f);
 			}
 
 
