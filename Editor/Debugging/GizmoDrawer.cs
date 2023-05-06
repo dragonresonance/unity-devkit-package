@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 
+using PossumScream.Constants;
 using PossumScream.Editor.Editors;
 using PossumScream.Mathematics;
 using UnityEditor;
@@ -12,7 +13,7 @@ using UnityEngine;
 namespace PossumScream.Editor.Debugging
 {
 	[CustomEditor(typeof(GizmoDrawer))]
-	public class GizmoDrawInspector : ScriptlessEditor { }
+	public class GizmoDrawEditor : ScriptlessEditor { }
 
 
 
@@ -24,9 +25,9 @@ namespace PossumScream.Editor.Debugging
 		/* - */ [SerializeField] private Vector3Int _negativeAxeFactors = Vector3Int.zero;
 		[SerializeField] [Min(0f)] private float _gizmoSize = 1f;
 		[SerializeField] [Range(0f, 1f)] private float _arrowHeadPercentage = 0.15f;
-		[SerializeField] private Color _xAxisColor = Color.red;
-		[SerializeField] private Color _yAxisColor = Color.green;
-		[SerializeField] private Color _zAxisColor = Color.blue;
+		[SerializeField] private Color _xAxisColor = MoreColors.pastelred;
+		[SerializeField] private Color _yAxisColor = MoreColors.pastelgreen;
+		[SerializeField] private Color _zAxisColor = MoreColors.pastelblue;
 
 
 
