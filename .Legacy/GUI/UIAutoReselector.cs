@@ -31,7 +31,8 @@ namespace PossumScream.CoolComponents.GUI
 
 		[Header("Reselection")]
 		/* 1 */ [SerializeField] private bool _tryReselectionOnEnable = true;
-		/* 2 */ [SerializeField] private bool _tryReselectionOnDeviceSwitch = true;
+		/* 2 */ [SerializeField] private bool _tryReselectionOnChildrenChanged = false;
+		/* 3 */ [SerializeField] private bool _tryReselectionOnDeviceSwitch = true;
 
 		[SerializeField] private ReselectionCondition _reselectionCondition = ReselectionCondition.IfNotInReselectionTargets;
 
@@ -90,6 +91,10 @@ namespace PossumScream.CoolComponents.GUI
 			private void OnTransformChildrenChanged()
 			{
 				cacheSelectableChildren();
+
+				if (this._tryReselectionOnChildrenChanged) {
+					assessReselection();
+				}
 			}
 
 

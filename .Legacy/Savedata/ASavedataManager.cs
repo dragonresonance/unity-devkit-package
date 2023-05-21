@@ -322,7 +322,7 @@ namespace PossumScream.CoolComponents.Savedata
 				base.logInfo("Saving to PlayerPrefs...", this);
 				{
 					foreach (KeyValuePair<string,JSONNode> dataEntry in this._dataTree) {
-						PlayerPrefsX.setStringEntry(dataEntry.Key, dataEntry.Value.ToString());
+						PlayerPrefsX.setStringEntry(dataEntry.Key, dataEntry.Value.ToString(), true);
 					}
 				}
 			}
