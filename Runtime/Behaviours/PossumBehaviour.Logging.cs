@@ -132,6 +132,16 @@ namespace PossumScream.Behaviours
 
 		#endregion
 
+
+
+
+		#region Properties
+
+
+			protected bool logging => this._logging;
+
+
+		#endregion
 	}
 }
 

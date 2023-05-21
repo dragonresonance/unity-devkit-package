@@ -21,6 +21,7 @@ namespace PossumScream.Constants
 			public static readonly Color pastelpurple = new Color32(200, 100, 250, 255);
 			public static readonly Color pastelred = new Color32(250, 100, 100, 255);
 			public static readonly Color pastelturquoise = new Color32(100, 250, 200, 255);
+			public static readonly Color pastelyellow = new Color32(250, 250, 100, 255);
 
 		#endregion
 

@@ -10,6 +10,17 @@ namespace PossumScream.Behaviours
 		#pragma warning disable 0414
 		[SerializeField] private string _description = "";
 		#pragma warning restore 0414
+
+
+
+
+		#region Properties
+
+
+			protected string description => this._description;
+
+
+		#endregion
 	}
 }
 
