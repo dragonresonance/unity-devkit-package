@@ -1,7 +1,7 @@
 {
 	"name": "net.davidtabernero.possumscream.devkit",
-	"version": "1.9.4",
-	"displayName": "PossumScream Devkit",
+	"version": "1.10.0",
+	"displayName": "PossumScream DevKit",
 	"description": "",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
