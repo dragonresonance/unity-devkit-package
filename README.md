@@ -1,12 +1,14 @@
 
 
-# PossumScream Devkit
+# PossumScream DevKit
 
 ## Installation
 
 - Open the **Unity Package Manager**.
 - Click the dropdown **+** button and select *Add package from git URL...*.
-- Add the following URL [```https://gitlab.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master) and click **Add**.
+- Add one of the following mirrors:
+  - [```https://github.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master)
+  - [```https://gitlab.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master)
 
 
 ## Dependencies
@@ -23,7 +25,7 @@ The dependencies have their own separate licenses.
 
 ## Authors
 
-| Name					| Website						| Twitter													|
-| ---					| ---							| ---														|
-| David Tabernero M.	| https://davidtabernero.net/	| [@davidtabernerom](https://twitter.com/davidtabernerom)	|
+| Name               | Website                         | Twitter                                                 |
+|--------------------|---------------------------------|---------------------------------------------------------|
+| David Tabernero M. | https://www.davidtabernero.net/ | [@davidtabernerom](https://twitter.com/davidtabernerom) |
 
