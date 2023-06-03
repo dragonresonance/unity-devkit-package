@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 
+using PossumScream.Editor.Attributes;
 using PossumScream.Enhancements;
 using System.Reflection;
 using System;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 
 
-namespace PossumScream.Editor.Attributes
+namespace PossumScream.Editor.Automation
 {
 	[InitializeOnLoad]
 	public class ComponentAutolinkingReflectionSystem
