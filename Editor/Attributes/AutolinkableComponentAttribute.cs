@@ -1,6 +1,3 @@
-#if UNITY_EDITOR
-
-
 using System;
 
 
@@ -11,9 +8,6 @@ namespace PossumScream.Editor.Attributes
 	[AttributeUsage(AttributeTargets.Field)]
 	public class AutolinkableComponentAttribute : Attribute {}
 }
-
-
-#endif
 
 
 
