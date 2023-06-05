@@ -104,7 +104,7 @@ namespace PossumScream.Editor.Tools
 
 
 /*                                                                                            */
-/*                    |>  Original script by tomekkie2 @ Unity Forums.  <|                    */
+/*                  |>  Based on the script of tomekkie2 @ Unity Forums.  <|                  */
 /*                                                                                            */
 /*          ______                               _______                                      */
 /*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
