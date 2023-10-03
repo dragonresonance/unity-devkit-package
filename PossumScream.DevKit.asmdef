@@ -17,6 +17,17 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.rlabrecque.steamworks.net",
+            "expression": "",
+            "define": "STEAMWORKS_INTEGRATION"
+        },
+        {
+            "name": "com.playeveryware.eos",
+            "expression": "",
+            "define": "EOS_INTEGRATION"
+        }
+    ],
     "noEngineReferences": false
 }
