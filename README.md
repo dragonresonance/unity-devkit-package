@@ -17,6 +17,11 @@
 - [```https://github.com/dbrizov/NaughtyAttributes.git#upm```](https://github.com/dbrizov/NaughtyAttributes.git#upm)
 
 
+## Issues
+
+Please use the [GitHub Issues](https://github.com/possumscream/unitypackage-devkit/issues) dedicated site.
+
+
 ## License
 
 The base of this package is licensed under the [Apache License, Version 2.0](LICENSE.md).
