@@ -21,10 +21,10 @@ namespace PossumScream.Editor.Compilation
 		#region Actions
 
 
-			private static void checkBuildTypeDefinitions()
+			private static void CheckBuildTypeDefinitions()
 			{
-				checkAndReplenishDefinitionFromList(DemonstrationValidDefinitions, 0);
-				checkAndReplenishDefinitionFromList(DevelopmentValidDefinitions, 0);
+				CheckAndReplenishDefinitions(DemonstrationValidDefinitions, 0);
+				CheckAndReplenishDefinitions(DevelopmentValidDefinitions, 0);
 			}
 
 

@@ -5,15 +5,19 @@ namespace PossumScream.Editor.Compilation
 {
 	public partial class BuildDefinitionsHandler // Integration
 	{
+		#if STEAMWORKS_INTEGRATION
 		private static readonly string[] SteamworksValidDefinitions = {
-			/* 0 */ "DISABLESTEAMWORKS", // Default
-			/* 1 */ "_DISABLESTEAMWORKS",
+			/* 0 */ "_DISABLESTEAMWORKS", // Default
+			/* 1 */ "DISABLESTEAMWORKS",
 		};
+		#endif
 
+		#if EOS_INTEGRATION
 		private static readonly string[] EpicOnlineServicesValidDefinitions = {
-			/* 0 */ "EOS_DISABLE", // Default
-			/* 1 */ "_EOS_DISABLE",
+			/* 0 */ "_EOS_DISABLE", // Default
+			/* 1 */ "EOS_DISABLE",
 		};
+		#endif
 
 
 
@@ -21,10 +25,15 @@ namespace PossumScream.Editor.Compilation
 		#region Actions
 
 
-			private static void checkIntegrationDefinitions()
+			private static void CheckIntegrationDefinitions()
 			{
-				checkAndReplenishDefinitionFromList(EpicOnlineServicesValidDefinitions, 0);
-				checkAndReplenishDefinitionFromList(SteamworksValidDefinitions, 0);
+				#if STEAMWORKS_INTEGRATION
+					CheckAndReplenishDefinitions(SteamworksValidDefinitions, 0);
+				#endif
+
+				#if EOS_INTEGRATION
+					CheckAndReplenishDefinitions(EpicOnlineServicesValidDefinitions, 0);
+				#endif
 			}
 
 

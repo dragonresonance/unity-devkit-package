@@ -16,9 +16,9 @@ namespace PossumScream.Editor.Compilation
 		#region Actions
 
 
-			private static void checkLoggingDefinitions()
+			private static void CheckLoggingDefinitions()
 			{
-				checkAndReplenishDefinitionFromList(LoggingValidDefinitions, 0);
+				CheckAndReplenishDefinitions(LoggingValidDefinitions, 0);
 			}
 
 

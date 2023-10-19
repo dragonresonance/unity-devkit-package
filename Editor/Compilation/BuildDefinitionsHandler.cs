@@ -5,7 +5,6 @@ using PossumScream.Enhancements;
 using PossumScream.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEditor;
 
 
@@ -16,10 +15,10 @@ namespace PossumScream.Editor.Compilation
 	[InitializeOnLoad]
 	public partial class BuildDefinitionsHandler
 	{
-		private const char DefinitionsSeparatorChar = ';';
+		private const char DEFINITIONS_SEPARATOR = ';';
 
 
-		private static readonly SortedSet<string> m_currentDefinitions = new();
+		private static readonly List<string> m_currentDefinitions = new();
 
 
 
@@ -28,7 +27,6 @@ namespace PossumScream.Editor.Compilation
 
 
 			private delegate void HandlerAction();
-
 			private static event HandlerAction d_setChecking;
 
 
@@ -42,11 +40,9 @@ namespace PossumScream.Editor.Compilation
 
 			static BuildDefinitionsHandler()
 			{
-				d_setChecking += checkBuildTypeDefinitions;
-				d_setChecking += checkIntegrationDefinitions;
-				d_setChecking += checkLoggingDefinitions;
-				d_setChecking += checkRenderPipelineDefinitions;
-
+				d_setChecking += CheckBuildTypeDefinitions;
+				d_setChecking += CheckIntegrationDefinitions;
+				d_setChecking += CheckLoggingDefinitions;
 				OrganizeBuildDefinitions();
 			}
 
@@ -65,11 +61,11 @@ namespace PossumScream.Editor.Compilation
 				HLogger.LogInfo("Organizing Build Definitions...", typeof(BuildDefinitionsHandler));
 				{
 					m_currentDefinitions.Clear();
-					m_currentDefinitions.AddRange(GetBuildTargetDefinitions());
+					m_currentDefinitions.AddRange(BuildDefinitionsHandler.definitions);
 
 					d_setChecking?.Invoke();
 
-					SetBuildTargetDefinitions(m_currentDefinitions.ToArray());
+					SetDefinitions(m_currentDefinitions.ToArray());
 				}
 				HLogger.LogInfo("Done!", typeof(BuildDefinitionsHandler));
 			}
@@ -77,61 +73,55 @@ namespace PossumScream.Editor.Compilation
 
 
 
-			public static void AddBuildTargetDefinition(string definition)
+			public static void AddDefinitions(string definition)
 			{
-				AddBuildTargetDefinition(new[] { definition });
+				AddDefinitions(new[] { definition });
 			}
 
 
-			public static void AddBuildTargetDefinition(IEnumerable<string> definitions)
+			public static void AddDefinitions(IEnumerable<string> definitions)
 			{
 				m_currentDefinitions.Clear();
-				m_currentDefinitions.AddRange(GetBuildTargetDefinitions());
+				m_currentDefinitions.AddRange(BuildDefinitionsHandler.definitions);
 
 				foreach (string definition in definitions) {
 					m_currentDefinitions.Add(definition);
 				}
 
-				SetBuildTargetDefinitions(m_currentDefinitions.ToArray());
+				SetDefinitions(new SortedSet<string>(m_currentDefinitions));
 			}
 
 
 
 
-			public static void RemoveBuildTargetDefinition(string definition)
+			public static void RemoveDefinitions(string definition)
 			{
-				RemoveBuildTargetDefinition(new[] { definition });
+				RemoveDefinitions(new[] { definition });
 			}
 
 
-			public static void RemoveBuildTargetDefinition(IEnumerable<string> definitions)
+			public static void RemoveDefinitions(IEnumerable<string> definitions)
 			{
 				m_currentDefinitions.Clear();
-				m_currentDefinitions.AddRange(GetBuildTargetDefinitions());
+				m_currentDefinitions.AddRange(BuildDefinitionsHandler.definitions);
 
 				foreach (string definition in definitions) {
 					m_currentDefinitions.Remove(definition);
 				}
 
-				SetBuildTargetDefinitions(m_currentDefinitions.ToArray());
+				SetDefinitions(new SortedSet<string>(m_currentDefinitions));
 			}
 
 
 
 
-			public static IEnumerable<string> GetBuildTargetDefinitions()
+			public static void SetDefinitions(IEnumerable<string> definitions)
 			{
-				return PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).Split(DefinitionsSeparatorChar);
+				SetDefinitions(definitions.ToArray());
 			}
 
 
-			public static void SetBuildTargetDefinitions(IEnumerable<string> definitions)
-			{
-				SetBuildTargetDefinitions(definitions.ToArray());
-			}
-
-
-			public static void SetBuildTargetDefinitions(string[] definitions)
+			public static void SetDefinitions(string[] definitions)
 			{
 				PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, definitions);
 			}
@@ -145,7 +135,7 @@ namespace PossumScream.Editor.Compilation
 		#region Actions
 
 
-			private static void checkAndReplenishDefinitionFromList(IReadOnlyList<string> definitions, int fallbackDefinitionIndex = 0)
+			private static void CheckAndReplenishDefinitions(IReadOnlyList<string> definitions, int fallbackDefinitionIndex = 0)
 			{
 				if (!m_currentDefinitions.MatchesAny(definitions)) {
 					m_currentDefinitions.Add(definitions[fallbackDefinitionIndex]);
@@ -162,7 +152,7 @@ namespace PossumScream.Editor.Compilation
 			private static void forceDefinitionFromList(IReadOnlyList<string> definitions, string forcedDefinition)
 			{
 				m_currentDefinitions.Clear();
-				m_currentDefinitions.AddRange(GetBuildTargetDefinitions());
+				m_currentDefinitions.AddRange(BuildDefinitionsHandler.definitions);
 
 				foreach (string definition in definitions) {
 					m_currentDefinitions.Remove(definition);
@@ -170,8 +160,19 @@ namespace PossumScream.Editor.Compilation
 
 				m_currentDefinitions.Add(forcedDefinition);
 
-				SetBuildTargetDefinitions(m_currentDefinitions.ToArray());
+				SetDefinitions(m_currentDefinitions.ToArray());
 			}
+
+
+		#endregion
+
+
+
+
+		#region Properties
+
+
+			public static IEnumerable<string> definitions => PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).Split(DEFINITIONS_SEPARATOR);
 
 
 		#endregion
