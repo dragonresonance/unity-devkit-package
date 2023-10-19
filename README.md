@@ -7,7 +7,7 @@
 - Open the **Unity Package Manager**.
 - Click the dropdown **+** button and select *Add package from git URL...*.
 - Add one of the following mirrors:
-  - [```https://github.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master)
+  - [```https://github.com/possumscream/unitypackage-devkit.git#master```](https://github.com/possumscream/unitypackage-devkit.git#master)
   - [```https://gitlab.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master)
 
 
