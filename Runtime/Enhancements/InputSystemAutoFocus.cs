@@ -4,6 +4,7 @@
 using PossumScream.Behaviours;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 
@@ -70,6 +71,7 @@ namespace PossumScream.Enhancements
 
 				if ((selectedCandidate = EventSystem.current.currentSelectedGameObject) != null) {}
 				else if (this.m_lastSelected != null) {}
+				else if ((selectedCandidate = FindObjectOfType<Selectable>(false).gameObject) != null) {}
 				else selectedCandidate = EventSystem.current.firstSelectedGameObject;
 
 				this.m_lastSelected = selectedCandidate;
