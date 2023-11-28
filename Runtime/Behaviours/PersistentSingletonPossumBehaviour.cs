@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PossumScream.Behaviours
 {
-	public abstract class SingletonBehaviour<T> : InstantiableBehaviour<T> where T : Component
+	public abstract class PersistentSingletonPossumBehaviour<T> : InstantiablePossumBehaviour<T> where T : Component
 	{
 		#region Events
 
@@ -14,6 +14,7 @@ namespace PossumScream.Behaviours
 			{
 				if (m_instance == null) {
 					m_instance = this as T;
+					DontDestroyOnLoad(this.gameObject);
 				}
 				else if (m_instance != this) {
 					Destroy(this);
@@ -39,7 +40,7 @@ namespace PossumScream.Behaviours
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */

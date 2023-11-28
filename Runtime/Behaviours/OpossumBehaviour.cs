@@ -1,3 +1,7 @@
+#if UNITY_NGO
+
+
+using Unity.Netcode;
 using UnityEngine;
 
 
@@ -5,68 +9,27 @@ using UnityEngine;
 
 namespace PossumScream.Behaviours
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiableBehaviour<T> : PossumBehaviour where T : Component
+	public abstract partial class OpossumBehaviour : NetworkBehaviour
 	{
-		internal static T m_instance = null;
+		#pragma warning disable 0414
+		[SerializeField] private string _description = "";
+		#pragma warning restore 0414
 
 
 
 
-		#region Events
+		#region Properties
 
 
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Controls
-
-
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
-
-
-			public static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
-
-				return m_instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Getters and Setters
-
-
-			public static T CachedInstance => m_instance;
+			protected string description => this._description;
 
 
 		#endregion
 	}
 }
+
+
+#endif
 
 
 
@@ -79,7 +42,7 @@ namespace PossumScream.Behaviours
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */

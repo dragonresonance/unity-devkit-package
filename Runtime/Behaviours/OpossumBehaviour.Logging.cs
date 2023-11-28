@@ -1,3 +1,6 @@
+#if UNITY_NGO
+
+
 using PossumScream.Enhancements;
 using System;
 using UnityEngine;
@@ -8,7 +11,7 @@ using UnityObject = UnityEngine.Object;
 
 namespace PossumScream.Behaviours
 {
-	public abstract partial class PossumBehaviour
+	public abstract partial class OpossumBehaviour
 	{
 		[SerializeField] private bool _logging = true;
 
@@ -143,6 +146,9 @@ namespace PossumScream.Behaviours
 		#endregion
 	}
 }
+
+
+#endif
 
 
 

@@ -5,19 +5,23 @@ using UnityEngine;
 
 namespace PossumScream.Behaviours
 {
-	public abstract partial class PossumBehaviour : MonoBehaviour
+	public abstract class SingletonPossumBehaviour<T> : InstantiablePossumBehaviour<T> where T : Component
 	{
-		#pragma warning disable 0414
-		[SerializeField] private string _description = "";
-		#pragma warning restore 0414
+		#region Events
 
 
+			protected void Awake()
+			{
+				if (m_instance == null) {
+					m_instance = this as T;
+				}
+				else if (m_instance != this) {
+					Destroy(this);
+					return;
+				}
 
-
-		#region Properties
-
-
-			protected string description => this._description;
+				LateAwake();
+			}
 
 
 		#endregion

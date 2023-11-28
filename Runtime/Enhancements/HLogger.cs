@@ -1,8 +1,3 @@
-#if !UNITY_EDITOR && !DEVELOPMENT_BUILD
-	#define LOGGING_DISABLED
-#endif
-
-
 using System;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
@@ -14,11 +9,20 @@ namespace PossumScream.Enhancements
 {
 	public static class HLogger
 	{
-		public const string EmphasisColor = "#64c8fa";
-		public const string ErrorColor = "#fa6464";
-		public const string ExceptionColor = "#c864fa";
-		public const string InfoColor = "#fafafa";
-		public const string WarningColor = "#fac864";
+		#region Enums
+
+
+			public enum Severity
+			{
+				INFO = 0xfafafa,
+				EMPHA = 0x64c8fa,
+				WARN = 0xfac864,
+				ERROR = 0xfa6464,
+				EXCEP = 0xc864fa,
+			}
+
+
+		#endregion
 
 
 
@@ -33,14 +37,12 @@ namespace PossumScream.Enhancements
 				#endif
 			}
 
-
 			public static void Log(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
 					LogInfo(message, context);
 				#endif
 			}
-
 
 			public static void Log(string message, UnityObject context)
 			{
@@ -56,22 +58,23 @@ namespace PossumScream.Enhancements
 			{
 				#if !LOGGING_DISABLED
 					Debug.Log(message);
+					Console.Out.WriteLine(message);
 				#endif
 			}
-
 
 			public static void LogInfo(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(composeFormattedMessage(message, context, InfoColor));
+					Debug.Log(FormatDebugMessage(message, Severity.INFO, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, context));
 				#endif
 			}
-
 
 			public static void LogInfo(string message, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(composeFormattedMessage(message, context, InfoColor), context);
+					Debug.Log(FormatDebugMessage(message, Severity.INFO, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, context));
 				#endif
 			}
 
@@ -82,22 +85,23 @@ namespace PossumScream.Enhancements
 			{
 				#if !LOGGING_DISABLED
 					Debug.Log(message);
+					Console.Out.WriteLine(message);
 				#endif
 			}
-
 
 			public static void LogEmphasis(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(composeFormattedMessage(message, context, EmphasisColor));
+					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, context));
 				#endif
 			}
-
 
 			public static void LogEmphasis(string message, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(composeFormattedMessage(message, context, EmphasisColor), context);
+					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, context));
 				#endif
 			}
 
@@ -108,22 +112,23 @@ namespace PossumScream.Enhancements
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogWarning(message);
+					Console.Out.WriteLine(message);
 				#endif
 			}
-
 
 			public static void LogWarning(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogWarning(composeFormattedMessage(message, context, WarningColor));
+					Debug.Log(FormatDebugMessage(message, Severity.WARN, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
 				#endif
 			}
-
 
 			public static void LogWarning(string message, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogWarning(composeFormattedMessage(message, context, WarningColor), context);
+					Debug.Log(FormatDebugMessage(message, Severity.WARN, context));
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
 				#endif
 			}
 
@@ -134,22 +139,23 @@ namespace PossumScream.Enhancements
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogError(message);
+					Console.Error.WriteLine(message);
 				#endif
 			}
-
 
 			public static void LogError(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(composeFormattedMessage(message, context, ErrorColor));
+					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, context));
+					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, context));
 				#endif
 			}
-
 
 			public static void LogError(string message, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(composeFormattedMessage(message, context, ErrorColor), context);
+					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, context));
+					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, context));
 				#endif
 			}
 
@@ -160,24 +166,27 @@ namespace PossumScream.Enhancements
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogException(exception);
+					Console.Error.WriteLine(exception);
 				#endif
 			}
-
 
 			public static void LogException(Exception exception, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(composeFormattedMessage(exception.Message, context, ExceptionColor));
+					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, context));
 					Debug.LogException(exception);
+					Console.Error.WriteLine(FormatConsoleMessage(exception.Message, Severity.EXCEP, context));
+					Console.Error.WriteLine(exception);
 				#endif
 			}
-
 
 			public static void LogException(Exception exception, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(composeFormattedMessage(exception.Message, context, ExceptionColor), context);
+					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, context));
 					Debug.LogException(exception);
+					Console.Error.WriteLine(FormatConsoleMessage(exception.Message, Severity.EXCEP, context));
+					Console.Error.WriteLine(exception);
 				#endif
 			}
 
@@ -190,15 +199,25 @@ namespace PossumScream.Enhancements
 		#region Utilities
 
 
-			public static string composeFormattedMessage(string message, Type context, string color)
+			public static string FormatConsoleMessage(string message, Severity type, Type context)
 			{
-				return $"<color={color}><b>{context.Name} → </b></color>{message}";
+				return $"{$"[{type}]", -6} {context.Name} → {message}";
+			}
+
+			public static string FormatConsoleMessage(string message, Severity type, UnityObject context)
+			{
+				return $"{$"[{type}]", -6} {context.name} → {message}";
 			}
 
 
-			public static string composeFormattedMessage(string message, UnityObject context, string color)
+			public static string FormatDebugMessage(string message, Severity type, Type context)
 			{
-				return $"<color={color}><b>{context.name} → </b></color>{message}";
+				return $"<color=#{(int)type:X}><b>{context.Name} → </b></color>{message}";
+			}
+
+			public static string FormatDebugMessage(string message, Severity type, UnityObject context)
+			{
+				return $"<color=#{(int)type:X}><b>{context.name} → </b></color>{message}";
 			}
 
 
@@ -217,7 +236,7 @@ namespace PossumScream.Enhancements
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */

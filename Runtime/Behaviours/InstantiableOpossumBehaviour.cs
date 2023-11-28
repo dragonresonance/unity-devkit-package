@@ -1,3 +1,6 @@
+#if UNITY_NGO
+
+
 using UnityEngine;
 
 
@@ -5,24 +8,71 @@ using UnityEngine;
 
 namespace PossumScream.Behaviours
 {
-	public abstract partial class PossumBehaviour : MonoBehaviour
+	[DisallowMultipleComponent]
+	public abstract class InstantiableOpossumBehaviour<T> : OpossumBehaviour where T : Component
 	{
-		#pragma warning disable 0414
-		[SerializeField] private string _description = "";
-		#pragma warning restore 0414
+		internal static T m_instance = null;
 
 
 
 
-		#region Properties
+		#region Events
 
 
-			protected string description => this._description;
+			protected virtual void LateAwake()
+			{
+				return;
+			}
+
+
+		#endregion
+
+
+
+
+		#region Controls
+
+
+			public static void PurgeInstance()
+			{
+				m_instance = null;
+			}
+
+
+			public static T GetInstance()
+			{
+				if (m_instance == null) {
+					m_instance = FindObjectOfType(typeof(T)) as T;
+				}
+
+
+				return m_instance;
+			}
+
+
+			public static bool TryGetInstance(out T instance)
+			{
+				return ((instance = GetInstance()) != null);
+			}
+
+
+		#endregion
+
+
+
+
+		#region Getters and Setters
+
+
+			public static T CachedInstance => m_instance;
 
 
 		#endregion
 	}
 }
+
+
+#endif
 
 
 
