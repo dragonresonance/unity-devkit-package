@@ -59,6 +59,15 @@ namespace PossumScream.Extensions
 
 			return -1;
 		}
+
+
+
+
+		public static T Random<T>(this IEnumerable<T> enumerable)
+		{
+			IEnumerable<T> array = enumerable as T[] ?? enumerable.ToArray();
+			return array.ElementAt(UnityEngine.Random.Range(0, array.Count() - 1));
+		}
 	}
 }
 
@@ -73,7 +82,7 @@ namespace PossumScream.Extensions
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */
