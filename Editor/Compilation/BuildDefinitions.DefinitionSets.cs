@@ -3,41 +3,32 @@
 
 namespace PossumScream.Editor.Compilation
 {
-	public partial class BuildDefinitionsHandler // Integration
+	public partial class BuildDefinitions // Build Type
 	{
-		#if STEAMWORKS_INTEGRATION
-		private static readonly string[] SteamworksValidDefinitions = {
+		private static readonly string[] DemonstrationValidDefinitions = {
+			/* 0 */ "_DEMO_BUILD", // Default
+			/* 1 */ "DEMO_BUILD",
+		};
+
+		private static readonly string[] LoggingValidDefinitions = {
+			/* 0 */ "_NO_LOGGING", // Default
+			/* 1 */ "NO_LOGGING",
+		};
+
+		private static readonly string[] ContexterIntegrationValidDefinitions = {
+			/* 0 */ "_DISABLE_CONTEXTER", // Default
+			/* 1 */ "DISABLE_CONTEXTER",
+		};
+
+		private static readonly string[] SteamworksIntegrationValidDefinitions = {
 			/* 0 */ "_DISABLESTEAMWORKS", // Default
 			/* 1 */ "DISABLESTEAMWORKS",
 		};
-		#endif
 
-		#if EOS_INTEGRATION
-		private static readonly string[] EpicOnlineServicesValidDefinitions = {
+		private static readonly string[] EOSIntegrationValidDefinitions = {
 			/* 0 */ "_EOS_DISABLE", // Default
 			/* 1 */ "EOS_DISABLE",
 		};
-		#endif
-
-
-
-
-		#region Actions
-
-
-			private static void CheckIntegrationDefinitions()
-			{
-				#if STEAMWORKS_INTEGRATION
-					CheckAndReplenishDefinitions(SteamworksValidDefinitions, 0);
-				#endif
-
-				#if EOS_INTEGRATION
-					CheckAndReplenishDefinitions(EpicOnlineServicesValidDefinitions, 0);
-				#endif
-			}
-
-
-		#endregion
 	}
 }
 
@@ -55,7 +46,7 @@ namespace PossumScream.Editor.Compilation
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */

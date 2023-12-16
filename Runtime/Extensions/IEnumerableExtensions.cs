@@ -12,8 +12,6 @@ namespace PossumScream.Extensions
 		{
 			T[] arrayA = enumerableA.ToArray();
 			T[] arrayB = enumerableB.ToArray();
-
-
 			return arrayB.Any(bValue => arrayA.Contains(bValue));
 		}
 
@@ -22,17 +20,7 @@ namespace PossumScream.Extensions
 		{
 			T[] arrayA = enumerableA.ToArray();
 			T[] arrayB = enumerableB.ToArray();
-			int matches = 0;
-
-
-			foreach (T bValue in arrayB) {
-				if (arrayA.Contains(bValue)) {
-					matches++;
-				}
-			}
-
-
-			return matches;
+			return arrayB.Count(bValue => arrayA.Contains(bValue));
 		}
 
 
@@ -60,6 +48,19 @@ namespace PossumScream.Extensions
 			return -1;
 		}
 
+
+		public static int IndexOf<T>(this IEnumerable<T> source, IEnumerable<T> match)
+		{
+			T[] sourceArray = source.ToArray();
+			T[] matchArray = match.ToArray();
+
+			foreach (T matchItem in matchArray) {
+				int index = sourceArray.IndexOf(matchItem);
+				if (index != -1) return index;
+			}
+
+			return -1;
+		}
 
 
 
