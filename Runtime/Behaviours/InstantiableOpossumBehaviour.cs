@@ -30,21 +30,13 @@ namespace PossumScream.Behaviours
 
 
 
-		#region Controls
-
-
-			public static void PurgeInstance()
-			{
-				m_instance = null;
-			}
+		#region Publics
 
 
 			public static T GetInstance()
 			{
-				if (m_instance == null) {
+				if (m_instance == null)
 					m_instance = FindObjectOfType(typeof(T)) as T;
-				}
-
 
 				return m_instance;
 			}
@@ -61,7 +53,7 @@ namespace PossumScream.Behaviours
 
 
 
-		#region Getters and Setters
+		#region Properties
 
 
 			public static T CachedInstance => m_instance;

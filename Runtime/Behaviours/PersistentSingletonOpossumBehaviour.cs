@@ -23,8 +23,30 @@ namespace PossumScream.Behaviours
 					Destroy(this);
 					return;
 				}
+				else {
+					DontDestroyOnLoad(this.gameObject);
+				}
 
 				LateAwake();
+			}
+
+
+		#endregion
+
+
+
+
+		#region Publics
+
+
+			public new static T GetInstance()
+			{
+				if (m_instance == null) {
+					m_instance = FindObjectOfType(typeof(T)) as T;
+					DontDestroyOnLoad(m_instance);
+				}
+
+				return m_instance;
 			}
 
 
