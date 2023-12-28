@@ -1,34 +1,25 @@
 using UnityEngine;
 
 
-
-
 namespace PossumScream.Behaviours
 {
 	public abstract class SingletonPossumBehaviour<T> : InstantiablePossumBehaviour<T> where T : Component
 	{
-		#region Events
+		#region Privates
 
-
-			protected void Awake()
+			protected override void FetchInstance()
 			{
-				if (m_instance == null) {
-					m_instance = this as T;
+				if (_instance == null) {
+					_instance = this as T;
 				}
-				else if (m_instance != this) {
+				else if (_instance != this) {
 					Destroy(this);
-					return;
 				}
-
-				LateAwake();
 			}
-
 
 		#endregion
 	}
 }
-
-
 
 
 /*                                                                                            */

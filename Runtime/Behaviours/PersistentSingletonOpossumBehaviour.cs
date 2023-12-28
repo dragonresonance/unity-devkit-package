@@ -4,51 +4,22 @@
 using UnityEngine;
 
 
-
-
 namespace PossumScream.Behaviours
 {
 	public abstract class PersistentSingletonOpossumBehaviour<T> : InstantiableOpossumBehaviour<T> where T : Component
 	{
-		#region Events
+		#region Privates
 
-
-			protected void Awake()
+			protected override void FetchInstance()
 			{
-				if (m_instance == null) {
-					m_instance = this as T;
+				if (_instance == null) {
+					_instance = this as T;
 					DontDestroyOnLoad(this.gameObject);
 				}
-				else if (m_instance != this) {
+				else if (_instance != this) {
 					Destroy(this);
-					return;
 				}
-				else {
-					DontDestroyOnLoad(this.gameObject);
-				}
-
-				LateAwake();
 			}
-
-
-		#endregion
-
-
-
-
-		#region Publics
-
-
-			public new static T GetInstance()
-			{
-				if (m_instance == null) {
-					m_instance = FindObjectOfType(typeof(T)) as T;
-					DontDestroyOnLoad(m_instance);
-				}
-
-				return m_instance;
-			}
-
 
 		#endregion
 	}
@@ -56,8 +27,6 @@ namespace PossumScream.Behaviours
 
 
 #endif
-
-
 
 
 /*                                                                                            */

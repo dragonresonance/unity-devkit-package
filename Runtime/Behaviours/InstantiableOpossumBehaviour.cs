@@ -11,12 +11,19 @@ namespace PossumScream.Behaviours
 	[DisallowMultipleComponent]
 	public abstract class InstantiableOpossumBehaviour<T> : OpossumBehaviour where T : Component
 	{
-		internal static T m_instance = null;
+		internal static T _instance = null;
 
 
 
 
 		#region Events
+
+
+			protected void Awake()
+			{
+				FetchInstance();
+				LateAwake();
+			}
 
 
 			protected virtual void LateAwake()
@@ -35,10 +42,10 @@ namespace PossumScream.Behaviours
 
 			public static T GetInstance()
 			{
-				if (m_instance == null)
-					m_instance = FindObjectOfType(typeof(T)) as T;
+				if (_instance == null)
+					((InstantiableOpossumBehaviour<T>)FindObjectOfType(typeof(T))).FetchInstance();
 
-				return m_instance;
+				return _instance;
 			}
 
 
@@ -53,10 +60,24 @@ namespace PossumScream.Behaviours
 
 
 
+		#region Privates
+
+
+			protected virtual void FetchInstance()
+			{
+				return;
+			}
+
+
+		#endregion
+
+
+
+
 		#region Properties
 
 
-			public static T CachedInstance => m_instance;
+			public static T CachedInstance => _instance;
 
 
 		#endregion
