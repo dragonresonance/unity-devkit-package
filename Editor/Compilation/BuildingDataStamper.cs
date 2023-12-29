@@ -1,4 +1,4 @@
-#if UNITY_EDITOR && !DISABLE_CONTEXTER
+#if UNITY_EDITOR && ENABLE_CONTEXTER
 
 
 using System.Diagnostics;

@@ -16,8 +16,8 @@ namespace PossumScream.Editor.Compilation
 		};
 
 		private static readonly string[] ContexterIntegrationValidDefinitions = {
-			/* 0 */ "_DISABLE_CONTEXTER", // Default
-			/* 1 */ "DISABLE_CONTEXTER",
+			/* 0 */ "_ENABLE_CONTEXTER", // Default
+			/* 1 */ "ENABLE_CONTEXTER",
 		};
 
 		private static readonly string[] SteamworksIntegrationValidDefinitions = {
