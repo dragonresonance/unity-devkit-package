@@ -21,7 +21,7 @@ namespace PossumScream.Extensions
 
 			public static bool IsEven(this int testValue)
 			{
-				return (testValue % 2 == 0);
+				return ((testValue & 1) == 0);
 			}
 
 
