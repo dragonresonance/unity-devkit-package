@@ -2,30 +2,24 @@ using Random = System.Random;
 using System.Collections.Generic;
 
 
-
-
 namespace PossumScream.Extensions
 {
 	public static class ListExtensions
 	{
-		public static void Swap<T>(this IList<T> list, int indexA, int indexB) {
+		public static void Swap<T>(this IList<T> list, int indexA, int indexB)
+		{
 			(list[indexA], list[indexB]) = (list[indexB], list[indexA]);
 		}
 
-
 		public static void Shuffle<T>(this List<T> list)
 		{
-			Random random = new Random();
-
-
+			Random random = new();
 			for (int index = 0; index < list.Count; index++) {
 				list.Swap(index, random.Next(index, list.Count));
 			}
 		}
 	}
 }
-
-
 
 
 /*                                                                                            */

@@ -36,14 +36,12 @@ namespace PossumScream.Extensions
 		{
 			int index = 0;
 
-
 			foreach (T item in enumerable) {
 				if (comparer.Equals(item, value)) {
 					return index;
 				}
 				index++;
 			}
-
 
 			return -1;
 		}

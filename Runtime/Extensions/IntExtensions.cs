@@ -19,6 +19,20 @@ namespace PossumScream.Extensions
 		#region Controls: Verification
 
 
+			public static bool IsEven(this int testValue)
+			{
+				return (testValue % 2 == 0);
+			}
+
+
+			public static bool IsOdd(this int testValue)
+			{
+				return !IsEven(testValue);
+			}
+
+
+
+
 			public static bool IsBetween(this int testValue, int minInclusive, int maxExclusive)
 			{
 				return ((testValue >= minInclusive) && (testValue < maxExclusive));
@@ -45,13 +59,13 @@ namespace PossumScream.Extensions
 		#region Controls: Cyclical Operations
 
 
-			public static int IncreaseCyclically(this ref int currentValue, int upperLimit, int absoluteIncreaseStep = 1)
+			public static int IncreaseCyclically(this int currentValue, int upperLimit, int absoluteIncreaseStep = 1)
 			{
 				return (currentValue = ((currentValue + absoluteIncreaseStep) % upperLimit));
 			}
 
 
-			public static int DecreaseCyclically(this ref int currentValue, int upperLimit, int absoluteDecreaseStep = 1)
+			public static int DecreaseCyclically(this int currentValue, int upperLimit, int absoluteDecreaseStep = 1)
 			{
 				return (currentValue = (((currentValue - absoluteDecreaseStep) + upperLimit) % upperLimit));
 			}

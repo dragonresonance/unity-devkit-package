@@ -15,18 +15,14 @@ namespace PossumScream.Extensions
 			{
 				AnimationCurve animationCurve = new AnimationCurve();
 
-
 				{
-					Keyframe[] keyframes =
-					{
-						new Keyframe(timeStart, valueStart, 0f, 0f, 0f, 1f),
-						new Keyframe(timeEnd, valueEnd, 0f, 0f, 0f, 0f),
+					Keyframe[] keyframes = {
+						new(timeStart, valueStart, 0f, 0f, 0f, 1f),
+						new(timeEnd, valueEnd, 0f, 0f, 0f, 0f),
 					};
-
 
 					animationCurve.AddKeys(keyframes);
 				}
-
 
 				return animationCurve;
 			}
@@ -36,18 +32,14 @@ namespace PossumScream.Extensions
 			{
 				AnimationCurve animationCurve = new AnimationCurve();
 
-
 				{
-					Keyframe[] keyframes =
-					{
-						new Keyframe(timeStart, valueStart, 0f, 0f, 0f, 0f),
-						new Keyframe(timeEnd, valueEnd, 0f, 0f, 1f, 0f),
+					Keyframe[] keyframes = {
+						new(timeStart, valueStart, 0f, 0f, 0f, 0f),
+						new(timeEnd, valueEnd, 0f, 0f, 1f, 0f),
 					};
-
 
 					animationCurve.AddKeys(keyframes);
 				}
-
 
 				return animationCurve;
 			}
@@ -63,22 +55,16 @@ namespace PossumScream.Extensions
 
 			public static AnimationCurve GeneratePeakLoopCurve(float timeStart, float timePeak, float timeEnd, float valueStartEnd, float valuePeak)
 			{
-				AnimationCurve animationCurve = new AnimationCurve();
-
-
+				AnimationCurve animationCurve = new();
 				{
-					Keyframe[] keyframes =
-					{
-						new Keyframe(timeStart, valueStartEnd, 0f, 0f),
-						new Keyframe(timePeak, valuePeak, 0f, 0f),
-						new Keyframe(timeEnd, valueStartEnd, 0f, 0f),
+					Keyframe[] keyframes = {
+						new(timeStart, valueStartEnd, 0f, 0f),
+						new(timePeak, valuePeak, 0f, 0f),
+						new(timeEnd, valueStartEnd, 0f, 0f),
 					};
-
 
 					animationCurve.AddKeys(keyframes);
 				}
-
-
 				return animationCurve;
 			}
 
@@ -133,9 +119,8 @@ namespace PossumScream.Extensions
 
 			public static void AddKeys(this AnimationCurve animationCurve, IEnumerable<Keyframe> keyframes)
 			{
-				foreach (Keyframe keyframe in keyframes) {
+				foreach (Keyframe keyframe in keyframes)
 					animationCurve.AddKey(keyframe);
-				}
 			}
 
 

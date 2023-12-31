@@ -1,8 +1,6 @@
 using System;
 
 
-
-
 namespace PossumScream.Extensions
 {
 	public static class StringExtensions
@@ -10,17 +8,20 @@ namespace PossumScream.Extensions
 		public static int IndexOfOccurrence(this string input, string value, int startIndex, int occurrence)
 		{
 			int currentIndex = input.IndexOf(value, startIndex, StringComparison.Ordinal);
-
-
 			if ((occurrence == 1) || (currentIndex == -1)) return currentIndex;
-
-
 			return input.IndexOfOccurrence(value, (currentIndex + 1), (occurrence - 1));
+		}
+
+		public static string Reverse(this string input)
+		{
+			return string.Create(input.Length, input, (chars, state) =>
+			{
+				state.AsSpan().CopyTo(chars);
+				chars.Reverse();
+			});
 		}
 	}
 }
-
-
 
 
 /*                                                                                            */

@@ -7,15 +7,12 @@ namespace PossumScream.Extensions
 			return (logicalValue ? 1 : 0);
 		}
 
-
 		public static int AsSign(this bool logicalValue)
 		{
 			return (logicalValue ? 1 : -1);
 		}
 	}
 }
-
-
 
 
 /*                                                                                            */

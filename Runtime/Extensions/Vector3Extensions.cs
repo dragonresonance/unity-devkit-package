@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 
 
-
-
 namespace PossumScream.Extensions
 {
 	public static class Vector3Extensions
@@ -16,16 +14,11 @@ namespace PossumScream.Extensions
 				Math.Sign(vector3.z)));
 		}
 
-
 		public static Vector3 CalculateNormalizedComponents(this Vector3 vector3)
 		{
 			vector3.NormalizeComponents();
-
-
 			return vector3;
 		}
-
-
 
 
 		public static void AbsoluteComponents(this ref Vector3 vector3)
@@ -36,18 +29,13 @@ namespace PossumScream.Extensions
 				Mathf.Abs(vector3.z)));
 		}
 
-
 		public static Vector3 CalculateAbsoluteComponents(this Vector3 vector3)
 		{
 			vector3.AbsoluteComponents();
-
-
 			return vector3;
 		}
 	}
 }
-
-
 
 
 /*                                                                                            */

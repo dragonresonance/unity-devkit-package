@@ -1,8 +1,6 @@
 using UnityEngine;
 
 
-
-
 namespace PossumScream.Extensions
 {
 	public static class Vector3IntExtensions
@@ -13,8 +11,6 @@ namespace PossumScream.Extensions
 		}
 	}
 }
-
-
 
 
 /*                                                                                            */

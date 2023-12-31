@@ -62,11 +62,9 @@ namespace PossumScream.Extensions
 
 
 
-			public static float AddToAverage(this ref float currentAverage, float newValue, ref int currentSamples, int maxSamples)
+			public static float AddToAverage(this float currentAverage, float newValue, ref int currentSamples, int maxSamples)
 			{
 				float totalValue = currentAverage * currentSamples;
-
-
 				{
 					if (currentSamples >= maxSamples) {
 						currentSamples--;
@@ -83,7 +81,6 @@ namespace PossumScream.Extensions
 						totalValue -= currentAverage;
 					}
 				}
-
 				return (currentAverage = (totalValue / currentSamples));
 			}
 
