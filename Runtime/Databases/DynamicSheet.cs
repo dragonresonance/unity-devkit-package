@@ -1,7 +1,7 @@
-using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 
@@ -185,7 +185,7 @@ namespace PossumScream.Databases
 		#region Actions
 
 
-			[Button(enabledMode:EButtonEnableMode.Editor)]
+			[ContextMenu(nameof(updateMaxColCount))]
 			private void updateMaxColCount()
 			{
 				this._maxCols = 0;
@@ -195,7 +195,7 @@ namespace PossumScream.Databases
 			}
 
 
-			[Button(enabledMode:EButtonEnableMode.Editor)]
+			[ContextMenu(nameof(padDataMatrix))]
 			private void padDataMatrix()
 			{
 				padDataMatrix(0, false); // The updateMaxColCount param REALLY SHOULD be specified

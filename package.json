@@ -1,12 +1,11 @@
 {
 	"name": "git.possumscream.devkit",
-	"version": "1.18.0",
+	"version": "1.19.0",
 	"displayName": "PossumScream DevKit",
 	"description": "",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
 	"dependencies": {
-		"com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
 		"git.bunny83.simplejson": "https://github.com/davidtabernerom/SimpleJSON.git#master"
 	},
 	"keywords": [

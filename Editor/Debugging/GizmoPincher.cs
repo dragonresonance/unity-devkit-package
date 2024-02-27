@@ -42,8 +42,9 @@ namespace PossumScream.Editor.Debugging
 
 			private void OnDrawGizmos()
 			{
+				Gizmos.color = this._lineColor;
 				foreach (Rigidbody body in this._bodies) {
-					Debug.DrawLine(body.transform.position, base.transform.position, this._lineColor);
+					Gizmos.DrawLine(body.transform.position, base.transform.position);
 				}
 			}
 
