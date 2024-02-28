@@ -1,62 +1,28 @@
-#if UNITY_EDITOR
-
-
-using PossumScream.Constants;
-using PossumScream.Editor.Editors;
 using UnityEditor;
 using UnityEngine;
 
 
-
-
-namespace PossumScream.Editor.Debugging
+namespace PossumScream.Editor.Attributes
 {
-	[CustomEditor(typeof(GizmoPincher))]
-	public class GizmoPincherEditor : ScriptlessEditor { }
+	public class ReadOnlyAttribute : PropertyAttribute { }
 
 
-
-
-	[RequireComponent(typeof(Transform))]
-	public class GizmoPincher : MonoBehaviour
+	[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+	public class ReadOnlyDrawer : PropertyDrawer
 	{
-		[SerializeField] [Min(0f)] private float _forceFactor = 1f;
-		[SerializeField] private Color _lineColor = MoreColors.pastellightgray;
-		[SerializeField] private ForceMode _forceMode = ForceMode.Force;
-		[SerializeField] private Rigidbody[] _bodies = {};
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUI.GetPropertyHeight(property, label, true);
+		}
 
-
-
-
-		#region Events
-
-
-			private void FixedUpdate()
-			{
-				foreach (Rigidbody body in this._bodies) {
-					Vector3 forceVector = base.transform.position - body.transform.position;
-					body.AddForce((forceVector * this._forceFactor), this._forceMode);
-				}
-			}
-
-
-			private void OnDrawGizmos()
-			{
-				Gizmos.color = this._lineColor;
-				foreach (Rigidbody body in this._bodies) {
-					Gizmos.DrawLine(body.transform.position, base.transform.position);
-				}
-			}
-
-
-		#endregion
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			GUI.enabled = false;
+			EditorGUI.PropertyField(position, property, label, true);
+			GUI.enabled = true;
+		}
 	}
 }
-
-
-#endif
-
-
 
 
 /*                                                                                            */
