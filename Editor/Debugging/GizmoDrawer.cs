@@ -21,8 +21,10 @@ namespace PossumScream.Editor.Debugging
 	[RequireComponent(typeof(Transform))]
 	public class GizmoDrawer : MonoBehaviour
 	{
-		/* + */ [SerializeField] private Vector3Int _positiveAxeFactors = Vector3Int.one;
-		/* - */ [SerializeField] private Vector3Int _negativeAxeFactors = Vector3Int.zero;
+		[SerializeField] private bool _visible = true;
+
+		[SerializeField] private Vector3Int _positiveAxeFactors = Vector3Int.one;
+		[SerializeField] private Vector3Int _negativeAxeFactors = Vector3Int.zero;
 
 		[SerializeField] [Min(0f)] private float _gizmoSize = 1f;
 		[SerializeField] [Range(0f, 1f)] private float _arrowHeadPercentage = 0.15f;
@@ -39,6 +41,9 @@ namespace PossumScream.Editor.Debugging
 
 			private void OnDrawGizmos()
 			{
+				if (!_visible) return;
+
+
 				TransformPoint transformPoint = new(base.transform);
 				Vector3 xNegativeGizmoEnd = transformPoint.position - (transformPoint.right * _gizmoSize);
 				Vector3 xPositiveGizmoEnd = transformPoint.position + (transformPoint.right * _gizmoSize);

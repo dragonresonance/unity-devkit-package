@@ -20,8 +20,10 @@ namespace PossumScream.Editor.Debugging
 	[RequireComponent(typeof(Transform))]
 	public class GizmoPincher : MonoBehaviour
 	{
-		[SerializeField] [Min(0f)] private float _forceFactor = 1f;
+		[SerializeField] private bool _visible = true;
 		[SerializeField] private Color _lineColor = MoreColors.pastellightgray;
+
+		[SerializeField] [Min(0f)] private float _forceFactor = 1f;
 		[SerializeField] private ForceMode _forceMode = ForceMode.Force;
 		[SerializeField] private Rigidbody[] _bodies = {};
 
@@ -42,6 +44,8 @@ namespace PossumScream.Editor.Debugging
 
 			private void OnDrawGizmos()
 			{
+				if (!_visible) return;
+
 				Gizmos.color = this._lineColor;
 				foreach (Rigidbody body in this._bodies) {
 					Gizmos.DrawLine(body.transform.position, base.transform.position);
