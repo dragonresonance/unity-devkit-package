@@ -1,15 +1,32 @@
-using System;
+#if UNITY_EDITOR
 
 
+using PossumScream.Attributes;
+using UnityEditor;
+using UnityEngine;
 
 
 namespace PossumScream.Editor.Attributes
 {
-	[AttributeUsage(AttributeTargets.Field)]
-	public class AutolinkableComponentAttribute : Attribute {}
+	[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+	public class ReadOnlyDrawer : PropertyDrawer
+	{
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUI.GetPropertyHeight(property, label, true);
+		}
+
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			GUI.enabled = false;
+			EditorGUI.PropertyField(position, property, label, true);
+			GUI.enabled = true;
+		}
+	}
 }
 
 
+#endif
 
 
 /*                                                                                            */
@@ -20,7 +37,7 @@ namespace PossumScream.Editor.Attributes
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */
