@@ -1,18 +1,19 @@
-#if UNITY_EDITOR
-
-
 using PossumScream.Constants;
-using PossumScream.Editor.Editors;
-using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR_
+using PossumScream.Editor.Editors;
+using UnityEditor;
+#endif
 
 
 
 namespace PossumScream.Editor.Debugging
 {
+	#if UNITY_EDITOR_
 	[CustomEditor(typeof(GizmoPincher))]
 	public class GizmoPincherEditor : ScriptlessEditor { }
+	#endif
 
 
 
@@ -33,6 +34,7 @@ namespace PossumScream.Editor.Debugging
 		#region Events
 
 
+			#if UNITY_EDITOR
 			private void FixedUpdate()
 			{
 				foreach (Rigidbody body in this._bodies) {
@@ -40,8 +42,10 @@ namespace PossumScream.Editor.Debugging
 					body.AddForce((forceVector * this._forceFactor), this._forceMode);
 				}
 			}
+			#endif
 
 
+			#if UNITY_EDITOR
 			private void OnDrawGizmos()
 			{
 				if (!_visible) return;
@@ -51,14 +55,12 @@ namespace PossumScream.Editor.Debugging
 					Gizmos.DrawLine(body.transform.position, base.transform.position);
 				}
 			}
+			#endif
 
 
 		#endregion
 	}
 }
-
-
-#endif
 
 
 

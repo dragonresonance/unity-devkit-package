@@ -1,19 +1,21 @@
-#if UNITY_EDITOR
-
-
 using PossumScream.Constants;
-using PossumScream.Editor.Editors;
 using PossumScream.Mathematics;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using PossumScream.Editor.Editors;
+using UnityEditor;
+#endif
 
 
 
 
 namespace PossumScream.Editor.Debugging
 {
+	#if UNITY_EDITOR
 	[CustomEditor(typeof(GizmoDrawer))]
 	public class GizmoDrawEditor : ScriptlessEditor { }
+	#endif
 
 
 
@@ -39,6 +41,7 @@ namespace PossumScream.Editor.Debugging
 		#region Events
 
 
+			#if UNITY_EDITOR
 			private void OnDrawGizmos()
 			{
 				if (!_visible) return;
@@ -226,6 +229,7 @@ namespace PossumScream.Editor.Debugging
 							_arrowHeadPercentage));
 				}
 			}
+			#endif
 
 
 		#endregion
@@ -233,7 +237,6 @@ namespace PossumScream.Editor.Debugging
 }
 
 
-#endif
 
 
 /*                                                                                            */
