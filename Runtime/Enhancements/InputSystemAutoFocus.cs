@@ -8,6 +8,10 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 
 
@@ -17,73 +21,119 @@ namespace PossumScream.Enhancements
 	[RequireComponent(typeof(EventSystem))]
 	public class InputSystemAutoFocus : PossumBehaviour
 	{
-		[SerializeField] private InputActionReference m_navigation = null;
+		[SerializeField] private InputActionReference _navigation = null;
 
 
-		private GameObject m_lastSelected = null;
+		private Selectable _lastSelected = null;
 
 
 
 
 		#region Events
 
+
 			private void OnEnable()
 			{
 				UpdateLastSelected();
-				this.m_navigation.action.performed += PerformNavigationCallback;
+				this._navigation.action.performed += PerformNavigationCallback;
 			}
 
 			private void OnDisable()
 			{
-				this.m_navigation.action.performed -= PerformNavigationCallback;
+				this._navigation.action.performed -= PerformNavigationCallback;
 			}
 
-		#endregion
-
-
-
-
-		#region Event-Driven
 
 			private void PerformNavigationCallback(InputAction.CallbackContext _)
 			{
-				if (!CheckForCurrentSelection())
+				if (IsCurrentlySelecting) {
+					//
 					UpdateLastSelected();
-				else
+				}
+				else {
+					//
+					UpdateLastSelected();
 					FocusLastSelected();
+				}
 			}
+
 
 		#endregion
 
 
 
 
-		#region Controls
+		#region Publics
 
-			public bool CheckForCurrentSelection()
-			{
-				return (EventSystem.current.currentSelectedGameObject == null);
-			}
 
+			[ContextMenu(nameof(UpdateLastSelected))]
 			public void UpdateLastSelected()
 			{
-				GameObject selectedCandidate = null;
+				if (EventSystem.current.currentSelectedGameObject != null) {
+					this._lastSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+					Log($"Set currently selected");
+				}
 
-				if ((selectedCandidate = EventSystem.current.currentSelectedGameObject) != null) {}
-				else if (this.m_lastSelected != null) {}
-				else if ((selectedCandidate = FindObjectOfType<Selectable>(false).gameObject) != null) {}
-				else selectedCandidate = EventSystem.current.firstSelectedGameObject;
+				if (this._lastSelected != null) return;
 
-				this.m_lastSelected = selectedCandidate;
+				if (EventSystem.current.firstSelectedGameObject != null) {
+					this._lastSelected = EventSystem.current.firstSelectedGameObject.GetComponent<Selectable>();
+					Log($"Set first configured");
+				}
+				else if ((this._lastSelected = FindObjectOfType<Selectable>(false)) != null) {
+					Log($"Set found Selectable");
+				}
+				else {
+					Log($"No object could be set");
+				}
 			}
 
+
+			[ContextMenu(nameof(FocusLastSelected))]
 			public void FocusLastSelected()
 			{
-				EventSystem.current.SetSelectedGameObject(this.m_lastSelected);
+				EventSystem.current.SetSelectedGameObject(this._lastSelected.gameObject);
 			}
+
+
+		#endregion
+
+
+
+
+		#region Properties
+
+
+			public Selectable LastSelected => _lastSelected;
+			public static bool IsCurrentlySelecting => EventSystem.current.currentSelectedGameObject != null;
+
 
 		#endregion
 	}
+
+
+
+
+	#if UNITY_EDITOR
+	[CanEditMultipleObjects]
+	[CustomEditor(typeof(InputSystemAutoFocus))]
+	public class InputSystemAutoFocusEditor : UnityEditor.Editor
+	{
+		public override bool RequiresConstantRepaint() => true;
+
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+			if (base.targets.Length > 1) return;
+
+			InputSystemAutoFocus targetInstance = base.target as InputSystemAutoFocus;
+
+			EditorGUI.BeginDisabledGroup(true);
+			EditorGUILayout.ObjectField("Last Selected", targetInstance!.LastSelected, typeof(Selectable), false);
+			EditorGUI.EndDisabledGroup();
+		}
+	}
+	#endif
 }
 
 
