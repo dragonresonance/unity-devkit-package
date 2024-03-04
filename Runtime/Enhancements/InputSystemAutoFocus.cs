@@ -46,15 +46,9 @@ namespace PossumScream.Enhancements
 
 			private void PerformNavigationCallback(InputAction.CallbackContext _)
 			{
-				if (IsCurrentlySelecting) {
-					//
-					UpdateLastSelected();
-				}
-				else {
-					//
-					UpdateLastSelected();
-					FocusLastSelected();
-				}
+				UpdateLastSelected();
+				if (!IsCurrentlySelecting)
+					TryFocusLastSelected();
 			}
 
 
@@ -89,10 +83,12 @@ namespace PossumScream.Enhancements
 			}
 
 
-			[ContextMenu(nameof(FocusLastSelected))]
-			public void FocusLastSelected()
+			[ContextMenu(nameof(TryFocusLastSelected))]
+			public bool TryFocusLastSelected()
 			{
+				if (this._lastSelected == null) return false;
 				EventSystem.current.SetSelectedGameObject(this._lastSelected.gameObject);
+				return true;
 			}
 
 
