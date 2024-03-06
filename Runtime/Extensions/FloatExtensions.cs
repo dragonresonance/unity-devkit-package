@@ -10,17 +10,36 @@ namespace PossumScream.Extensions
 		#region Controls: Verification
 
 
+			public static bool IsPositive(this float testValue)
+			{
+				return (testValue > 0f);
+			}
+
+			public static bool IsPositiveOrZero(this float testValue)
+			{
+				return (testValue >= 0f);
+			}
+
+			public static bool IsNegative(this float testValue)
+			{
+				return (testValue < 0f);
+			}
+
+			public static bool IsNegativeOrZero(this float testValue)
+			{
+				return (testValue <= 0f);
+			}
+
+
 			public static bool IsBetween(this float testValue, int minInclusive, int maxExclusive)
 			{
 				return ((testValue >= minInclusive) && (testValue < maxExclusive));
 			}
 
-
 			public static bool IsBetweenInclusive(this float testValue, int minInclusive, int maxInclusive)
 			{
 				return ((testValue >= minInclusive) && (testValue <= maxInclusive));
 			}
-
 
 			public static bool IsBetweenExclusive(this float testValue, int minExclusive, int maxExclusive)
 			{
@@ -41,18 +60,15 @@ namespace PossumScream.Extensions
 				return (Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) + addend));
 			}
 
-
 			public static float SubtractToAbsolute(this float currentValue, float substrahend)
 			{
 				return (Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) - substrahend));
 			}
 
-
 			public static float MultiplyToAbsolute(this float currentValue, float factor)
 			{
 				return (Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) * factor));
 			}
-
 
 			public static float DivideToAbsolute(this float currentValue, float divisor)
 			{
@@ -60,28 +76,24 @@ namespace PossumScream.Extensions
 			}
 
 
-
-
 			public static float AddToAverage(this float currentAverage, float newValue, ref int currentSamples, int maxSamples)
 			{
 				float totalValue = currentAverage * currentSamples;
-				{
-					if (currentSamples >= maxSamples) {
-						currentSamples--;
-						totalValue -= currentAverage;
-					}
 
-					{
-						totalValue += newValue;
-						currentSamples++;
-					}
-
-					if (currentSamples > maxSamples) {
-						currentSamples--;
-						totalValue -= currentAverage;
-					}
+				if (currentSamples >= maxSamples) {
+					currentSamples--;
+					totalValue -= currentAverage;
 				}
-				return (currentAverage = (totalValue / currentSamples));
+
+				totalValue += newValue;
+				currentSamples++;
+
+				if (currentSamples > maxSamples) {
+					currentSamples--;
+					totalValue -= currentAverage;
+				}
+
+				return (totalValue / currentSamples);
 			}
 
 
@@ -100,7 +112,7 @@ namespace PossumScream.Extensions
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */

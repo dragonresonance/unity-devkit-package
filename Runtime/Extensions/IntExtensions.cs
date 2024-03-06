@@ -19,11 +19,31 @@ namespace PossumScream.Extensions
 		#region Controls: Verification
 
 
+			public static bool IsPositive(this int testValue)
+			{
+				return (testValue > 0);
+			}
+
+			public static bool IsPositiveOrZero(this int testValue)
+			{
+				return (testValue >= 0);
+			}
+
+			public static bool IsNegative(this int testValue)
+			{
+				return (testValue < 0);
+			}
+
+			public static bool IsNegativeOrZero(this int testValue)
+			{
+				return (testValue <= 0);
+			}
+
+
 			public static bool IsEven(this int testValue)
 			{
 				return ((testValue & 1) == 0);
 			}
-
 
 			public static bool IsOdd(this int testValue)
 			{
@@ -31,19 +51,15 @@ namespace PossumScream.Extensions
 			}
 
 
-
-
 			public static bool IsBetween(this int testValue, int minInclusive, int maxExclusive)
 			{
 				return ((testValue >= minInclusive) && (testValue < maxExclusive));
 			}
 
-
 			public static bool IsBetweenInclusive(this int testValue, int minInclusive, int maxInclusive)
 			{
 				return ((testValue >= minInclusive) && (testValue <= maxInclusive));
 			}
-
 
 			public static bool IsBetweenExclusive(this int testValue, int minExclusive, int maxExclusive)
 			{
@@ -63,7 +79,6 @@ namespace PossumScream.Extensions
 			{
 				return (currentValue = ((currentValue + absoluteIncreaseStep) % upperLimit));
 			}
-
 
 			public static int PreviousCyclic(this int currentValue, int upperLimit, int absoluteDecreaseStep = 1)
 			{
@@ -86,7 +101,7 @@ namespace PossumScream.Extensions
 /*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
 /*                                                                                            */
 /*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
+/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
 /*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
+/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
 /*                                                                                            */
