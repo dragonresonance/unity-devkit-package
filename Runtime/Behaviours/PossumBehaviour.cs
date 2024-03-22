@@ -17,7 +17,7 @@ namespace PossumScream.Behaviours
 		#region Properties
 
 
-			protected string description => this._description;
+			protected string Description => _description;
 
 
 		#endregion

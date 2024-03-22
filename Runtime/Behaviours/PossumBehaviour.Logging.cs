@@ -15,7 +15,7 @@ namespace PossumScream.Behaviours
 
 
 
-		#region Controls
+		#region Publics
 
 
 			protected bool Log(string message = "")
@@ -137,7 +137,7 @@ namespace PossumScream.Behaviours
 		#region Properties
 
 
-			protected bool logging => this._logging;
+			protected bool Logging => _logging;
 
 
 		#endregion
