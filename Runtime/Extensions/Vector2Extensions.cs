@@ -1,21 +1,20 @@
-using System;
 using UnityEngine;
 
 
 namespace PossumScream.Extensions
 {
-	public static class Vector3Extensions
+	public static class Vector2Extensions
 	{
-		#region Component Operations
+		#region Value Operations
 
-			public static Vector3 NormalizedComponents(this Vector3 vector)
+			public static float Lerp(this Vector2 vector, float t)
 			{
-				return new Vector3(Math.Sign(vector.x), Math.Sign(vector.y), Math.Sign(vector.z));
+				return Mathf.Lerp(vector.x, vector.y, t);
 			}
 
-			public static Vector3 AbsoluteComponents(this Vector3 vector)
+			public static float InverseLerp(this Vector2 vector, float value)
 			{
-				return new Vector3(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z));
+				return Mathf.InverseLerp(vector.x, vector.y, value);
 			}
 
 		#endregion
