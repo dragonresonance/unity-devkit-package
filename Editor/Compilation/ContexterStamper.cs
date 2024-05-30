@@ -15,12 +15,14 @@ namespace PossumScream.Editor.Compilation
 {
 	public class BuildingDataStamper : IPreprocessBuildWithReport
 	{
-		private const string CONTEXTER_APPLICATIONNAME_KEY = "application_name";
-		private const string CONTEXTER_APPLICATIONVERSION_KEY = "application_version";
-		private const string CONTEXTER_COMPANYNAME_KEY = "company_name";
-		private const string CONTEXTER_ENGINENAME_KEY = "engine_name";
-		private const string CONTEXTER_ENGINEVERSION_KEY = "engine_version";
-		private const string CONTEXTER_COMPILATIONTIMESTAMP_KEY = "compilation_timestamp";
+		private const string APP_FULL_VERSION_KEY = "application_fullversion";
+		private const string APP_NAME_KEY = "application_name";
+		private const string APP_VERSION_KEY = "application_version";
+		private const string BUILD_DATETIME_KEY = "build_datetime";
+		private const string BUILD_TIMESTAMP_KEY = "build_timestamp";
+		private const string COMPANY_NAME_KEY = "company_name";
+		private const string ENGINE_NAME_KEY = "engine_name";
+		private const string ENGINE_VERSION_KEY = "engine_version";
 
 
 
@@ -42,15 +44,20 @@ namespace PossumScream.Editor.Compilation
 		#region Publics
 
 
-			[MenuItem("Tools/PossumScream/Compilation/Stamp Building Data")]
+			public static string FormatTimestampDatetime() => $"{DateTimeOffset.UtcNow:yyMMddHH}";
+
+
+			[MenuItem("Tools/PossumScream/Build/Stamp Contexter Data")]
 			public static void StampBuildingData()
 			{
-				ExecuteContexterSetter(CONTEXTER_APPLICATIONNAME_KEY, Application.productName);
-				ExecuteContexterSetter(CONTEXTER_APPLICATIONVERSION_KEY, Application.version);
-				ExecuteContexterSetter(CONTEXTER_COMPANYNAME_KEY, Application.companyName);
-				ExecuteContexterSetter(CONTEXTER_ENGINENAME_KEY, "Unity");
-				ExecuteContexterSetter(CONTEXTER_ENGINEVERSION_KEY, Application.unityVersion);
-				ExecuteContexterSetter(CONTEXTER_COMPILATIONTIMESTAMP_KEY, $"{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}");
+				ExecuteContexterSetter(APP_FULL_VERSION_KEY, $"{Application.version}.{FormatTimestampDatetime()}");
+				ExecuteContexterSetter(APP_NAME_KEY, Application.productName);
+				ExecuteContexterSetter(APP_VERSION_KEY, Application.version);
+				ExecuteContexterSetter(BUILD_DATETIME_KEY, $"{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}");
+				ExecuteContexterSetter(BUILD_TIMESTAMP_KEY, FormatTimestampDatetime());
+				ExecuteContexterSetter(COMPANY_NAME_KEY, Application.companyName);
+				ExecuteContexterSetter(ENGINE_NAME_KEY, "Unity");
+				ExecuteContexterSetter(ENGINE_VERSION_KEY, Application.unityVersion);
 			}
 
 
