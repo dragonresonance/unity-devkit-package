@@ -32,8 +32,6 @@ namespace PossumScream.Behaviours
 			}
 
 
-
-
 			protected bool Info(string message = "")
 			{
 				return LogInfo(message, this);
@@ -50,8 +48,6 @@ namespace PossumScream.Behaviours
 				HLogger.LogInfo(message, context);
 				return true;
 			}
-
-
 
 
 			protected bool Emphasis(string message = "")
@@ -72,8 +68,6 @@ namespace PossumScream.Behaviours
 			}
 
 
-
-
 			protected bool Warning(string message = "")
 			{
 				return LogWarning(message, this);
@@ -92,8 +86,6 @@ namespace PossumScream.Behaviours
 			}
 
 
-
-
 			protected bool Error(string message = "")
 			{
 				return LogError(message, this);
@@ -110,8 +102,6 @@ namespace PossumScream.Behaviours
 				HLogger.LogError(message, context);
 				return true;
 			}
-
-
 
 
 			protected bool Exception(Exception exception)

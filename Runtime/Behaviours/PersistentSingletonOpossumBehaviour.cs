@@ -10,11 +10,12 @@ namespace PossumScream.Behaviours
 	{
 		#region Privates
 
-			protected override void FetchInstance()
+			protected override void AssessInstance()
 			{
 				if (_instance == null) {
 					_instance = this as T;
 					DontDestroyOnLoad(this.gameObject);
+					base.InvokeInstantiationEvent();
 				}
 				else if (_instance != this) {
 					Destroy(this);

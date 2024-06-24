@@ -1,6 +1,7 @@
 #if UNITY_NGO
 
 
+using System;
 using UnityEngine;
 
 
@@ -12,6 +13,9 @@ namespace PossumScream.Behaviours
 	public abstract class InstantiableOpossumBehaviour<T> : OpossumBehaviour where T : Component
 	{
 		internal static T _instance = null;
+		public static event Action OnInstanced = null;
+		public static event Action OnSpawned = null;
+		public static event Action OnDespawned = null;
 
 
 
@@ -21,14 +25,26 @@ namespace PossumScream.Behaviours
 
 			protected void Awake()
 			{
-				FetchInstance();
+				AssessInstance();
 				LateAwake();
 			}
-
 
 			protected virtual void LateAwake()
 			{
 				return;
+			}
+
+
+			public override void OnNetworkSpawn()
+			{
+				base.OnNetworkSpawn();
+				OnSpawned?.Invoke();
+			}
+
+			public override void OnNetworkDespawn()
+			{
+				base.OnNetworkDespawn();
+				OnDespawned?.Invoke();
 			}
 
 
@@ -42,8 +58,8 @@ namespace PossumScream.Behaviours
 
 			public static T GetInstance()
 			{
-				if (_instance == null)
-					((InstantiableOpossumBehaviour<T>)FindObjectOfType(typeof(T))).FetchInstance();
+				if ((_instance == null) && (FindAnyObjectByType(typeof(T)) is InstantiableOpossumBehaviour<T> instance))
+					instance.AssessInstance();
 
 				return _instance;
 			}
@@ -63,10 +79,9 @@ namespace PossumScream.Behaviours
 		#region Privates
 
 
-			protected virtual void FetchInstance()
-			{
-				return;
-			}
+			protected virtual void AssessInstance() { }
+
+			protected void InvokeInstantiationEvent() => OnInstanced?.Invoke();
 
 
 		#endregion

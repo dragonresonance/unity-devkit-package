@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -9,6 +10,7 @@ namespace PossumScream.Behaviours
 	public abstract class InstantiablePossumBehaviour<T> : PossumBehaviour where T : Component
 	{
 		internal static T _instance = null;
+		public static event Action OnInstanced = null;
 
 
 
@@ -18,7 +20,7 @@ namespace PossumScream.Behaviours
 
 			protected void Awake()
 			{
-				FetchInstance();
+				AssessInstance();
 				LateAwake();
 			}
 
@@ -39,8 +41,8 @@ namespace PossumScream.Behaviours
 
 			public static T GetInstance()
 			{
-				if (_instance == null)
-					((InstantiablePossumBehaviour<T>)FindObjectOfType(typeof(T))).FetchInstance();
+				if ((_instance == null) && (FindAnyObjectByType(typeof(T)) is InstantiablePossumBehaviour<T> instance))
+					instance.AssessInstance();
 
 				return _instance;
 			}
@@ -60,10 +62,9 @@ namespace PossumScream.Behaviours
 		#region Privates
 
 
-			protected virtual void FetchInstance()
-			{
-				return;
-			}
+			protected virtual void AssessInstance() { }
+
+			protected void InvokeInstantiationEvent() => OnInstanced?.Invoke();
 
 
 		#endregion
