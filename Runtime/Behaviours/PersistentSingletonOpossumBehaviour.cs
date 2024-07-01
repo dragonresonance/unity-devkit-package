@@ -14,7 +14,7 @@ namespace PossumScream.Behaviours
 			{
 				if (_instance == null) {
 					_instance = this as T;
-					DontDestroyOnLoad(this.gameObject);
+					DontDestroyOnLoad(base.gameObject);
 					base.InvokeInstantiationEvent();
 				}
 				else if (_instance != this) {
