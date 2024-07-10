@@ -65,7 +65,7 @@ namespace PossumScream.Extensions
 		public static T Random<T>(this IEnumerable<T> enumerable)
 		{
 			IEnumerable<T> array = enumerable as T[] ?? enumerable.ToArray();
-			return array.ElementAt(UnityEngine.Random.Range(0, array.Count() - 1));
+			return array.ElementAt(UnityEngine.Random.Range(0, array.Count()));
 		}
 	}
 }

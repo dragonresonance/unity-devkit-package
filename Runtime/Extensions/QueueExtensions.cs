@@ -1,13 +1,15 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 
-namespace PossumScream.Behaviours
+namespace DragonResonance.Extensions
 {
-	public abstract partial class PossumBehaviour : MonoBehaviour
+	public static class QueueExtensions
 	{
-		#pragma warning disable 0414
-		[SerializeField] private string _description = "";
-		#pragma warning restore 0414
+		public static void Enqueue<T>(this Queue<T> queue, IEnumerable<T> items)
+		{
+			foreach (T item in items)
+				queue.Enqueue(item);
+		}
 	}
 }
 
