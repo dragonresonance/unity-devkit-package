@@ -1,14 +1,14 @@
 
 
-# PossumScream DevKit
+# Unity DevKit Package
 
 ## Installation
 
 - Open the **Unity Package Manager**.
 - Click the dropdown **+** button and select *Add package from git URL...*.
 - Add one of the following mirrors:
-  - GitHub: [```https://github.com/possumscream/unitypackage-devkit.git#master```](https://github.com/possumscream/unitypackage-devkit.git#master)
-  - GitLab: [```https://gitlab.com/possumscream/unitypackage-devkit.git#master```](https://gitlab.com/possumscream/unitypackage-devkit.git#master)
+  - GitHub: [```https://github.com/dragonresonance/unity-devkit-package#master```](https://github.com/dragonresonance/unity-devkit-package#master)
+  - GitLab: [```https://gitlab.com/dragonresonance/unity-devkit-package#master```](https://gitlab.com/dragonresonance/unity-devkit-package#master)
 
 
 ## Dependencies
@@ -18,7 +18,7 @@
 
 ## Issues
 
-Please use the [GitHub Issues](https://github.com/possumscream/unitypackage-devkit/issues) dedicated site.
+Please use the [GitHub Issues](https://github.com/dragonresonance/unity-devkit-package/issues) dedicated site.
 
 
 ## License
@@ -29,7 +29,7 @@ The dependencies have their own separate licenses.
 
 ## Authors
 
-| Name               | Website                         | Twitter                                                 |
-|--------------------|---------------------------------|---------------------------------------------------------|
-| David Tabernero M. | https://www.davidtabernero.net/ | [@davidtabernerom](https://twitter.com/davidtabernerom) |
+| Name               | Website                         | X                                                 | Mastodon                                                     |
+|--------------------|---------------------------------|---------------------------------------------------|--------------------------------------------------------------|
+| David Tabernero M. | https://www.davidtabernero.net/ | [@davidtabernerom](https://x.com/davidtabernerom) | [@davidtabernerom](https://mastodon.online/@davidtabernerom) |
 

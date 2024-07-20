@@ -1,88 +1,17 @@
 using System;
-using UnityEngine;
 
 
-
-
-namespace DragonResonance.Behaviours
+namespace DragonResonance.Logging
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiablePossumBehaviour<T> : PossumBehaviour where T : Component
-	{
-		internal static T _instance = null;
-		public static event Action OnInstanced = null;
-
-
-
-
-		#region Events
-
-
-			protected void Awake()
-			{
-				AssessInstance();
-				LateAwake();
-			}
-
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Publics
-
-
-			public static T GetInstance()
-			{
-				if ((_instance == null) && (FindAnyObjectByType(typeof(T)) is InstantiablePossumBehaviour<T> instance))
-					instance.AssessInstance();
-
-				return _instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Privates
-
-
-			protected virtual void AssessInstance() { }
-
-			protected void InvokeInstantiationEvent() => OnInstanced?.Invoke();
-
-
-		#endregion
-
-
-
-
-		#region Properties
-
-
-			public static T CachedInstance => _instance;
-
-
-		#endregion
+	[Flags]
+	public enum ELogLevel {
+		Info = 1 << 0,
+		Emphasis = 1 << 1,
+		Warning = 1 << 2,
+		Error = 1 << 3,
+		Exception = 1 << 4,
 	}
 }
-
-
 
 
 /*       ________________________________________________________________       */

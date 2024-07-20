@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace PossumScream.Behaviours
+namespace DragonResonance.Behaviours
 {
 	public abstract partial class PossumBehaviour : MonoBehaviour
 	{

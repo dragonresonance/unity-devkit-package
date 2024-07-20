@@ -1,19 +1,20 @@
 #if UNITY_EDITOR
 
 
-using PossumScream.Enhancements;
-using PossumScream.Extensions;
+using DragonResonance.Extensions;
+using DragonResonance.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Build;
 using UnityEditor;
 
 
 
 
-namespace PossumScream.Editor.Compilation
+namespace DragonResonance.Editor.Compilation
 {
 	[InitializeOnLoad]
-	public partial class BuildDefinitions
+	public partial class BuildDefines
 	{
 		private const char DEFINITIONS_SEPARATOR = ';';
 		private static readonly List<string> _currentDefinitions = new();
@@ -24,10 +25,7 @@ namespace PossumScream.Editor.Compilation
 		#region Constructors
 
 
-			static BuildDefinitions()
-			{
-				OrganizeBuildDefinitions();
-			}
+			static BuildDefines() => OrganizeBuildDefinitions();
 
 
 		#endregion
@@ -41,45 +39,42 @@ namespace PossumScream.Editor.Compilation
 			[MenuItem("Tools/PossumScream/Compilation/Organize Build Definitions")]
 			public static void OrganizeBuildDefinitions()
 			{
-				HLogger.Log("Organizing Build Definitions...", typeof(BuildDefinitions));
+				HLogger.Log("Organizing Build Definitions...", typeof(BuildDefines));
 				{
 					_currentDefinitions.Clear();
-					_currentDefinitions.AddRange(BuildDefinitions.definitions);
+					_currentDefinitions.AddRange(BuildDefines.Values);
 
 					{
-						ReplenishDefinitionSet(DemonstrationValidDefinitions);
-						ReplenishDefinitionSet(LoggingValidDefinitions);
+						ReplenishDefinitions(DemonstrationValidDefinitions);
+						ReplenishDefinitions(LoggingValidDefinitions);
 
-						ReplenishDefinitionSet(ContexterIntegrationValidDefinitions);
+						ReplenishDefinitions(ContexterIntegrationValidDefinitions);
 
 						#if STEAMWORKS_INTEGRATION
-							ReplenishDefinitionSet(SteamworksIntegrationValidDefinitions);
+							ReplenishDefinitions(SteamworksIntegrationValidDefinitions);
 						#endif
 
 						#if EOS_INTEGRATION
-							ReplenishDefinitionSet(EOSIntegrationValidDefinitions);
+							ReplenishDefinitions(EOSIntegrationValidDefinitions);
 						#endif
 					}
 
 					ApplyDefinitions(new SortedSet<string>(_currentDefinitions));
 				}
-				HLogger.Log("Done!", typeof(BuildDefinitions));
+				HLogger.Log("Done!", typeof(BuildDefines));
 			}
 
 
-
-
-			public static void ApplyDefinitions(IEnumerable<string> definitionList)
+			public static void ApplyDefinitions(IEnumerable<string> definitions)
 			{
-				ApplyDefinitions(definitionList.ToArray());
+				ApplyDefinitions(definitions.ToArray());
 			}
 
-
-			public static void ApplyDefinitions(string[] definitionList)
+			public static void ApplyDefinitions(string[] definitions)
 			{
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(
-					EditorUserBuildSettings.selectedBuildTargetGroup,
-					definitionList);
+				PlayerSettings.SetScriptingDefineSymbols(
+					NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup),
+					definitions);
 			}
 
 
@@ -91,12 +86,14 @@ namespace PossumScream.Editor.Compilation
 		#region Privates
 
 
-			private static void ReplenishDefinitionSet(IReadOnlyList<string> definitionSet, int fallbackIndex = 0)
+			private static void ReplenishDefinitions(IReadOnlyList<string> definitions, int fallbackIndex = 0)
 			{
-				if (definitionSet.Count == 0) return;
-				int validSetDefinitionIndex = definitionSet.IndexOf(_currentDefinitions);
-				_currentDefinitions.RemoveAll(definitionSet.Contains);
-				_currentDefinitions.Add((validSetDefinitionIndex != -1) ? definitionSet[validSetDefinitionIndex] : definitionSet[fallbackIndex]);
+				if (definitions.Count == 0) return;
+				int validSetDefinitionIndex = definitions.IndexOf(_currentDefinitions);
+				_currentDefinitions.RemoveAll(definitions.Contains);
+				_currentDefinitions.Add((validSetDefinitionIndex != -1) ?
+					definitions[validSetDefinitionIndex] :
+					definitions[fallbackIndex]);
 			}
 
 
@@ -108,8 +105,9 @@ namespace PossumScream.Editor.Compilation
 		#region Properties
 
 
-			public static IEnumerable<string> definitions => PlayerSettings
-				.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup)
+			public static IEnumerable<string> Values => PlayerSettings
+				.GetScriptingDefineSymbols(
+					NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup))
 				.Split(DEFINITIONS_SEPARATOR);
 
 
@@ -123,15 +121,19 @@ namespace PossumScream.Editor.Compilation
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */

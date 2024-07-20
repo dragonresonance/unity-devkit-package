@@ -1,7 +1,7 @@
 {
-	"name": "git.possumscream.devkit",
-	"version": "1.24.0",
-	"displayName": "PossumScream DevKit",
+	"name": "git.dragonresonance.devkit",
+	"version": "2.0.0",
+	"displayName": "Dragon Resonance DevKit",
 	"description": "",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
@@ -12,7 +12,7 @@
 		"scripting"
 	],
 	"author": {
-		"name": "PossumScream",
-		"url": "https://possumscream.davidtabernero.net/"
+		"name": "Dragon Resonance",
+		"url": "https://dragonresonance.davidtabernero.net/"
 	}
 }

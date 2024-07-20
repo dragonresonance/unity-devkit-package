@@ -1,7 +1,7 @@
 #if UNITY_NGO
 
 
-using PossumScream.Enhancements;
+using DragonResonance.Logging;
 using System;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
@@ -9,11 +9,12 @@ using UnityObject = UnityEngine.Object;
 
 
 
-namespace PossumScream.Behaviours
+namespace DragonResonance.Behaviours
 {
 	public abstract partial class OpossumBehaviour
 	{
-		[SerializeField] private bool _logging = true;
+		[SerializeField] private ELogLevel _loggingMask = ELogLevel.Info | ELogLevel.Emphasis | ELogLevel.Warning |
+		                                                  ELogLevel.Error | ELogLevel.Exception;
 
 
 
@@ -44,7 +45,7 @@ namespace PossumScream.Behaviours
 
 			protected bool LogInfo(string message, UnityObject context)
 			{
-				if (!this._logging) return false;
+				if (!_loggingMask.HasFlag(ELogLevel.Info)) return false;
 				HLogger.LogInfo(message, context);
 				return true;
 			}
@@ -62,7 +63,7 @@ namespace PossumScream.Behaviours
 
 			protected bool LogEmphasis(string message, UnityObject context)
 			{
-				if (!this._logging) return false;
+				if (!_loggingMask.HasFlag(ELogLevel.Emphasis)) return false;
 				HLogger.LogEmphasis(message, context);
 				return true;
 			}
@@ -80,7 +81,7 @@ namespace PossumScream.Behaviours
 
 			protected bool LogWarning(string message, UnityObject context)
 			{
-				if (!this._logging) return false;
+				if (!_loggingMask.HasFlag(ELogLevel.Warning)) return false;
 				HLogger.LogWarning(message, context);
 				return true;
 			}
@@ -98,7 +99,7 @@ namespace PossumScream.Behaviours
 
 			protected bool LogError(string message, UnityObject context)
 			{
-				if (!this._logging) return false;
+				if (!_loggingMask.HasFlag(ELogLevel.Error)) return false;
 				HLogger.LogError(message, context);
 				return true;
 			}
@@ -116,7 +117,7 @@ namespace PossumScream.Behaviours
 
 			protected bool LogException(Exception exception, UnityObject context)
 			{
-				if (!this._logging) return false;
+				if (!_loggingMask.HasFlag(ELogLevel.Exception)) return false;
 				HLogger.LogException(exception, context);
 				return true;
 			}
@@ -130,7 +131,7 @@ namespace PossumScream.Behaviours
 		#region Properties
 
 
-			protected bool Logging => _logging;
+			protected ELogLevel LoggingMask => _loggingMask;
 
 
 		#endregion
@@ -143,15 +144,19 @@ namespace PossumScream.Behaviours
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */

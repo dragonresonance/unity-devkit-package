@@ -1,88 +1,43 @@
-using System;
-using UnityEngine;
+#if UNITY_EDITOR
 
 
-
-
-namespace DragonResonance.Behaviours
+namespace DragonResonance.Editor.Compilation
 {
-	[DisallowMultipleComponent]
-	public abstract class InstantiablePossumBehaviour<T> : PossumBehaviour where T : Component
+	public partial class BuildDefines // Definitions
 	{
-		internal static T _instance = null;
-		public static event Action OnInstanced = null;
+		private static readonly string[] DemonstrationValidDefinitions = {
+			/* 0 */ "_DEMO_BUILD", // Default
+			/* 1 */ "DEMO_BUILD",
+		};
 
+		private static readonly string[] LoggingValidDefinitions = {
+			/* 0 */ "_NO_LOGGING", // Default
+			/* 1 */ "NO_LOGGING",
+		};
 
+		private static readonly string[] ContexterIntegrationValidDefinitions = {
+			/* 0 */ "_ENABLE_CONTEXTER", // Default
+			/* 1 */ "ENABLE_CONTEXTER",
+		};
 
+		#if STEAMWORKS_INTEGRATION
+		private static readonly string[] SteamworksIntegrationValidDefinitions = {
+			/* 0 */ "_DISABLESTEAMWORKS", // Default
+			/* 1 */ "DISABLESTEAMWORKS",
+		};
+		#endif
 
-		#region Events
-
-
-			protected void Awake()
-			{
-				AssessInstance();
-				LateAwake();
-			}
-
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
-
-
-		#endregion
-
-
-
-
-		#region Publics
-
-
-			public static T GetInstance()
-			{
-				if ((_instance == null) && (FindAnyObjectByType(typeof(T)) is InstantiablePossumBehaviour<T> instance))
-					instance.AssessInstance();
-
-				return _instance;
-			}
-
-
-			public static bool TryGetInstance(out T instance)
-			{
-				return ((instance = GetInstance()) != null);
-			}
-
-
-		#endregion
-
-
-
-
-		#region Privates
-
-
-			protected virtual void AssessInstance() { }
-
-			protected void InvokeInstantiationEvent() => OnInstanced?.Invoke();
-
-
-		#endregion
-
-
-
-
-		#region Properties
-
-
-			public static T CachedInstance => _instance;
-
-
-		#endregion
+		#if EOS_INTEGRATION
+		private static readonly string[] EOSIntegrationValidDefinitions = {
+			/* 0 */ "_EOS_DISABLE", // Default
+			/* 1 */ "EOS_DISABLE",
+		};
+		#endif
 	}
 }
 
 
+#endif
 
 
 /*       ________________________________________________________________       */
