@@ -1,8 +1,8 @@
-namespace PossumScream.Extensions
+namespace DragonResonance.Extensions
 {
 	public static class IntExtensions
 	{
-		#region Controls: Casting
+		#region Publics - Casting
 
 
 			public static bool AsBool(this int numericValue)
@@ -16,7 +16,7 @@ namespace PossumScream.Extensions
 
 
 
-		#region Controls: Verification
+		#region Publics - Verification
 
 
 			public static bool IsPositive(this int testValue)
@@ -37,6 +37,11 @@ namespace PossumScream.Extensions
 			public static bool IsNegativeOrZero(this int testValue)
 			{
 				return (testValue <= 0);
+			}
+
+			public static bool IsZero(this int testValue)
+			{
+				return (testValue == 0);
 			}
 
 
@@ -72,7 +77,7 @@ namespace PossumScream.Extensions
 
 
 
-		#region Controls: Cyclical Operations
+		#region Publics - Cyclical Operations
 
 
 			public static int NextCyclic(this int currentValue, int upperLimit, int absoluteIncreaseStep = 1)
@@ -93,15 +98,19 @@ namespace PossumScream.Extensions
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */
