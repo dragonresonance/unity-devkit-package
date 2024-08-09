@@ -29,10 +29,7 @@ namespace DragonResonance.Behaviours
 				LateAwake();
 			}
 
-			protected virtual void LateAwake()
-			{
-				return;
-			}
+			protected virtual void LateAwake() { }
 
 
 			public override void OnNetworkSpawn()

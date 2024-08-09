@@ -15,31 +15,6 @@ namespace DragonResonance.Behaviours
 		#pragma warning disable 0414
 		[SerializeField] private string _description = "";
 		#pragma warning restore 0414
-
-
-		public event Action OnSpawned = null;
-		public event Action OnDespawned = null;
-
-
-
-
-		#region Events
-
-
-			public override void OnNetworkSpawn()
-			{
-				base.OnNetworkSpawn();
-				OnSpawned?.Invoke();
-			}
-
-			public override void OnNetworkDespawn()
-			{
-				base.OnNetworkDespawn();
-				OnDespawned?.Invoke();
-			}
-
-
-		#endregion
 	}
 }
 
