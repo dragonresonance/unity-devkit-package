@@ -11,7 +11,7 @@ using UnityEditor;
 
 
 
-namespace DragonResonance.Editor.Compilation
+namespace DragonResonance.Editor.Building
 {
 	[InitializeOnLoad]
 	public partial class BuildDefines

@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 
 
-namespace DragonResonance.Editor.Compilation
+namespace DragonResonance.Editor.Building
 {
 	public partial class BuildDefines // Definitions
 	{
