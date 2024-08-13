@@ -2,7 +2,6 @@
 
 
 using DragonResonance.Logging;
-using DragonResonance.Mathematics;
 using System.Diagnostics;
 using System;
 using UnityEditor.Build.Reporting;
@@ -17,7 +16,6 @@ namespace DragonResonance.Editor.Building
 {
 	public class ContexterStamper : IPreprocessBuildWithReport
 	{
-		private const string APP_FULL_VERSION_KEY = "application_fullversion";
 		private const string APP_NAME_KEY = "application_name";
 		private const string APP_VERSION_KEY = "application_version";
 		private const string BUILD_DATETIME_KEY = "build_datetime";
@@ -46,16 +44,7 @@ namespace DragonResonance.Editor.Building
 		#region Publics
 
 
-			public static string FormatTimestampDatetime() => $"{DateTimeOffset.UtcNow:yyMMddHH}";
-
-
-			public static string FormatFullVersion()
-			{
-				SemanticVersion semver = new(Application.version);
-				return $"{semver.Major}.{semver.Minor}.{FormatTimestampDatetime()}";
-			}
-
-
+			public static string GetFormattedTimestampDatetime() => $"{DateTimeOffset.UtcNow:yyMMddHHmmss}";
 
 
 			[MenuItem("Tools/Dragon Resonance/Building/Stamp Contexter Data")]
@@ -63,11 +52,10 @@ namespace DragonResonance.Editor.Building
 			{
 				HLogger.Log($"{nameof(StampBuildingData)} to the Contexter database...", typeof(ContexterStamper));
 				{
-					ExecuteContexterSetter(APP_FULL_VERSION_KEY, FormatFullVersion());
 					ExecuteContexterSetter(APP_NAME_KEY, Application.productName);
 					ExecuteContexterSetter(APP_VERSION_KEY, Application.version);
 					ExecuteContexterSetter(BUILD_DATETIME_KEY, $"{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}");
-					ExecuteContexterSetter(BUILD_TIMESTAMP_KEY, FormatTimestampDatetime());
+					ExecuteContexterSetter(BUILD_TIMESTAMP_KEY, GetFormattedTimestampDatetime());
 					ExecuteContexterSetter(COMPANY_NAME_KEY, Application.companyName);
 					ExecuteContexterSetter(ENGINE_NAME_KEY, "Unity");
 					ExecuteContexterSetter(ENGINE_VERSION_KEY, Application.unityVersion);
