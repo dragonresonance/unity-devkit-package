@@ -8,7 +8,7 @@ using UnityObject = UnityEngine.Object;
 
 namespace DragonResonance.Behaviours
 {
-	public abstract partial class PossumBehaviour
+	public abstract partial class PossumBehaviour // Logging
 	{
 		[SerializeField] private ELogLevel _loggingMask = ELogLevel.Info | ELogLevel.Emphasis | ELogLevel.Warning |
 		                                                  ELogLevel.Error | ELogLevel.Exception;
