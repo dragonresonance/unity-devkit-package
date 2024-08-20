@@ -3,11 +3,11 @@ using UnityEngine;
 
 
 
-namespace PossumScream.Mathematics
+namespace DragonResonance.Mathematics
 {
 	public struct MathX
 	{
-		#region General Operations
+		#region Publics - General
 
 
 			public static int TimesDivisible(int dividend, int divisor)
@@ -21,7 +21,7 @@ namespace PossumScream.Mathematics
 
 
 
-		#region Performance Operations
+		#region Publics - Performance
 
 
 			public static float Framerate(int frames, float time)
@@ -35,24 +35,24 @@ namespace PossumScream.Mathematics
 
 
 
-		#region Unity Components Operations
+		#region Publics - Unity-Specific
 
 
-			public static float LinearToMixerVolume(float linearVolume)
+			public static float LinearToMixerAudioVolume(float linearValue)
 			{
-				return (Mathf.Log10(Mathf.Clamp(linearVolume, 0.0001f, 10f)) * 20f);
+				return (Mathf.Log10(Mathf.Clamp(linearValue, 0.0001f, 10f)) * 20f);
 			}
 
 
-			public static float MixerToLinearVolume(float mixerVolume)
+			public static float MixerToLinearAudioVolume(float mixerValue)
 			{
-				return Mathf.Pow(10f, (Mathf.Clamp(mixerVolume, -80f, 20f) / 20f));
+				return Mathf.Pow(10f, (Mathf.Clamp(mixerValue, -80f, 20f) / 20f));
 			}
 
 
 
 
-			public static float SceneCorrectedProgress(AsyncOperation sceneLoadOperation)
+			public static float SceneLoadPercentage(AsyncOperation sceneLoadOperation)
 			{
 				return Mathf.Clamp01(sceneLoadOperation.progress / 0.9f);
 			}
@@ -63,7 +63,7 @@ namespace PossumScream.Mathematics
 
 
 
-		#region Conversion Constants
+		#region Properties - Conversion
 
 
 			public const float Rad2Rev = 0.15915494f; // rev = rad / (2 * pi)rad/rev
@@ -80,15 +80,19 @@ namespace PossumScream.Mathematics
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */
