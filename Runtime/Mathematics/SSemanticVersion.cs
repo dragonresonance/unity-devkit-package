@@ -6,17 +6,17 @@ using System.Text.RegularExpressions;
 
 namespace DragonResonance.Mathematics
 {
-	public class SemanticVersion
+	public struct SSemanticVersion
 	{
 		private static readonly Regex SEMVER_REGEX = new(
 			@"^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?:-(?<label>[0-9A-Za-z\-\.]+))?$",
 			RegexOptions.Compiled
 		);
 
-		private int _major = 0;
-		private int _minor = 0;
-		private int _patch = 0;
-		private string _label = "";
+		private int _major;
+		private int _minor;
+		private int _patch;
+		private string _label;
 
 
 
@@ -24,28 +24,43 @@ namespace DragonResonance.Mathematics
 		#region Constructors
 
 
-			public SemanticVersion(string version)
-			{
-				Match match = SEMVER_REGEX.Match(version);
-				if (!match.Success) {
-					HLogger.LogError($"Version is not semantic", typeof(SemanticVersion));
-					return;
-				}
-
-				_major = int.Parse(match.Groups["major"].Value);
-				_minor = int.Parse(match.Groups["minor"].Value);
-				_patch = int.Parse(match.Groups["patch"].Value);
-				_label = match.Groups["label"].Success ? match.Groups["label"].Value : null;
-			}
-
-
-			public SemanticVersion(int major, int minor, int patch, string label)
+			public SSemanticVersion(int major, int minor, int patch, string label = null)
 			{
 				_major = major;
 				_minor = minor;
 				_patch = patch;
 				_label = label;
 			}
+
+
+			public SSemanticVersion(string version)
+			{
+				Match match = SEMVER_REGEX.Match(version);
+				if (match.Success) {
+					_major = int.Parse(match.Groups["major"].Value);
+					_minor = int.Parse(match.Groups["minor"].Value);
+					_patch = int.Parse(match.Groups["patch"].Value);
+					_label = match.Groups["label"].Success ? match.Groups["label"].Value : null;
+				}
+				else {
+					HLogger.LogError($"Version {version} is not semantic", typeof(SSemanticVersion));
+					_major = _minor = _patch = 0;
+					_label = null;
+				}
+			}
+
+
+		#endregion
+
+
+
+
+		#region Publics
+
+
+			public SSemanticVersion MajorUp() => new((_major + 1), _minor, _patch, _label);
+			public SSemanticVersion MinorUp() => new(_major, (_minor + 1), _patch, _label);
+			public SSemanticVersion PatchUp() => new(_major, _minor, (_patch + 1), _label);
 
 
 		#endregion
