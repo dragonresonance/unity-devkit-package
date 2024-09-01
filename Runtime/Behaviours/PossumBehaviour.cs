@@ -5,9 +5,12 @@ namespace DragonResonance.Behaviours
 {
 	public abstract partial class PossumBehaviour : MonoBehaviour
 	{
+		#if UNITY_EDITOR
 		#pragma warning disable 0414
+		// ReSharper disable once NotAccessedField.Local
 		[SerializeField] private string _description = "";
 		#pragma warning restore 0414
+		#endif
 	}
 }
 
