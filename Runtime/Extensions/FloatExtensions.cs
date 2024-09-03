@@ -7,7 +7,7 @@ namespace PossumScream.Extensions
 {
 	public static class FloatExtensions
 	{
-		#region Controls: Verification
+		#region Publics - Verification
 
 
 			public static bool IsPositive(this float testValue)
@@ -52,7 +52,7 @@ namespace PossumScream.Extensions
 
 
 
-		#region Controls: Operation
+		#region Publics - Operations
 
 
 			public static float SumToAbsolute(this float currentValue, float addend)
@@ -73,6 +73,22 @@ namespace PossumScream.Extensions
 			public static float DivideToAbsolute(this float currentValue, float divisor)
 			{
 				return (Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) / divisor));
+			}
+
+
+			public static float ClampAbsolute(this float currentValue, float maxAbsolute)
+			{
+				return (Mathf.Sign(currentValue) * UpperClamp(Mathf.Abs(currentValue), maxAbsolute));
+			}
+
+			public static float UpperClamp(this float currentValue, float maxValue)
+			{
+				return ((currentValue > maxValue) ? maxValue : currentValue);
+			}
+
+			public static float LowerClamp(this float currentValue, float minValue)
+			{
+				return ((currentValue < minValue) ? minValue : currentValue);
 			}
 
 
@@ -104,15 +120,19 @@ namespace PossumScream.Extensions
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */
