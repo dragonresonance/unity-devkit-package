@@ -11,16 +11,16 @@ namespace PossumScream.Databases
 {
 	public partial class DynamicSheet<T> // CSV Handler
 	{
-		#region Controls
+		#region Publics
 
 
-			public bool TryImportCSV(TextAsset textAsset, string separator = ";", string delimiter = "\"")
+			public bool TryImportCSV(TextAsset textAsset, string separator = ";", string delimiter = "\"", Formatting formatting = null)
 			{
-				return TryImportCSV(textAsset.text, separator, delimiter);
+				return TryImportCSV(textAsset.text, separator, delimiter, formatting);
 			}
 
 
-			public bool TryImportCSV(string content, string separator = ";", string delimiter = "\"")
+			public bool TryImportCSV(string content, string separator = ";", string delimiter = "\"", Formatting formatting = null)
 			{
 				if (this is not DynamicSheet<string> stringBasedDynamicSheet) return false;
 
@@ -35,7 +35,7 @@ namespace PossumScream.Databases
 
 
 				// Append the header line with no repeating items
-				stringBasedDynamicSheet.AddRow(makeCellRow(contentLines[0], separator, delimiter, true));
+				stringBasedDynamicSheet.AddRow(MakeCellRow(contentLines[0], separator, delimiter, null, true));
 
 				////for (int lineIndex = 1; lineIndex < contentLines.Length; lineIndex++) {
 				////	// Append the line directly
@@ -46,21 +46,21 @@ namespace PossumScream.Databases
 				////return true;
 
 
-				return TryJoinCSV(content, separator, delimiter);
+				return TryJoinCSV(content, separator, delimiter, formatting);
 			}
 
 
 
 
-			public bool TryJoinCSV(TextAsset textAsset, string separator = ";", string delimiter = "\"")
+			public bool TryJoinCSV(TextAsset textAsset, string separator = ";", string delimiter = "\"", Formatting formatting = null)
 			{
-				return TryJoinCSV(textAsset.text, separator, delimiter);
+				return TryJoinCSV(textAsset.text, separator, delimiter, formatting);
 			}
 
 
-			public bool TryJoinCSV(string content, string separator = ";", string delimiter = "\"")
+			public bool TryJoinCSV(string content, string separator = ";", string delimiter = "\"", Formatting formatting = null)
 			{
-				if (this.cells == 0) return TryImportCSV(content, separator, delimiter); // At least one cell is necessary
+				if (this.cells == 0) return TryImportCSV(content, separator, delimiter, formatting); // At least one cell is necessary
 				if (this is not DynamicSheet<string> stringBasedDynamicSheet) return false;
 
 
@@ -69,7 +69,7 @@ namespace PossumScream.Databases
 
 
 				// Join the row of -new- headers without repeating items
-				List<string> joiningHeadersRow = makeCellRow(joiningContentLines[0], separator, delimiter, true);
+				List<string> joiningHeadersRow = MakeCellRow(joiningContentLines[0], separator, delimiter, null, true);
 
 
 				foreach (string header in joiningHeadersRow.Where(header => !sheetHeadersRow.Contains(header))) {
@@ -82,7 +82,7 @@ namespace PossumScream.Databases
 
 				// Join the rows of content
 				for (int joiningRowIndex = 1; joiningRowIndex < joiningContentLines.Length; joiningRowIndex++) {
-					List<string> joiningRow = makeCellRow(joiningContentLines[joiningRowIndex], separator, delimiter);
+					List<string> joiningRow = MakeCellRow(joiningContentLines[joiningRowIndex], separator, delimiter, formatting);
 
 
 					// Check if row header exist and create it if not
@@ -118,13 +118,13 @@ namespace PossumScream.Databases
 
 
 
-		#region Actions
+		#region Privates
 
 
-			public List<string> makeCellRow(string line, string separator, string delimiter, bool skipRepeatingItems = false)
+			private List<string> MakeCellRow(string line, string separator, string delimiter, Formatting formatting, bool skipRepeatingItems = false)
 			{
-				List<string> cellRow = new List<string>();
-				StringBuilder cellContentBuffer = new StringBuilder();
+				List<string> cellRow = new();
+				StringBuilder cellContentBuffer = new();
 				bool inDelimiter = false;
 
 
@@ -136,7 +136,7 @@ namespace PossumScream.Databases
 					}
 
 					// Add the content to the buffer
-					cellContentBuffer.Append(cell);
+					cellContentBuffer.Append((formatting == null) ? cell : formatting(cell));
 
 					// Check the ending of a delimiter
 					if (inDelimiter && cell.EndsWith(delimiter)) {
@@ -183,15 +183,19 @@ namespace PossumScream.Databases
 
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */
