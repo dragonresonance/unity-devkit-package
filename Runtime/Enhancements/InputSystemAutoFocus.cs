@@ -6,11 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityObject = UnityEngine.Object;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 
 
@@ -24,7 +19,7 @@ namespace DragonResonance.Enhancements
 		[SerializeField] private InputActionReference _navigation = null;
 
 
-		private Selectable _lastSelected = null;
+		private GameObject _lastSelected = null;
 
 
 
@@ -35,19 +30,19 @@ namespace DragonResonance.Enhancements
 			private void OnEnable()
 			{
 				UpdateLastSelected();
-				this._navigation.action.performed += PerformNavigationCallback;
+				_navigation.action.performed += PerformNavigationCallback;
 			}
 
 			private void OnDisable()
 			{
-				this._navigation.action.performed -= PerformNavigationCallback;
+				_navigation.action.performed -= PerformNavigationCallback;
 			}
 
 
 			private void PerformNavigationCallback(InputAction.CallbackContext _)
 			{
 				UpdateLastSelected();
-				if (!IsCurrentlySelecting)
+				if (!CheckIfCurrentlySelecting())
 					TryFocusLastSelected();
 			}
 
@@ -60,24 +55,44 @@ namespace DragonResonance.Enhancements
 		#region Publics
 
 
+			public bool CheckIfCurrentlySelecting()
+			{
+				return CheckSelectableGameobject(EventSystem.current.currentSelectedGameObject);
+			}
+
+			public static bool CheckSelectableGameobject(GameObject gameobject)
+			{
+				if (gameobject == null) return false;
+				if (!gameobject.activeSelf) return false;
+				if (!gameobject.activeInHierarchy) return false;
+				if (!gameobject.TryGetComponent(out Selectable selectable)) return false;
+				if (!selectable.isActiveAndEnabled) return false;
+				return true;
+			}
+
+
 			[ContextMenu(nameof(UpdateLastSelected))]
 			public void UpdateLastSelected()
 			{
-				if (EventSystem.current.currentSelectedGameObject != null) {
-					this._lastSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+				Selectable selectable = null;
+				if (CheckSelectableGameobject(EventSystem.current.currentSelectedGameObject)) {
+					_lastSelected = EventSystem.current.currentSelectedGameObject;
 					Log($"Set currently selected");
 				}
-
-				if (this._lastSelected != null) return;
-
-				if (EventSystem.current.firstSelectedGameObject != null) {
-					this._lastSelected = EventSystem.current.firstSelectedGameObject.GetComponent<Selectable>();
+				else if (CheckSelectableGameobject(_lastSelected)) {
+					Log($"Current last kept");
+					return;
+				}
+				else if (CheckSelectableGameobject(EventSystem.current.firstSelectedGameObject)) {
+					_lastSelected = EventSystem.current.firstSelectedGameObject;
 					Log($"Set first configured");
 				}
-				else if ((this._lastSelected = FindAnyObjectByType<Selectable>(FindObjectsInactive.Exclude)) != null) {
+				else if ((selectable = FindAnyObjectByType<Selectable>(FindObjectsInactive.Exclude)) != null) {
+					_lastSelected = selectable.gameObject;
 					Log($"Set found Selectable");
 				}
 				else {
+					_lastSelected = null;
 					Log($"No object could be set");
 				}
 			}
@@ -86,7 +101,7 @@ namespace DragonResonance.Enhancements
 			[ContextMenu(nameof(TryFocusLastSelected))]
 			public bool TryFocusLastSelected()
 			{
-				if (this._lastSelected == null) return false;
+				if (!CheckSelectableGameobject(_lastSelected.gameObject)) return false;
 				EventSystem.current.SetSelectedGameObject(this._lastSelected.gameObject);
 				return true;
 			}
@@ -100,8 +115,7 @@ namespace DragonResonance.Enhancements
 		#region Properties
 
 
-			public Selectable LastSelected => _lastSelected;
-			public static bool IsCurrentlySelecting => EventSystem.current.currentSelectedGameObject != null;
+			public GameObject LastSelected => _lastSelected;
 
 
 		#endregion
@@ -111,8 +125,8 @@ namespace DragonResonance.Enhancements
 
 
 	#if UNITY_EDITOR
-	[CanEditMultipleObjects]
-	[CustomEditor(typeof(InputSystemAutoFocus))]
+	[UnityEditor.CanEditMultipleObjects]
+	[UnityEditor.CustomEditor(typeof(InputSystemAutoFocus))]
 	public class InputSystemAutoFocusEditor : UnityEditor.Editor
 	{
 		public override bool RequiresConstantRepaint() => true;
@@ -124,9 +138,9 @@ namespace DragonResonance.Enhancements
 
 			InputSystemAutoFocus targetInstance = base.target as InputSystemAutoFocus;
 
-			EditorGUI.BeginDisabledGroup(true);
-			EditorGUILayout.ObjectField("Last Selected", targetInstance!.LastSelected, typeof(Selectable), false);
-			EditorGUI.EndDisabledGroup();
+			UnityEditor.EditorGUI.BeginDisabledGroup(true);
+			UnityEditor.EditorGUILayout.ObjectField("Last Selected", targetInstance!.LastSelected, typeof(GameObject), false);
+			UnityEditor.EditorGUI.EndDisabledGroup();
 		}
 	}
 	#endif
