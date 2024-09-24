@@ -119,7 +119,7 @@ namespace DragonResonance.Logging
 			public static void LogWarning(string message, Type context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.WARN, context));
+					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, context));
 					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
 				#endif
 			}
@@ -127,7 +127,7 @@ namespace DragonResonance.Logging
 			public static void LogWarning(string message, UnityObject context)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.WARN, context));
+					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, context));
 					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
 				#endif
 			}
