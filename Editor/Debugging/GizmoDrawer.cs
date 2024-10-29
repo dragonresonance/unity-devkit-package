@@ -1,21 +1,19 @@
-using PossumScream.Constants;
-using PossumScream.Mathematics;
-using UnityEngine;
-
 #if UNITY_EDITOR
+
+
+using PossumScream.Constants;
 using PossumScream.Editor.Editors;
+using PossumScream.Mathematics;
 using UnityEditor;
-#endif
+using UnityEngine;
 
 
 
 
 namespace PossumScream.Editor.Debugging
 {
-	#if UNITY_EDITOR
 	[CustomEditor(typeof(GizmoDrawer))]
 	public class GizmoDrawEditor : ScriptlessEditor { }
-	#endif
 
 
 
@@ -41,19 +39,18 @@ namespace PossumScream.Editor.Debugging
 		#region Events
 
 
-			#if UNITY_EDITOR
 			private void OnDrawGizmos()
 			{
 				if (!_visible) return;
 
 
 				TransformPoint transformPoint = new(base.transform);
-				Vector3 xNegativeGizmoEnd = transformPoint.position - (transformPoint.right * _gizmoSize);
-				Vector3 xPositiveGizmoEnd = transformPoint.position + (transformPoint.right * _gizmoSize);
-				Vector3 yNegativeGizmoEnd = transformPoint.position - (transformPoint.up * _gizmoSize);
-				Vector3 yPositiveGizmoEnd = transformPoint.position + (transformPoint.up * _gizmoSize);
-				Vector3 zNegativeGizmoEnd = transformPoint.position - (transformPoint.forward * _gizmoSize);
-				Vector3 zPositiveGizmoEnd = transformPoint.position + (transformPoint.forward * _gizmoSize);
+				Vector3 xNegativeGizmoEnd = transformPoint.Position - (transformPoint.Right * _gizmoSize);
+				Vector3 xPositiveGizmoEnd = transformPoint.Position + (transformPoint.Right * _gizmoSize);
+				Vector3 yNegativeGizmoEnd = transformPoint.Position - (transformPoint.Up * _gizmoSize);
+				Vector3 yPositiveGizmoEnd = transformPoint.Position + (transformPoint.Up * _gizmoSize);
+				Vector3 zNegativeGizmoEnd = transformPoint.Position - (transformPoint.Forward * _gizmoSize);
+				Vector3 zPositiveGizmoEnd = transformPoint.Position + (transformPoint.Forward * _gizmoSize);
 
 
 				// +X
@@ -63,9 +60,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(xPositiveVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							xPositiveGizmoEnd,
 							_positiveAxeFactors.x)));
 
@@ -92,9 +89,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(xNegativeVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							xNegativeGizmoEnd,
 							_negativeAxeFactors.x)));
 
@@ -121,9 +118,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(yPositiveVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							yPositiveGizmoEnd,
 							_positiveAxeFactors.y)));
 
@@ -150,9 +147,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(yNegativeVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							yNegativeGizmoEnd,
 							_negativeAxeFactors.y)));
 
@@ -179,9 +176,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(zPositiveVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							zPositiveGizmoEnd,
 							_positiveAxeFactors.z)));
 
@@ -208,9 +205,9 @@ namespace PossumScream.Editor.Debugging
 
 					// Body
 					Gizmos.DrawLine(
-						transformPoint.position,
+						transformPoint.Position,
 						(zNegativeVectorEnd = Vector3.LerpUnclamped(
-							transformPoint.position,
+							transformPoint.Position,
 							zNegativeGizmoEnd,
 							_negativeAxeFactors.z)));
 
@@ -229,7 +226,6 @@ namespace PossumScream.Editor.Debugging
 							_arrowHeadPercentage));
 				}
 			}
-			#endif
 
 
 		#endregion
@@ -237,17 +233,24 @@ namespace PossumScream.Editor.Debugging
 }
 
 
+#endif
 
 
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2024        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        - - - - - - - - - - - - -                                  - - - - - - - - -        */
-/*                                                                                            */
+
+
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */

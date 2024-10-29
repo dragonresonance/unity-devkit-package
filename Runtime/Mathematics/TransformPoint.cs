@@ -1,75 +1,56 @@
+using System;
 using UnityEngine;
-
-
 
 
 namespace PossumScream.Mathematics
 {
-	public readonly struct TransformPoint
+	[Serializable]
+	public struct TransformPoint
 	{
-		private readonly Quaternion _rotation;
-		private readonly Vector3 _backward;
-		private readonly Vector3 _down;
-		private readonly Vector3 _forward;
-		private readonly Vector3 _left;
-		private readonly Vector3 _position;
-		private readonly Vector3 _right;
-		private readonly Vector3 _up;
-
-
+		[SerializeField] private Vector3 _position;
+		[SerializeField] private Quaternion _rotation;
 
 
 		#region Constructors
 
-
-			public TransformPoint(Transform sourceTransform)
+			public TransformPoint(Transform source)
 			{
-				this._forward = sourceTransform.forward;
-				this._position = sourceTransform.position;
-				this._right = sourceTransform.right;
-				this._rotation = sourceTransform.rotation;
-				this._up = sourceTransform.up;
-
-				this._backward = -this._forward;
-				this._down = -this._up;
-				this._left = -this._right;
+				this._position = source.position;
+				this._rotation = source.rotation;
 			}
-
 
 		#endregion
 
 
+		#region Properties
 
-
-		#region Getters and Setters
-
-
-			public Quaternion rotation => this._rotation;
-			public Vector3 backward => this._backward;
-			public Vector3 down => this._down;
-			public Vector3 forward => this._forward;
-			public Vector3 left => this._left;
-			public Vector3 position => this._position;
-			public Vector3 right => this._right;
-			public Vector3 up => this._up;
-
+			public Vector3 Position => _position;
+			public Quaternion Rotation => _rotation;
+			public Vector3 Forward => _rotation * Vector3.forward;
+			public Vector3 Backward => -this.Forward;
+			public Vector3 Up => _rotation * Vector3.up;
+			public Vector3 Down => -this.Up;
+			public Vector3 Right => _rotation * Vector3.right;
+			public Vector3 Left => -this.Right;
 
 		#endregion
 	}
 }
 
 
-
-
-/*                                                                                            */
-/*          ______                               _______                                      */
-/*          \  __ \____  ____________  ______ ___\  ___/_____________  ____  ____ ___         */
-/*          / /_/ / __ \/ ___/ ___/ / / / __ \__ \\__ \/ ___/ ___/ _ \/ __ \/ __ \__ \        */
-/*         / ____/ /_/ /__  /__  / /_/ / / / / / /__/ / /__/ /  / ___/ /_/ / / / / / /        */
-/*        /_/    \____/____/____/\____/_/ /_/ /_/____/\___/_/   \___/\__/_/_/ /_/ /__\        */
-/*                                                                                            */
-/*        Licensed under the Apache License, Version 2.0. See LICENSE.md for more info        */
-/*        David Tabernero M. @ PossumScream                      Copyright © 2021-2023        */
-/*        GitLab - GitHub: possumscream                            All rights reserved        */
-/*        -------------------------                                  -----------------        */
-/*                                                                                            */
+/*       ________________________________________________________________       */
+/*           _________   _______ ________  _______  _______  ___    _           */
+/*           |        \ |______/ |______| |  _____ |       | |  \   |           */
+/*           |________/ |     \_ |      | |______| |_______| |   \__|           */
+/*           ______ _____ _____ _____ __   _ _____ __   _ _____ _____           */
+/*           |____/ |____ [___  |   | | \  | |___| | \  | |     |____           */
+/*           |    \ |____ ____] |___| |  \_| |   | |  \_| |____ |____           */
+/*       ________________________________________________________________       */
+/*                                                                              */
+/*           David Tabernero M.  <https://github.com/davidtabernerom>           */
+/*           Dragon Resonance    <https://github.com/dragonresonance>           */
+/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                Licensed under the Apache License, Version 2.0.               */
+/*                         See LICENSE.md for more info.                        */
+/*       ________________________________________________________________       */
+/*                                                                              */
