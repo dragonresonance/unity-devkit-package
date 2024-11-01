@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace DragonResonance.Editor.Attributes
 {
-	[CustomPropertyDrawer(typeof(ShowIfAttribute))]
-	public class ShowIfAttributeDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(HideIfAttribute))]
+	public class HideIfAttributeDrawer : PropertyDrawer
 	{
 		private bool ShouldShow(SerializedProperty property)
 		{
-			ShowIfAttribute conditionAttribute = (ShowIfAttribute)base.attribute;
+			HideIfAttribute conditionAttribute = (HideIfAttribute)base.attribute;
 			string conditionPath = conditionAttribute.ConditionFieldName;
 
 			string thisPropertyPath = property.propertyPath;
@@ -27,9 +27,9 @@ namespace DragonResonance.Editor.Attributes
 
 			SerializedProperty conditionProperty = property.serializedObject.FindProperty(conditionPath);
 			if (conditionProperty == null || conditionProperty.type != "bool")
-				return true;
+				return false;
 			else
-				return conditionProperty.boolValue;
+				return !conditionProperty.boolValue;
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
