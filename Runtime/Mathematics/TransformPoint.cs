@@ -1,11 +1,19 @@
 using System;
 using UnityEngine;
 
+#if UNITY_NGO
+using Unity.Netcode;
+#endif
+
 
 namespace PossumScream.Mathematics
 {
 	[Serializable]
+	#if UNITY_NGO
+	public struct TransformPoint : INetworkSerializable
+	#else
 	public struct TransformPoint
+	#endif
 	{
 		[SerializeField] private Vector3 _position;
 		[SerializeField] private Quaternion _rotation;
@@ -18,6 +26,19 @@ namespace PossumScream.Mathematics
 				this._position = source.position;
 				this._rotation = source.rotation;
 			}
+
+		#endregion
+
+
+		#region Publics
+
+			#if UNITY_NGO
+			public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+			{
+				serializer.SerializeValue(ref _position);
+				serializer.SerializeValue(ref _rotation);
+			}
+			#endif
 
 		#endregion
 
