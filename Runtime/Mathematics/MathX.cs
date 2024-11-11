@@ -72,6 +72,9 @@ namespace DragonResonance.Mathematics
 			public const float RPM2RadSec = 0.10471976f; // rad/s = RPM / 60s/min * (2 * pi)rad/rev
 			public const float RadSec2RPM = 9.54929659f; // RPM = rad/s / (2 * pi)rad/rev * 60s/min
 
+			public const float RTT2Ping = 0.002f; // ping = RTT / 1000 * 2
+			public const float Ping2RTT = 500f; // RTT = ping * 1000 / 2
+
 
 		#endregion
 	}
