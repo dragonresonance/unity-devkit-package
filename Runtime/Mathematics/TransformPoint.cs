@@ -6,11 +6,13 @@ using Unity.Netcode;
 #endif
 
 
+
+
 namespace PossumScream.Mathematics
 {
 	[Serializable]
 	#if UNITY_NGO
-	public struct TransformPoint : INetworkSerializable
+	public struct TransformPoint : INetworkSerializable, IEquatable<TransformPoint>
 	#else
 	public struct TransformPoint
 	#endif
@@ -19,7 +21,10 @@ namespace PossumScream.Mathematics
 		[SerializeField] private Quaternion _rotation;
 
 
+
+
 		#region Constructors
+
 
 			public TransformPoint(Transform source)
 			{
@@ -27,10 +32,14 @@ namespace PossumScream.Mathematics
 				this._rotation = source.rotation;
 			}
 
+
 		#endregion
 
 
+
+
 		#region Publics
+
 
 			#if UNITY_NGO
 			public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -40,10 +49,22 @@ namespace PossumScream.Mathematics
 			}
 			#endif
 
+
+			#if UNITY_NGO
+			public bool Equals(TransformPoint other)
+			{
+				return (other.Position.Equals(_position) && other.Rotation.Equals(_rotation));
+			}
+			#endif
+
+
 		#endregion
 
 
+
+
 		#region Properties
+
 
 			public Vector3 Position => _position;
 			public Quaternion Rotation => _rotation;
@@ -54,9 +75,12 @@ namespace PossumScream.Mathematics
 			public Vector3 Right => _rotation * Vector3.right;
 			public Vector3 Left => -this.Right;
 
+
 		#endregion
 	}
 }
+
+
 
 
 /*       ________________________________________________________________       */
