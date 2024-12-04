@@ -1,7 +1,12 @@
+#if UNITY_EDITOR
+
+
 using DragonResonance.Attributes;
 using System.Globalization;
 using UnityEditor;
 using UnityEngine;
+
+
 
 
 namespace DragonResonance.Editor.Attributes
@@ -41,6 +46,11 @@ namespace DragonResonance.Editor.Attributes
         }
     }
 }
+
+
+#endif
+
+
 
 
 /*                                                                              */
