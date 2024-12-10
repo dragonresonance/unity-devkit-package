@@ -1,12 +1,12 @@
 {
 	"name": "com.dragonresonance.devkit",
-	"version": "2.6.2",
+	"version": "2.6.3",
 	"displayName": "Dragon Resonance DevKit",
 	"description": "",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
 	"dependencies": {
-		"git.bunny83.simplejson": "https://github.com/davidtabernerom/SimpleJSON.git#master"
+		"git.bunny83.simplejson": "1.0.0"
 	},
 	"keywords": [
 		"scripting"
