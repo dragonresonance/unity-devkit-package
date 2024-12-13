@@ -18,17 +18,14 @@ namespace DragonResonance.Behaviours
 		#region Events
 
 
-			protected void Awake()
+			protected virtual void Awake()
 			{
 				AssessInstance();
 				LateAwake();
 			}
 
-
-			protected virtual void LateAwake()
-			{
-				return;
-			}
+			[Obsolete]
+			protected virtual void LateAwake() { }
 
 
 		#endregion
