@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace PossumScream.Extensions
+namespace DragonResonance.Extensions
 {
 	public static class Vector2Extensions
 	{
