@@ -55,6 +55,12 @@ namespace PossumScream.Extensions
 		#region Publics - Operations
 
 
+			public static float Complementary(this float value)
+			{
+				return (1f - value);
+			}
+
+
 			public static float SumToAbsolute(this float currentValue, float addend)
 			{
 				return (Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) + addend));
