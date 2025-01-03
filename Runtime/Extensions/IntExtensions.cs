@@ -77,6 +77,45 @@ namespace DragonResonance.Extensions
 
 
 
+		#region Publics - Operations
+
+
+			public static int UpperClamp(this int currentValue, int maxValue)
+			{
+				return ((currentValue > maxValue) ? maxValue : currentValue);
+			}
+
+			public static int LowerClamp(this int currentValue, int minValue)
+			{
+				return ((currentValue < minValue) ? minValue : currentValue);
+			}
+
+			public static int ClampUpperZero(this int currentValue)
+			{
+				return currentValue.UpperClamp(0);
+			}
+
+			public static int ClampLowerZero(this int currentValue)
+			{
+				return currentValue.LowerClamp(0);
+			}
+
+			public static int ClampUpperOne(this int currentValue)
+			{
+				return currentValue.UpperClamp(1);
+			}
+
+			public static int ClampLowerOne(this int currentValue)
+			{
+				return currentValue.LowerClamp(1);
+			}
+
+
+		#endregion
+
+
+
+
 		#region Publics - Cyclical Operations
 
 
@@ -109,7 +148,7 @@ namespace DragonResonance.Extensions
 /*                                                                              */
 /*           David Tabernero M.  <https://github.com/davidtabernerom>           */
 /*           Dragon Resonance    <https://github.com/dragonresonance>           */
-/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                  Copyright © 2021-2025. All rights reserved.                 */
 /*                Licensed under the Apache License, Version 2.0.               */
 /*                         See LICENSE.md for more info.                        */
 /*       ________________________________________________________________       */

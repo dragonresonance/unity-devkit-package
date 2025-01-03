@@ -97,6 +97,26 @@ namespace PossumScream.Extensions
 				return ((currentValue < minValue) ? minValue : currentValue);
 			}
 
+			public static float ClampUpperZero(this float currentValue)
+			{
+				return currentValue.UpperClamp(0f);
+			}
+
+			public static float ClampLowerZero(this float currentValue)
+			{
+				return currentValue.LowerClamp(0f);
+			}
+
+			public static float ClampUpperOne(this float currentValue)
+			{
+				return currentValue.UpperClamp(1f);
+			}
+
+			public static float ClampLowerOne(this float currentValue)
+			{
+				return currentValue.LowerClamp(1f);
+			}
+
 
 			public static float AddToAverage(this float currentAverage, float newValue, ref int currentSamples, int maxSamples)
 			{
@@ -137,7 +157,7 @@ namespace PossumScream.Extensions
 /*                                                                              */
 /*           David Tabernero M.  <https://github.com/davidtabernerom>           */
 /*           Dragon Resonance    <https://github.com/dragonresonance>           */
-/*                  Copyright © 2021-2024. All rights reserved.                 */
+/*                  Copyright © 2021-2025. All rights reserved.                 */
 /*                Licensed under the Apache License, Version 2.0.               */
 /*                         See LICENSE.md for more info.                        */
 /*       ________________________________________________________________       */
