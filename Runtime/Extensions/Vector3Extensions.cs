@@ -6,7 +6,17 @@ namespace DragonResonance.Extensions
 {
 	public static class Vector3Extensions
 	{
-		#region Component Operations
+		#region Publics - Operations
+
+			public static Vector3 ProjectOntoPlane(this Vector3 vector, Vector3 planeNormal)
+			{
+				return vector - Vector3.Dot(vector, planeNormal) * planeNormal;
+			}
+
+		#endregion
+
+
+		#region Publics - Components
 
 			public static Vector3 NormalizedComponents(this Vector3 vector)
 			{
