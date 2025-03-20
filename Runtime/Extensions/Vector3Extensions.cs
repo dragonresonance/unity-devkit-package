@@ -13,6 +13,11 @@ namespace DragonResonance.Extensions
 				return vector - Vector3.Dot(vector, planeNormal) * planeNormal;
 			}
 
+			public static Vector3 ClampMagnitude(this Vector3 vector, float maxMagnitude)
+			{
+				return vector.normalized * Mathf.Min(vector.magnitude, maxMagnitude);
+			}
+
 		#endregion
 
 
