@@ -12,6 +12,7 @@ namespace DragonResonance.Networking
 	public class NetworkPhysicsRigidbody : OpossumBehaviour
 	{
 		[Header("Settings")]
+		[SerializeField] private float _latencyFactor = 0.5f;
 		[SerializeField] private bool _alwaysCompensate = false;
 		[HideIf(nameof(_alwaysCompensate))] [SerializeField] private Vector3 _compensationOffset = Vector3.one;
 
@@ -99,7 +100,7 @@ namespace DragonResonance.Networking
 			private void UpdateAnimaRigidbodyAtServerRpc(Vector3 position, Quaternion rotation,
 				Vector3 linearVelocity, Vector3 angularVelocity, RpcParams rpcParams = default)
 			{
-				float latency = GetPlayerRTT(rpcParams.Receive.SenderClientId);
+				float latency = _latencyFactor * GetPlayerRTT(rpcParams.Receive.SenderClientId);
 				_animaRigidbody.SetPoint(
 					position + (latency * linearVelocity),
 					rotation * Quaternion.Euler(latency * angularVelocity));
@@ -111,7 +112,7 @@ namespace DragonResonance.Networking
 			private void UpdateAnimaRigidbodyAtClientRpc(Vector3 position, Quaternion rotation,
 				Vector3 linearVelocity, Vector3 angularVelocity, RpcParams rpcParams = default)
 			{
-				float latency = GetPlayerRTT(rpcParams.Receive.SenderClientId);
+				float latency = _latencyFactor * GetPlayerRTT(rpcParams.Receive.SenderClientId);
 				_animaRigidbody.SetPoint(
 					position + (latency * linearVelocity),
 					rotation * Quaternion.Euler(latency * angularVelocity));
