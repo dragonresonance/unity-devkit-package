@@ -1,6 +1,6 @@
 {
 	"name": "com.dragonresonance.devkit",
-	"version": "2.7.8",
+	"version": "2.7.9",
 	"displayName": "Dragon Resonance DevKit",
 	"description": "",
 	"unity": "2021.3",
@@ -13,6 +13,6 @@
 	],
 	"author": {
 		"name": "Dragon Resonance",
-		"url": "https://www.dragonresonance.com/"
+		"url": "https://devkit.dragonresonance.com/"
 	}
 }
