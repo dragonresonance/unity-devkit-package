@@ -1,4 +1,5 @@
 using DragonResonance.Logging;
+using System.Runtime.CompilerServices;
 using System;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
@@ -10,8 +11,7 @@ namespace DragonResonance.Behaviours
 {
 	public abstract partial class PossumBehaviour // Logging
 	{
-		[SerializeField] private ELogLevel _loggingMask = ELogLevel.Info | ELogLevel.Emphasis | ELogLevel.Warning |
-		                                                  ELogLevel.Error | ELogLevel.Exception;
+		[SerializeField] private ELogLevel _loggingMask = ELogLevel.Info | ELogLevel.Emphasis | ELogLevel.Warning | ELogLevel.Error | ELogLevel.Exception;
 
 
 
@@ -19,103 +19,55 @@ namespace DragonResonance.Behaviours
 		#region Publics
 
 
-			protected bool Log(string message = "")
-			{
-				return Log(message, this);
-			}
-
-			protected bool Log(string message, UnityObject context)
-			{
-				return LogInfo(message, context);
-			}
-
-
-			protected bool Info(string message = "")
-			{
-				return LogInfo(message, this);
-			}
-
-			protected bool LogInfo(string message = "")
-			{
-				return LogInfo(message, this);
-			}
-
-			protected bool LogInfo(string message, UnityObject context)
+			protected bool Log(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Info)) return false;
-				HLogger.LogInfo(message, context);
+				HLogger.Log(message, $"{this.name}:{callerMember}");
 				return true;
 			}
 
 
-			protected bool Emphasis(string message = "")
+			protected bool Info(string message = "", [CallerMemberName] string callerMember = null) => LogInfo(message, callerMember);
+			protected bool LogInfo(string message = "", [CallerMemberName] string callerMember = null)
 			{
-				return LogEmphasis(message, this);
+				if (!_loggingMask.HasFlag(ELogLevel.Info)) return false;
+				HLogger.LogInfo(message, $"{this.name}:{callerMember}");
+				return true;
 			}
 
-			protected bool LogEmphasis(string message = "")
-			{
-				return LogEmphasis(message, this);
-			}
 
-			protected bool LogEmphasis(string message, UnityObject context)
+			protected bool Emphasis(string message = "", [CallerMemberName] string callerMember = null) => LogEmphasis(message, callerMember);
+			protected bool LogEmphasis(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Emphasis)) return false;
-				HLogger.LogEmphasis(message, context);
+				HLogger.LogEmphasis(message, $"{this.name}:{callerMember}");
 				return true;
 			}
 
 
-			protected bool Warning(string message = "")
-			{
-				return LogWarning(message, this);
-			}
-
-			protected bool LogWarning(string message = "")
-			{
-				return LogWarning(message, this);
-			}
-
-			protected bool LogWarning(string message, UnityObject context)
+			protected bool Warning(string message = "", [CallerMemberName] string callerMember = null) => LogWarning(message, callerMember);
+			protected bool LogWarning(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Warning)) return false;
-				HLogger.LogWarning(message, context);
+				HLogger.LogWarning(message, $"{this.name}:{callerMember}");
 				return true;
 			}
 
 
-			protected bool Error(string message = "")
-			{
-				return LogError(message, this);
-			}
-
-			protected bool LogError(string message = "")
-			{
-				return LogError(message, this);
-			}
-
-			protected bool LogError(string message, UnityObject context)
+			protected bool Error(string message = "", [CallerMemberName] string callerMember = null) => LogError(message, callerMember);
+			protected bool LogError(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Error)) return false;
-				HLogger.LogError(message, context);
+				HLogger.LogError(message, $"{this.name}:{callerMember}");
 				return true;
 			}
 
 
-			protected bool Exception(Exception exception)
-			{
-				return LogException(exception, this);
-			}
-
-			protected bool LogException(Exception exception)
-			{
-				return LogException(exception, this);
-			}
-
-			protected bool LogException(Exception exception, UnityObject context)
+			protected bool Exception(Exception exception, [CallerMemberName] string callerMember = null) => LogException(exception, callerMember);
+			protected bool LogException(Exception exception, [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Exception)) return false;
-				HLogger.LogException(exception, context);
+				HLogger.LogException(exception, $"{this.name}:{callerMember}");
 				return true;
 			}
 

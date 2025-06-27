@@ -30,28 +30,10 @@ namespace DragonResonance.Logging
 		#region Publics
 
 
-			public static void Log(string message)
-			{
-				#if !LOGGING_DISABLED
-					LogInfo(message);
-				#endif
-			}
-
-			public static void Log(string message, Type context)
-			{
-				#if !LOGGING_DISABLED
-					LogInfo(message, context);
-				#endif
-			}
-
-			public static void Log(string message, UnityObject context)
-			{
-				#if !LOGGING_DISABLED
-					LogInfo(message, context);
-				#endif
-			}
-
-
+			public static void Log(string message) => LogInfo(message);
+			public static void Log(string message, Type context) => Log(message, context.Name);
+			public static void Log(string message, UnityObject context) => Log(message, context.name);
+			public static void Log(string message, string context) => LogInfo(message, context);
 
 
 			public static void LogInfo(string message)
@@ -61,24 +43,15 @@ namespace DragonResonance.Logging
 					Console.Out.WriteLine(message);
 				#endif
 			}
-
-			public static void LogInfo(string message, Type context)
+			public static void LogInfo(string message, Type context) => LogInfo(message, context.Name);
+			public static void LogInfo(string message, UnityObject context) => LogInfo(message, context.name);
+			public static void LogInfo(string message, string context)
 			{
 				#if !LOGGING_DISABLED
 					Debug.Log(FormatDebugMessage(message, Severity.INFO, context));
 					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, context));
 				#endif
 			}
-
-			public static void LogInfo(string message, UnityObject context)
-			{
-				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.INFO, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, context));
-				#endif
-			}
-
-
 
 
 			public static void LogEmphasis(string message)
@@ -88,24 +61,15 @@ namespace DragonResonance.Logging
 					Console.Out.WriteLine(message);
 				#endif
 			}
-
-			public static void LogEmphasis(string message, Type context)
+			public static void LogEmphasis(string message, Type context) => LogEmphasis(message, context.Name);
+			public static void LogEmphasis(string message, UnityObject context) => LogEmphasis(message, context.name);
+			public static void LogEmphasis(string message, string context)
 			{
 				#if !LOGGING_DISABLED
 					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, context));
 					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, context));
 				#endif
 			}
-
-			public static void LogEmphasis(string message, UnityObject context)
-			{
-				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, context));
-				#endif
-			}
-
-
 
 
 			public static void LogWarning(string message)
@@ -115,24 +79,15 @@ namespace DragonResonance.Logging
 					Console.Out.WriteLine(message);
 				#endif
 			}
-
-			public static void LogWarning(string message, Type context)
+			public static void LogWarning(string message, Type context) => LogWarning(message, context.Name);
+			public static void LogWarning(string message, UnityObject context) => LogWarning(message, context.name);
+			public static void LogWarning(string message, string context)
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, context));
 					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
 				#endif
 			}
-
-			public static void LogWarning(string message, UnityObject context)
-			{
-				#if !LOGGING_DISABLED
-					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
-				#endif
-			}
-
-
 
 
 			public static void LogError(string message)
@@ -142,24 +97,15 @@ namespace DragonResonance.Logging
 					Console.Error.WriteLine(message);
 				#endif
 			}
-
-			public static void LogError(string message, Type context)
+			public static void LogError(string message, Type context) => LogError(message, context.Name);
+			public static void LogError(string message, UnityObject context) => LogError(message, context.name);
+			public static void LogError(string message, string context)
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, context));
 					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, context));
 				#endif
 			}
-
-			public static void LogError(string message, UnityObject context)
-			{
-				#if !LOGGING_DISABLED
-					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, context));
-					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, context));
-				#endif
-			}
-
-
 
 
 			public static void LogException(Exception exception)
@@ -169,18 +115,9 @@ namespace DragonResonance.Logging
 					Console.Error.WriteLine(exception);
 				#endif
 			}
-
-			public static void LogException(Exception exception, Type context)
-			{
-				#if !LOGGING_DISABLED
-					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, context));
-					Debug.LogException(exception);
-					Console.Error.WriteLine(FormatConsoleMessage(exception.Message, Severity.EXCEP, context));
-					Console.Error.WriteLine(exception);
-				#endif
-			}
-
-			public static void LogException(Exception exception, UnityObject context)
+			public static void LogException(Exception exception, Type context) => LogException(exception, context.Name);
+			public static void LogException(Exception exception, UnityObject context) => LogException(exception, context.name);
+			public static void LogException(Exception exception, string context)
 			{
 				#if !LOGGING_DISABLED
 					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, context));
@@ -199,25 +136,14 @@ namespace DragonResonance.Logging
 		#region Privates
 
 
-			private static string FormatConsoleMessage(string message, Severity type, Type context)
+			private static string FormatConsoleMessage(string message, Severity type, string context)
 			{
-				return $"{$"[{type}]", -6} {context.Name} → {message}";
+				return $"{$"[{type}]", -6} {context} → {message}";
 			}
 
-			private static string FormatConsoleMessage(string message, Severity type, UnityObject context)
+			private static string FormatDebugMessage(string message, Severity type, string context)
 			{
-				return $"{$"[{type}]", -6} {context.name} → {message}";
-			}
-
-
-			private static string FormatDebugMessage(string message, Severity type, Type context)
-			{
-				return $"<color=#{(int)type:X}><b>{context.Name} → </b></color>{message}";
-			}
-
-			private static string FormatDebugMessage(string message, Severity type, UnityObject context)
-			{
-				return $"<color=#{(int)type:X}><b>{context.name} → </b></color>{message}";
+				return $"<color=#{(int)type:X}><b>{context} → </b></color>{message}";
 			}
 
 
