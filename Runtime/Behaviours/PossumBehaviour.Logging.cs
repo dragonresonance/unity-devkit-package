@@ -22,7 +22,7 @@ namespace DragonResonance.Behaviours
 			protected bool Log(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Info)) return false;
-				HLogger.Log(message, $"{this.name}:{callerMember}");
+				HLogger.Log(message, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 
@@ -31,7 +31,7 @@ namespace DragonResonance.Behaviours
 			protected bool LogInfo(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Info)) return false;
-				HLogger.LogInfo(message, $"{this.name}:{callerMember}");
+				HLogger.LogInfo(message, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 
@@ -40,7 +40,7 @@ namespace DragonResonance.Behaviours
 			protected bool LogEmphasis(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Emphasis)) return false;
-				HLogger.LogEmphasis(message, $"{this.name}:{callerMember}");
+				HLogger.LogEmphasis(message, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 
@@ -49,7 +49,7 @@ namespace DragonResonance.Behaviours
 			protected bool LogWarning(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Warning)) return false;
-				HLogger.LogWarning(message, $"{this.name}:{callerMember}");
+				HLogger.LogWarning(message, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 
@@ -58,7 +58,7 @@ namespace DragonResonance.Behaviours
 			protected bool LogError(string message = "", [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Error)) return false;
-				HLogger.LogError(message, $"{this.name}:{callerMember}");
+				HLogger.LogError(message, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 
@@ -67,7 +67,7 @@ namespace DragonResonance.Behaviours
 			protected bool LogException(Exception exception, [CallerMemberName] string callerMember = null)
 			{
 				if (!_loggingMask.HasFlag(ELogLevel.Exception)) return false;
-				HLogger.LogException(exception, $"{this.name}:{callerMember}");
+				HLogger.LogException(exception, $"{this.name}:{callerMember}", this);
 				return true;
 			}
 

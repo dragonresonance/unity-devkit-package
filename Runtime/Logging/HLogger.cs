@@ -32,8 +32,8 @@ namespace DragonResonance.Logging
 
 			public static void Log(string message) => LogInfo(message);
 			public static void Log(string message, Type context) => Log(message, context.Name);
-			public static void Log(string message, UnityObject context) => Log(message, context.name);
-			public static void Log(string message, string context) => LogInfo(message, context);
+			public static void Log(string message, UnityObject context) => Log(message, context.name, context);
+			public static void Log(string message, string caller, UnityObject context = null) => LogInfo(message, caller, context);
 
 
 			public static void LogInfo(string message)
@@ -44,12 +44,12 @@ namespace DragonResonance.Logging
 				#endif
 			}
 			public static void LogInfo(string message, Type context) => LogInfo(message, context.Name);
-			public static void LogInfo(string message, UnityObject context) => LogInfo(message, context.name);
-			public static void LogInfo(string message, string context)
+			public static void LogInfo(string message, UnityObject context) => LogInfo(message, context.name, context);
+			public static void LogInfo(string message, string caller, UnityObject context = null)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.INFO, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, context));
+					Debug.Log(FormatDebugMessage(message, Severity.INFO, caller), context);
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.INFO, caller));
 				#endif
 			}
 
@@ -62,12 +62,12 @@ namespace DragonResonance.Logging
 				#endif
 			}
 			public static void LogEmphasis(string message, Type context) => LogEmphasis(message, context.Name);
-			public static void LogEmphasis(string message, UnityObject context) => LogEmphasis(message, context.name);
-			public static void LogEmphasis(string message, string context)
+			public static void LogEmphasis(string message, UnityObject context) => LogEmphasis(message, context.name, context);
+			public static void LogEmphasis(string message, string caller, UnityObject context = null)
 			{
 				#if !LOGGING_DISABLED
-					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, context));
+					Debug.Log(FormatDebugMessage(message, Severity.EMPHA, caller), context);
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.EMPHA, caller));
 				#endif
 			}
 
@@ -80,12 +80,12 @@ namespace DragonResonance.Logging
 				#endif
 			}
 			public static void LogWarning(string message, Type context) => LogWarning(message, context.Name);
-			public static void LogWarning(string message, UnityObject context) => LogWarning(message, context.name);
-			public static void LogWarning(string message, string context)
+			public static void LogWarning(string message, UnityObject context) => LogWarning(message, context.name, context);
+			public static void LogWarning(string message, string caller, UnityObject context = null)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, context));
-					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, context));
+					Debug.LogWarning(FormatDebugMessage(message, Severity.WARN, caller), context);
+					Console.Out.WriteLine(FormatConsoleMessage(message, Severity.WARN, caller));
 				#endif
 			}
 
@@ -98,12 +98,12 @@ namespace DragonResonance.Logging
 				#endif
 			}
 			public static void LogError(string message, Type context) => LogError(message, context.Name);
-			public static void LogError(string message, UnityObject context) => LogError(message, context.name);
-			public static void LogError(string message, string context)
+			public static void LogError(string message, UnityObject context) => LogError(message, context.name, context);
+			public static void LogError(string message, string caller, UnityObject context = null)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, context));
-					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, context));
+					Debug.LogError(FormatDebugMessage(message, Severity.ERROR, caller), context);
+					Console.Error.WriteLine(FormatConsoleMessage(message, Severity.ERROR, caller));
 				#endif
 			}
 
@@ -116,13 +116,13 @@ namespace DragonResonance.Logging
 				#endif
 			}
 			public static void LogException(Exception exception, Type context) => LogException(exception, context.Name);
-			public static void LogException(Exception exception, UnityObject context) => LogException(exception, context.name);
-			public static void LogException(Exception exception, string context)
+			public static void LogException(Exception exception, UnityObject context) => LogException(exception, context.name, context);
+			public static void LogException(Exception exception, string caller, UnityObject context = null)
 			{
 				#if !LOGGING_DISABLED
-					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, context));
-					Debug.LogException(exception);
-					Console.Error.WriteLine(FormatConsoleMessage(exception.Message, Severity.EXCEP, context));
+					Debug.LogError(FormatDebugMessage(exception.Message, Severity.EXCEP, caller), context);
+					Debug.LogException(exception, context);
+					Console.Error.WriteLine(FormatConsoleMessage(exception.Message, Severity.EXCEP, caller));
 					Console.Error.WriteLine(exception);
 				#endif
 			}
@@ -136,14 +136,14 @@ namespace DragonResonance.Logging
 		#region Privates
 
 
-			private static string FormatConsoleMessage(string message, Severity type, string context)
+			private static string FormatConsoleMessage(string message, Severity severity, string caller)
 			{
-				return $"{$"[{type}]", -6} {context} → {message}";
+				return $"{$"[{severity}]", -6} {caller} → {message}";
 			}
 
-			private static string FormatDebugMessage(string message, Severity type, string context)
+			private static string FormatDebugMessage(string message, Severity severity, string caller)
 			{
-				return $"<color=#{(int)type:X}><b>{context} → </b></color>{message}";
+				return $"<color=#{(int)severity:X}><b>{caller} → </b></color>{message}";
 			}
 
 
