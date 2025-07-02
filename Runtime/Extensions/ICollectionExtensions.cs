@@ -1,22 +1,15 @@
-using Random = System.Random;
 using System.Collections.Generic;
 
 
 namespace DragonResonance.Extensions
 {
-	public static class ListExtensions
+	public static class ICollectionExtensions
 	{
-		public static void Swap<T>(this IList<T> list, int indexA, int indexB)
+		public static bool AddOrIgnore<T>(this ICollection<T> list, T item)
 		{
-			(list[indexA], list[indexB]) = (list[indexB], list[indexA]);
-		}
-
-		public static void Shuffle<T>(this List<T> list)
-		{
-			Random random = new();
-			for (int index = 0; index < list.Count; index++) {
-				list.Swap(index, random.Next(index, list.Count));
-			}
+			if (list.Contains(item)) return false;
+			else list.Add(item);
+			return true;
 		}
 	}
 }
