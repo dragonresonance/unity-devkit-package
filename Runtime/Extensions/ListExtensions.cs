@@ -6,6 +6,13 @@ namespace DragonResonance.Extensions
 {
 	public static class ListExtensions
 	{
+		public static bool AddOrIgnore<T>(this IList<T> list, T item)
+		{
+			if (list.Contains(item)) return false;
+			else list.Add(item);
+			return true;
+		}
+
 		public static void Swap<T>(this IList<T> list, int indexA, int indexB)
 		{
 			(list[indexA], list[indexB]) = (list[indexB], list[indexA]);
