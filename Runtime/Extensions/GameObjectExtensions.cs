@@ -1,32 +1,13 @@
-using System;
+using UnityEngine;
 
 
 namespace DragonResonance.Extensions
 {
-	public static class StringExtensions
+	public static class GameObjectExtensions
 	{
-		public static int IndexOfOccurrence(this string input, string value, int startIndex, int occurrence)
+		public static bool IsPersistent(this GameObject obj)
 		{
-			int currentIndex = input.IndexOf(value, startIndex, StringComparison.Ordinal);
-			if ((occurrence == 1) || (currentIndex == -1)) return currentIndex;
-			return input.IndexOfOccurrence(value, (currentIndex + 1), (occurrence - 1));
-		}
-
-		public static string Reverse(this string input)
-		{
-			return string.Create(input.Length, input, (chars, state) =>
-			{
-				state.AsSpan().CopyTo(chars);
-				chars.Reverse();
-			});
-		}
-
-		public static string ToUpperFirstLetter(this string source)
-		{
-			if (string.IsNullOrEmpty(source)) return string.Empty;
-			char[] letters = source.ToCharArray();
-			letters[0] = char.ToUpper(letters[0]);
-			return (new string(letters));
+			return (obj.scene.name == "DontDestroyOnLoad");
 		}
 	}
 }

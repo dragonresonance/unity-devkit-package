@@ -1,4 +1,8 @@
+using DragonResonance.Attributes;
 using DragonResonance.Behaviours;
+using DragonResonance.Extensions;
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 
@@ -8,12 +12,39 @@ namespace DragonResonance.Enhancements
 	[RequireComponent(typeof(Transform))]
 	public class ObjectPersistence : PossumBehaviour
 	{
-		[SerializeField] private bool _makePersistent = true;
+		[SerializeField] private bool _makeGameobjectUnique = true;
+		[ShowIf(nameof(_makeGameobjectUnique))] [SerializeField] private string _guid = "";
+
+
+		private static readonly HashSet<string> _guids = new();
 
 
 		#region Events
 
-			private void Awake() => DontDestroyOnLoad(this.gameObject);
+			private void OnValidate()
+			{
+				_guid = _guid.Trim();
+				if (string.IsNullOrEmpty(_guid)) _guid = Guid.NewGuid().ToString().ToUpperInvariant();
+			}
+
+			private void Awake()
+			{
+				if (_makeGameobjectUnique && _guids.Contains(_guid)) {
+					//Log($"Destroying this object with GUID {_guid} ...");
+					DestroyImmediate(this.gameObject);
+				}
+				else {
+					//Log($"Persisting this object with GUID {_guid} ...");
+					DontDestroyOnLoad(this.gameObject);
+					_guids.Add(_guid);
+				}
+			}
+
+			private void OnDestroy()
+			{
+				if (this.gameObject.IsPersistent())
+					_guids.Remove(_guid);
+			}
 
 		#endregion
 	}

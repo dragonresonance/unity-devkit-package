@@ -11,17 +11,8 @@ namespace DragonResonance.Extensions
 		#region Publics - Verification
 
 
-			public static bool IsEmpty<T>(this IEnumerable<T> enumerable)
-			{
-				return !enumerable.Any();
-			}
-
-			public static int LastIndex<T>(this IEnumerable<T> enumerable)
-			{
-				return (enumerable.Count() - 1);
-			}
-
-
+			public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => !enumerable.Any();
+			public static int LastIndex<T>(this IEnumerable<T> enumerable) => (enumerable.Count() - 1);
 
 
 			public static bool MatchesAny<T>(this IEnumerable<T> enumerableA, IEnumerable<T> enumerableB)

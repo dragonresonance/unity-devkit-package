@@ -5,10 +5,10 @@ namespace DragonResonance.Extensions
 {
 	public static class ICollectionExtensions
 	{
-		public static bool AddOrIgnore<T>(this ICollection<T> list, T item)
+		public static bool AddOrIgnore<T>(this ICollection<T> collection, T item)
 		{
-			if (list.Contains(item)) return false;
-			else list.Add(item);
+			if (collection.Contains(item)) return false;
+			else collection.Add(item);
 			return true;
 		}
 	}

@@ -10,10 +10,8 @@ namespace DragonResonance.Extensions
 			int index = 0;
 
 			foreach (TKey dictionaryKey in dictionary.Keys) {
-				if (dictionaryKey.Equals(key))
-					return index;
-				else
-					index++;
+				if (dictionaryKey.Equals(key)) return index;
+				else index++;
 			}
 
 			return -1;
