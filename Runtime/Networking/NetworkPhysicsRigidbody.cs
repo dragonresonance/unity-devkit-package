@@ -1,3 +1,6 @@
+#if UNITY_NGO
+
+
 using DragonResonance.Attributes;
 using DragonResonance.Behaviours;
 using DragonResonance.Extensions;
@@ -165,6 +168,9 @@ namespace DragonResonance.Networking
 		#endregion
 	}
 }
+
+
+#endif
 
 
 
