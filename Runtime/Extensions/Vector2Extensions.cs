@@ -7,6 +7,16 @@ namespace DragonResonance.Extensions
 	{
 		#region Publics - Operations
 
+			public static Vector2 SortedLow2High(this Vector2 vector)
+			{
+				return (vector.x > vector.y) ? (new Vector2(vector.y, vector.x)) : vector;
+			}
+
+			public static Vector2 SortedHigh2Low(this Vector2 vector)
+			{
+				return (vector.x < vector.y) ? (new Vector2(vector.y, vector.x)) : vector;
+			}
+
 			public static float Lerp(this Vector2 vector, float t)
 			{
 				return Mathf.Lerp(vector.x, vector.y, t);

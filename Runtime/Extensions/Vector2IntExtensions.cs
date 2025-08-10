@@ -5,20 +5,49 @@ namespace DragonResonance.Extensions
 {
 	public static class Vector2IntExtensions
 	{
-		public static int Random(this Vector2Int vector)
-		{
-			return UnityEngine.Random.Range(vector.x, vector.y);
-		}
+		#region Publics - Operations
 
-		public static int RandomInclusive(this Vector2Int vector)
-		{
-			return UnityEngine.Random.Range(vector.x, (vector.y + 1));
-		}
+			public static Vector2Int SortedLow2High(this Vector2Int vector)
+			{
+				return (vector.x > vector.y) ? (new Vector2Int(vector.y, vector.x)) : vector;
+			}
 
-		public static int RandomExclusive(this Vector2Int vector)
-		{
-			return UnityEngine.Random.Range((vector.x + 1), vector.y);
-		}
+			public static Vector2Int SortedHigh2Low(this Vector2Int vector)
+			{
+				return (vector.x < vector.y) ? (new Vector2Int(vector.y, vector.x)) : vector;
+			}
+
+			public static float Lerp(this Vector2Int vector, float t)
+			{
+				return Mathf.Lerp(vector.x, vector.y, t);
+			}
+
+			public static float InverseLerp(this Vector2Int vector, float value)
+			{
+				return Mathf.InverseLerp(vector.x, vector.y, value);
+			}
+
+		#endregion
+
+
+		#region Publics - Search
+
+			public static int Random(this Vector2Int vector)
+			{
+				return UnityEngine.Random.Range(vector.x, vector.y);
+			}
+
+			public static int RandomInclusive(this Vector2Int vector)
+			{
+				return UnityEngine.Random.Range(vector.x, (vector.y + 1));
+			}
+
+			public static int RandomExclusive(this Vector2Int vector)
+			{
+				return UnityEngine.Random.Range((vector.x + 1), vector.y);
+			}
+
+		#endregion
 	}
 }
 
