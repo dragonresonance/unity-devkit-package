@@ -1,11 +1,14 @@
 using UnityEngine;
 
 
+
+
 namespace DragonResonance.Extensions
 {
 	public static class Vector2IntExtensions
 	{
 		#region Publics - Operations
+
 
 			public static Vector2Int SortedLow2High(this Vector2Int vector)
 			{
@@ -17,6 +20,7 @@ namespace DragonResonance.Extensions
 				return (vector.x < vector.y) ? (new Vector2Int(vector.y, vector.x)) : vector;
 			}
 
+
 			public static float Lerp(this Vector2Int vector, float t)
 			{
 				return Mathf.Lerp(vector.x, vector.y, t);
@@ -27,10 +31,14 @@ namespace DragonResonance.Extensions
 				return Mathf.InverseLerp(vector.x, vector.y, value);
 			}
 
+
 		#endregion
 
 
+
+
 		#region Publics - Search
+
 
 			public static int Random(this Vector2Int vector)
 			{
@@ -46,6 +54,21 @@ namespace DragonResonance.Extensions
 			{
 				return UnityEngine.Random.Range((vector.x + 1), vector.y);
 			}
+
+
+		#endregion
+
+
+
+
+		#region Publics - Components
+
+
+			public static float AverageOfTheTwo(this Vector2Int vector)
+			{
+				return ((vector.x + vector.y) / 2f);
+			}
+
 
 		#endregion
 	}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 
@@ -74,6 +75,19 @@ namespace DragonResonance.Extensions
 			}
 
 
+		#endregion
+
+
+
+
+		#region Publics - Iteration
+
+
+			public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+			{
+				foreach (T item in enumerable)
+					action(item);
+			}
 
 
 			public static T Random<T>(this IEnumerable<T> enumerable)
@@ -81,7 +95,6 @@ namespace DragonResonance.Extensions
 				IEnumerable<T> array = enumerable as T[] ?? enumerable.ToArray();
 				return array.ElementAt(UnityEngine.Random.Range(0, array.Count()));
 			}
-
 
 			public static int RandomIndex<T>(this IEnumerable<T> enumerable)
 			{
