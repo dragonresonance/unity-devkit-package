@@ -1,4 +1,4 @@
-namespace PossumScream.Extensions
+namespace DragonResonance.Extensions
 {
 	public static class BoolExtensions
 	{
