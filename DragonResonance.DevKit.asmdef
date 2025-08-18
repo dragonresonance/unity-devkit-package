@@ -2,9 +2,9 @@
     "name": "DragonResonance.DevKit",
     "rootNamespace": "DragonResonance",
     "references": [
-        "GUID:56bb574dc1a062d418a6a47ef8188217",
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:1491147abca9d7d4bb7105af628b223e"
+        "Bunny83.SimpleJSON",
+        "Unity.InputSystem",
+        "Unity.Netcode.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

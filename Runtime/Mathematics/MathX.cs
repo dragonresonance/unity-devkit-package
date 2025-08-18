@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DragonResonance.Mathematics
 {
-	public struct MathX
+	public static class MathX
 	{
 		#region Publics - General
 

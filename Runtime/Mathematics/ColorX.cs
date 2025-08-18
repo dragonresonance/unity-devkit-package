@@ -1,40 +1,27 @@
 using UnityEngine;
 
 
-namespace PossumScream.Extensions
+namespace DragonResonance.Mathematics
 {
-	public static class ColorExtensions
+	public static class ColorX
 	{
-		public static Color RandomizeR(this Color color)
-		{
-			color.r = Random.Range(0f, 1f);
-			return color;
-		}
+		#region Publics
 
-		public static Color RandomizeG(this Color color)
-		{
-			color.g = Random.Range(0f, 1f);
-			return color;
-		}
+			public static Color Gray(float brightness, float alpha = 1f)
+			{
+				return (new Color(brightness, brightness, brightness, alpha));
+			}
 
-		public static Color RandomizeB(this Color color)
-		{
-			color.b = Random.Range(0f, 1f);
-			return color;
-		}
+			public static Color Random(bool randomizeAlpha = false)
+			{
+				return (new Color(
+					UnityEngine.Random.Range(0f, 1f),
+					UnityEngine.Random.Range(0f, 1f),
+					UnityEngine.Random.Range(0f, 1f),
+					!randomizeAlpha ? 1f : UnityEngine.Random.Range(0f, 1f)));
+			}
 
-		public static Color RandomizeA(this Color color)
-		{
-			color.a = Random.Range(0f, 1f);
-			return color;
-		}
-
-
-		public static Color WithAlpha(this Color color, float alpha)
-		{
-			color.a = alpha;
-			return color;
-		}
+		#endregion
 	}
 }
 
