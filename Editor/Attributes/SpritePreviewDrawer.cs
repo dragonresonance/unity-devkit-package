@@ -11,7 +11,7 @@ namespace DragonResonance.Editor.Attributes
 	[CustomPropertyDrawer(typeof(SpritePreviewAttribute))]
 	public class SpritePreviewDrawer : PropertyDrawer
 	{
-		private const int PREVIEW_VERTICAL_OFFSET = 3;
+		private const int SPACING = 4;
 
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -22,7 +22,7 @@ namespace DragonResonance.Editor.Attributes
 			Rect fieldRect = new(
 				position.x,
 				position.y,
-				position.width - spritePreviewAttribute.Size,
+				position.width - spritePreviewAttribute.Size - SPACING,
 				position.height);
 			Rect previewRect = new(
 				position.x + position.width - spritePreviewAttribute.Size,
