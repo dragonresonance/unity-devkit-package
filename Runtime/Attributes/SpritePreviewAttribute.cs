@@ -3,7 +3,17 @@ using UnityEngine;
 
 namespace DragonResonance.Attributes
 {
-	public class AutolinkableComponentAttribute : PropertyAttribute { }
+	public class SpritePreviewAttribute : PropertyAttribute
+	{
+	    private readonly int _size;
+
+	    public SpritePreviewAttribute(int size = 64)
+	    {
+		    _size = size;
+	    }
+
+	    public float Size => _size;
+	}
 }
 
 
