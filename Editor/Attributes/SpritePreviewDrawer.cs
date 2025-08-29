@@ -26,7 +26,7 @@ namespace DragonResonance.Editor.Attributes
 				position.height);
 			Rect previewRect = new(
 				position.x + position.width - spritePreviewAttribute.Size,
-				position.y + PREVIEW_VERTICAL_OFFSET,
+				position.y,
 				spritePreviewAttribute.Size,
 				spritePreviewAttribute.Size);
 
