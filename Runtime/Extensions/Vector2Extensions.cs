@@ -1,13 +1,16 @@
 using UnityEngine;
 
 
-
-
 namespace DragonResonance.Extensions
 {
 	public static class Vector2Extensions
 	{
 		#region Publics - Operations
+
+			public static bool Approximately(this Vector2 vectorA, Vector2 vectorB)
+			{
+				return ((vectorB - vectorA).sqrMagnitude <= Mathf.Epsilon);
+			}
 
 
 			public static Vector2 SortedLow2High(this Vector2 vector)
@@ -31,34 +34,25 @@ namespace DragonResonance.Extensions
 				return Mathf.InverseLerp(vector.x, vector.y, value);
 			}
 
-
 		#endregion
 
 
-
-
 		#region Publics - Search
-
 
 			public static float Random(this Vector2 vector)
 			{
 				return UnityEngine.Random.Range(vector.x, vector.y);
 			}
 
-
 		#endregion
 
 
-
-
 		#region Publics - Components
-
 
 			public static float AverageOfTheTwo(this Vector2 vector)
 			{
 				return ((vector.x + vector.y) / 2f);
 			}
-
 
 		#endregion
 	}
