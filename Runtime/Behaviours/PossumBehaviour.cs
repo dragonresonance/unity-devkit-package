@@ -11,6 +11,14 @@ namespace DragonResonance.Behaviours
 		[SerializeField] private string _description = "";
 		#pragma warning restore 0414
 		#endif
+		
+		
+		protected T GetComponentIfNull<T>(Component statement) where T : Component =>
+			((statement == null) ? GetComponent<T>() : (T)statement);
+		protected T GetComponentInChildrenIfNull<T>(Component statement) where T : Component =>
+			((statement == null) ? GetComponentInChildren<T>() : (T)statement);
+		protected T GetComponentInParentIfNull<T>(Component statement) where T : Component =>
+			((statement == null) ? GetComponentInParent<T>() : (T)statement);
 	}
 }
 
