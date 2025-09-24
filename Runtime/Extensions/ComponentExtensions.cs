@@ -5,6 +5,10 @@ namespace DragonResonance.Extensions
 {
 	public static class ComponentExtensions
 	{
+		public static void AssignComponentInSelf<T>(this Component field) where T : Component => field = field.GetComponent<T>();
+		public static void AssignComponentInChildren<T>(this Component field) where T : Component => field = field.GetComponentInChildren<T>();
+		public static void AssignComponentInParent<T>(this Component field) where T : Component => field = field.GetComponentInParent<T>();
+
 		public static Component FindAndGet<T>(this Component field) where T : Component => Retrieve<T>(field, FindObjectsInactive.Include);
 		public static Component FindAndGet<T>(this Component field, bool includeInactive) where T : Component => Retrieve<T>(field, (includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude));
 		public static Component FindAndGet<T>(this Component field, FindObjectsInactive includeInactive) where T : Component => Retrieve<T>(field, includeInactive);
