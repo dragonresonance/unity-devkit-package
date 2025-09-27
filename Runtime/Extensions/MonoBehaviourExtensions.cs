@@ -3,16 +3,9 @@ using UnityEngine;
 
 namespace DragonResonance.Extensions
 {
-	public static class ComponentExtensions
+	public static class MonoBehaviourExtensions
 	{
-		public static T FindAndGet<T>(this Component field) where T : Component => FindAndGet<T>(field, FindObjectsInactive.Include);
-		public static T FindAndGet<T>(this Component field, bool includeInactive) where T : Component => FindAndGet<T>(field, (includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude));
-		public static T FindAndGet<T>(this Component field, FindObjectsInactive includeInactive) where T : Component
-		{
-			if (field == null)
-				field = Object.FindAnyObjectByType<T>(includeInactive);
-			return (T)field;
-		}
+		//
 	}
 }
 

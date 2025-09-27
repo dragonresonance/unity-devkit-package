@@ -3,6 +3,7 @@
 
 using Unity.Netcode;
 using UnityEngine;
+using UnityObject = UnityEngine.Object;
 
 
 
@@ -25,6 +26,17 @@ namespace DragonResonance.Behaviours
 			((statement == null) ? GetComponentInChildren<T>() : (T)statement);
 		protected T GetComponentInParentIfNull<T>(Component statement) where T : Component =>
 			((statement == null) ? GetComponentInParent<T>() : (T)statement);
+
+
+		#if UNITY_EDITOR
+		protected static T FindFirstAssetIfNull<T>(UnityObject statement) where T : UnityObject
+		{
+			if (statement != null) return (T)statement;
+			string[] guids = UnityEditor.AssetDatabase.FindAssets("t:" + typeof(T).Name);
+			if (guids.Length == 0) return null;
+			return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]));
+		}
+		#endif
 	}
 }
 
