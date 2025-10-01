@@ -3,23 +3,17 @@ using UnityEngine;
 
 namespace DragonResonance.Extensions
 {
-	public static class Vector3IntExtensions
+	public static class TransformExtensions
 	{
-		#region Properties - Operations
-
-			public static Vector3 CalculateNormalized(this Vector3Int vector3int) => (new Vector3(vector3int.x, vector3int.y, vector3int.z)).normalized;
-
-		#endregion
-
-
-		#region Properties - Casts
-
-			public static Vector2 ToVector2(this Vector3Int vector) => new Vector2(vector.x, vector.y);
-			public static Vector2Int ToVector2Int(this Vector3Int vector) => new Vector2Int(vector.x, vector.y);
-			public static Vector3 ToVector3(this Vector3Int vector) => new Vector3(vector.x, vector.y, vector.z);
-			public static Vector3Int ToVector3Int(this Vector3Int vector) => new Vector3Int(vector.x, vector.y, vector.z);
-
-		#endregion
+		public static void TranslateLocal(this Transform transform, float x, float y, float z) => TranslateLocal(transform, new Vector3(x, y, z));
+		public static void TranslateLocal(this Transform transform, Vector3 translation)
+		{
+			Vector3 localPosition = transform.localPosition;
+			transform.localPosition = new Vector3(
+				localPosition.x + translation.x,
+				localPosition.y + translation.y,
+				localPosition.z + translation.z);
+		}
 	}
 }
 
