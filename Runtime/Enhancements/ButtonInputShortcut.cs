@@ -9,8 +9,6 @@ using UnityEngine.UI;
 using UnityEngine;
 
 
-
-
 [RequireComponent(typeof(Button))]
 public class ButtonInputShortcut : PossumBehaviour
 {
@@ -22,10 +20,7 @@ public class ButtonInputShortcut : PossumBehaviour
 	[ShowIf(nameof(_useInputActionReference))] [SerializeField] private InputActionReference _clickInputReference = null;
 
 
-
-
 	#region Events
-
 
 		private void OnEnable()
 		{
@@ -61,14 +56,11 @@ public class ButtonInputShortcut : PossumBehaviour
 				button.onClick.Invoke();
 		}
 
-
 	#endregion
 }
 
 
 #endif
-
-
 
 
 /*       ________________________________________________________________       */
