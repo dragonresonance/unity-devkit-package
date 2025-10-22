@@ -1,4 +1,3 @@
-using DragonResonance.Attributes;
 using DragonResonance.Behaviours;
 using DragonResonance.Extensions;
 using System.Linq;
@@ -6,71 +5,48 @@ using UnityEngine.UI;
 using UnityEngine;
 
 
-
-
 [RequireComponent(typeof(Button))]
 public class ButtonAutoColoringTool : PossumBehaviour
 {
-	[ReadOnly] [SerializeField] private Button _button = null;
 	[HideInInspector] [SerializeField] private Color _cachedBaseColor = Color.white;
 
 
-
-
-	#region Events
-
-
-		private void OnValidate()
-		{
-			_button = GetComponentIfNull<Button>(_button);
-		}
-
-
-	#endregion
-
-
+	private Button _cachedButton = null;
 
 
 	#region Publics
-
 
 		[ContextMenu(nameof(ApplyColoring))]
 		public void ApplyColoring() => ApplyColoring(_cachedBaseColor);
 		public void ApplyColoring(Color newBaseColor)
 		{
+			_cachedButton = GetComponentIfNull<Button>(_cachedButton);
 			_cachedBaseColor = newBaseColor;
-			_button.colors = new ColorBlock() {
+			_cachedButton.colors = new ColorBlock() {
 				normalColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.normalColor),
 				highlightedColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.highlightedColor).AddLinearBrightness(0.1f),
 				pressedColor = newBaseColor.Mask(newBaseColor.Mask(ColorBlock.defaultColorBlock.pressedColor)).AddLinearBrightness(0.1f),
 				selectedColor = newBaseColor.Mask(newBaseColor).AddLinearBrightness(0.1f),
 				disabledColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.disabledColor).ToGreyscale().AddLinearBrightness(0.05f),
-				colorMultiplier = _button.colors.colorMultiplier,
-				fadeDuration = _button.colors.fadeDuration,
+				colorMultiplier = _cachedButton.colors.colorMultiplier,
+				fadeDuration = _cachedButton.colors.fadeDuration,
 			};
 
 			#if UNITY_EDITOR
 				UnityEditor.EditorUtility.SetDirty(this);
-				UnityEditor.EditorUtility.SetDirty(this._button);
+				UnityEditor.EditorUtility.SetDirty(this._cachedButton);
 			#endif
 		}
 
-
 	#endregion
-
-
 
 
 	#region Publics
 
-
 		public Color CachedBaseColor => _cachedBaseColor;
-
 
 	#endregion
 }
-
-
 
 
 #if UNITY_EDITOR
@@ -95,8 +71,6 @@ public class ButtonAutoColoringToolEditor : UnityEditor.Editor
 	}
 }
 #endif
-
-
 
 
 /*       ________________________________________________________________       */
