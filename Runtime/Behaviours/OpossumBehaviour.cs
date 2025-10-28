@@ -27,6 +27,13 @@ namespace DragonResonance.Behaviours
 		protected T GetComponentInParentIfNull<T>(Component statement) where T : Component =>
 			((statement == null) ? GetComponentInParent<T>() : (T)statement);
 
+		protected T FindComponentIfNull<T>(Component statement) where T : Component =>
+			FindComponentIfNull<T>(statement, true);
+		protected T FindComponentIfNull<T>(Component statement, bool includeInactive) where T : Component =>
+			FindComponentIfNull<T>(statement, (includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude));
+		protected T FindComponentIfNull<T>(Component statement, FindObjectsInactive includeInactive) where T : Component =>
+			((statement == null) ? FindAnyObjectByType<T>(includeInactive) : (T)statement);
+
 
 		#if UNITY_EDITOR
 		protected static T FindFirstAssetIfNull<T>(UnityObject statement) where T : UnityObject
