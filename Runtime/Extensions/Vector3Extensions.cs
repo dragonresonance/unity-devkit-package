@@ -6,7 +6,7 @@ namespace DragonResonance.Extensions
 {
 	public static class Vector3Extensions
 	{
-		#region Properties - Operations
+		#region Operations
 
 			public static bool Approximately(this Vector3 vectorA, Vector3 vectorB) => ((vectorB - vectorA).sqrMagnitude <= Mathf.Epsilon);
 			public static Vector3 ProjectOntoPlane(this Vector3 vector, Vector3 planeNormal) => (vector - Vector3.Dot(vector, planeNormal) * planeNormal);
@@ -15,7 +15,7 @@ namespace DragonResonance.Extensions
 		#endregion
 
 
-		#region Properties - Components
+		#region Components
 
 			public static Vector3 NormalizedComponents(this Vector3 vector) => new(Math.Sign(vector.x), Math.Sign(vector.y), Math.Sign(vector.z));
 			public static Vector3 AbsoluteComponents(this Vector3 vector) => new(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z));
@@ -24,7 +24,7 @@ namespace DragonResonance.Extensions
 		#endregion
 
 
-		#region Properties - Casts
+		#region Casts
 
 			public static Vector2 ToVector2(this Vector3 vector) => new Vector2(vector.x, vector.y);
 			public static Vector2Int ToVector2Int(this Vector3 vector) => new Vector2Int((int)vector.x, (int)vector.y);

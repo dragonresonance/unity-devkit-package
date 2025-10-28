@@ -5,10 +5,7 @@ namespace DragonResonance.Extensions
 {
 	public static class GameObjectExtensions
 	{
-		public static bool IsPersistent(this GameObject obj)
-		{
-			return (obj.scene.name == "DontDestroyOnLoad");
-		}
+		public static bool IsPersistent(this GameObject obj) => (obj.scene.name == "DontDestroyOnLoad");
 	}
 }
 
