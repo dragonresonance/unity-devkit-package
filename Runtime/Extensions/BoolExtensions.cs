@@ -2,8 +2,13 @@ namespace DragonResonance.Extensions
 {
 	public static class BoolExtensions
 	{
-		public static int AsInteger(this bool value) => (value ? 1 : 0);
-		public static int AsSign(this bool value) => (value ? 1 : -1);
+		#region Casts
+
+			public static int AsInteger(this bool value) => AsInt(value);
+			public static int AsInt(this bool value) => (value ? 1 : 0);
+			public static int AsSign(this bool value) => (value ? 1 : -1);
+
+		#endregion
 	}
 }
 
