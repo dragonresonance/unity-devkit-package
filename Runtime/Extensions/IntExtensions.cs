@@ -1,3 +1,6 @@
+using UnityEngine;
+
+
 namespace DragonResonance.Extensions
 {
 	public static class IntExtensions
