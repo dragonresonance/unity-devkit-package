@@ -25,6 +25,7 @@ namespace DragonResonance.Extensions
 
 		#region Operations
 
+			public static int Clamp(this int value, Vector2Int range) => Mathf.Clamp(value, range.x, range.y);
 			public static int UpperClamp(this int currentValue, int maxValue) =>
 				((currentValue > maxValue) ? maxValue : currentValue);
 			public static int LowerClamp(this int currentValue, int minValue) =>

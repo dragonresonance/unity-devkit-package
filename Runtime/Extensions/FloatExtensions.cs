@@ -28,6 +28,7 @@ namespace DragonResonance.Extensions
 		#region Operations
 
 			public static float Complementary(this float value) => (1f - value);
+			public static float Clamp(this float value, Vector2 range) => Mathf.Clamp(value, range.x, range.y);
 
 			public static float SumToAbsolute(this float currentValue, float addend) =>
 				(Mathf.Sign(currentValue) * (Mathf.Abs(currentValue) + addend));
