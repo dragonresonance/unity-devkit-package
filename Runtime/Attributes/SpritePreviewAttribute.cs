@@ -5,14 +5,18 @@ namespace DragonResonance.Attributes
 {
 	public class SpritePreviewAttribute : PropertyAttribute
 	{
-	    private readonly int _size;
+	    private readonly int _width;
+	    private readonly int _height;
 
-	    public SpritePreviewAttribute(int size = 64)
+	    public SpritePreviewAttribute(int size = 64) : this(size, size) { }
+	    public SpritePreviewAttribute(int width, int height)
 	    {
-		    _size = size;
+		    _width = width;
+		    _height = height;
 	    }
 
-	    public float Size => _size;
+	    public float Width => _width;
+	    public float Height => _height;
 	}
 }
 

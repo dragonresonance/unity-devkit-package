@@ -18,17 +18,16 @@ namespace DragonResonance.Editor.Attributes
 		{
 			SpritePreviewAttribute spritePreviewAttribute = (SpritePreviewAttribute)base.attribute;
 
-			// Split in two: left for field, right for preview
 			Rect fieldRect = new(
 				position.x,
 				position.y,
-				position.width - spritePreviewAttribute.Size - SPACING,
+				position.width - spritePreviewAttribute.Width - SPACING,
 				position.height);
 			Rect previewRect = new(
-				position.x + position.width - spritePreviewAttribute.Size,
+				position.x + position.width - spritePreviewAttribute.Width,
 				position.y,
-				spritePreviewAttribute.Size,
-				spritePreviewAttribute.Size);
+				spritePreviewAttribute.Width,
+				spritePreviewAttribute.Height);
 
 			EditorGUI.PropertyField(fieldRect, property, label);
 			if (property.objectReferenceValue is Sprite sprite) {
@@ -39,7 +38,7 @@ namespace DragonResonance.Editor.Attributes
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) =>
-			Mathf.Max(EditorGUIUtility.singleLineHeight, ((SpritePreviewAttribute)base.attribute).Size);
+			Mathf.Max(EditorGUIUtility.singleLineHeight, ((SpritePreviewAttribute)base.attribute).Height);
 	}
 }
 
