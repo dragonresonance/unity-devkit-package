@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DragonResonance.Enhancements
 {
-	public class PlatformDefinitionGameobjectDisabler : PlatformDefinitionGameobjectDestroyer
+	public class DefineSymbolsGameobjectDisabler : DefineSymbolsGameobjectDestroyer
 	{
 		[SerializeField] private bool _enableInstead = false;
 
