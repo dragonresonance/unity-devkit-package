@@ -1,11 +1,12 @@
-using UnityEngine;
+using System.Linq;
+using System;
 
 
 namespace DragonResonance.Extensions
 {
-	public static class GameObjectExtensions
+	public static class EnumExtensions
 	{
-		public static bool IsPersistent(this GameObject gameobject) => (gameobject.scene.buildIndex == -1);
+		public static bool In<T>(this T value, params T[] list) where T : Enum => list.Contains(value);
 	}
 }
 

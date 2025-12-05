@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
 
 
-namespace DragonResonance.Extensions
+namespace DragonResonance.Enhancements
 {
-	public static class GameObjectExtensions
+	public class RuntimeGameobjectDisabler : RuntimeGameobjectDestroyer
 	{
-		public static bool IsPersistent(this GameObject gameobject) => (gameobject.scene.buildIndex == -1);
+		[SerializeField] private bool _enableInstead = false;
+		protected override Action<GameObject> PerformingAction => (gameobject) => gameobject.SetActive(_enableInstead);
 	}
 }
 

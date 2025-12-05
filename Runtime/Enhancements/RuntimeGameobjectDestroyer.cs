@@ -1,11 +1,14 @@
+using DragonResonance.Behaviours;
+using System;
 using UnityEngine;
 
 
-namespace DragonResonance.Extensions
+namespace DragonResonance.Enhancements
 {
-	public static class GameObjectExtensions
+	public class RuntimeGameobjectDestroyer : PossumBehaviour
 	{
-		public static bool IsPersistent(this GameObject gameobject) => (gameobject.scene.buildIndex == -1);
+		private void Awake() => PerformingAction.Invoke(this.gameObject);
+		protected virtual Action<GameObject> PerformingAction => Destroy;
 	}
 }
 
