@@ -10,7 +10,7 @@ using UnityEngine;
 
 
 
-namespace DragonResonance.Enhancements
+namespace DragonResonance.GUI
 {
 	[DisallowMultipleComponent]
 	[RequireComponent(typeof(EventSystem))]

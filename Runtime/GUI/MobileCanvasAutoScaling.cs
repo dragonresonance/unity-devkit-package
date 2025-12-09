@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 
-namespace DragonResonance.Enhancements
+namespace DragonResonance.GUI
 {
 	[DisallowMultipleComponent]
 	[RequireComponent(typeof(CanvasScaler))]

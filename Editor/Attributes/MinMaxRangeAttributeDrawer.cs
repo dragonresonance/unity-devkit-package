@@ -26,7 +26,7 @@ namespace DragonResonance.Editor.Attributes
             int originalIndent = EditorGUI.indentLevel;
             float minValue = rangeAttribute.RoundToInt ? Mathf.RoundToInt(xRangeProperty.floatValue) : xRangeProperty.floatValue;
             float maxValue = rangeAttribute.RoundToInt ? Mathf.RoundToInt(yRangeProperty.floatValue) : yRangeProperty.floatValue;
-            float fieldWidth = GUI.skin.textField.CalcSize(new GUIContent(rangeAttribute.Max.ToString(CultureInfo.InvariantCulture))).x + HORIZONTAL_WIDTH;
+            float fieldWidth = UnityEngine.GUI.skin.textField.CalcSize(new GUIContent(rangeAttribute.Max.ToString(CultureInfo.InvariantCulture))).x + HORIZONTAL_WIDTH;
 
             label = EditorGUI.BeginProperty(position, label, property);
             {

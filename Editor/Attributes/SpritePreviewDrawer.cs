@@ -33,7 +33,7 @@ namespace DragonResonance.Editor.Attributes
 			if (property.objectReferenceValue is Sprite sprite) {
 				Texture2D texture = AssetPreview.GetAssetPreview(sprite);
 				if (texture != null)
-					GUI.DrawTexture(previewRect, texture, ScaleMode.ScaleToFit);
+					UnityEngine.GUI.DrawTexture(previewRect, texture, ScaleMode.ScaleToFit);
 			}
 		}
 
