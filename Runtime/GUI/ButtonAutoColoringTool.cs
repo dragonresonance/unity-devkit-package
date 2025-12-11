@@ -13,7 +13,7 @@ namespace DragonResonance.GUI
 		[HideInInspector] [SerializeField] private Color _cachedBaseColor = Color.white;
 
 
-		private Button _cachedButton = null;
+		private Button _button_internal = null;	// Caching only, use the property instead
 
 
 		#region Publics
@@ -22,30 +22,30 @@ namespace DragonResonance.GUI
 			public void ApplyColoring() => ApplyColoring(_cachedBaseColor);
 			public void ApplyColoring(Color newBaseColor)
 			{
-				_cachedButton = GetComponentIfNull<Button>(_cachedButton);
 				_cachedBaseColor = newBaseColor;
-				_cachedButton.colors = new ColorBlock() {
+				this.Button.colors = new ColorBlock() {
 					normalColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.normalColor),
 					highlightedColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.highlightedColor).AddLinearBrightness(0.1f),
 					pressedColor = newBaseColor.Mask(newBaseColor.Mask(ColorBlock.defaultColorBlock.pressedColor)).AddLinearBrightness(0.1f),
 					selectedColor = newBaseColor.Mask(newBaseColor).AddLinearBrightness(0.1f),
 					disabledColor = newBaseColor.Mask(ColorBlock.defaultColorBlock.disabledColor).ToGreyscale().AddLinearBrightness(0.05f),
-					colorMultiplier = _cachedButton.colors.colorMultiplier,
-					fadeDuration = _cachedButton.colors.fadeDuration,
+					colorMultiplier = this.Button.colors.colorMultiplier,
+					fadeDuration = this.Button.colors.fadeDuration,
 				};
 
 				#if UNITY_EDITOR
 					UnityEditor.EditorUtility.SetDirty(this);
-					UnityEditor.EditorUtility.SetDirty(this._cachedButton);
+					UnityEditor.EditorUtility.SetDirty(this.Button);
 				#endif
 			}
 
 		#endregion
 
 
-		#region Publics
+		#region Properties
 
 			public Color CachedBaseColor => _cachedBaseColor;
+			public Button Button => (_button_internal = GetComponentIfNull<Button>(_button_internal));
 
 		#endregion
 	}

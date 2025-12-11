@@ -9,7 +9,7 @@ namespace DragonResonance.Extensions
 {
 	public static class IEnumerableExtensions
 	{
-		#region Publics - Verification
+		#region Verification
 
 
 			public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => !enumerable.Any();
@@ -37,7 +37,7 @@ namespace DragonResonance.Extensions
 
 
 
-		#region Publics - Search
+		#region Searching
 
 
 			public static int IndexOf<T>(this IEnumerable<T> enumerable, T value)
@@ -80,15 +80,10 @@ namespace DragonResonance.Extensions
 
 
 
-		#region Publics - Iteration
+		#region Iteration
 
 
-			public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
-			{
-				foreach (T item in enumerable)
-					action(item);
-			}
-
+			public static int RandomIndex<T>(this IEnumerable<T> enumerable) => UnityEngine.Random.Range(0, enumerable.Count());
 
 			public static T Random<T>(this IEnumerable<T> enumerable)
 			{
@@ -96,9 +91,11 @@ namespace DragonResonance.Extensions
 				return array.ElementAt(UnityEngine.Random.Range(0, array.Count()));
 			}
 
-			public static int RandomIndex<T>(this IEnumerable<T> enumerable)
+
+			public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
 			{
-				return UnityEngine.Random.Range(0, enumerable.Count());
+				foreach (T item in enumerable)
+					action(item);
 			}
 
 

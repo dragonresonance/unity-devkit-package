@@ -8,7 +8,7 @@ namespace DragonResonance.Extensions
 		public static bool AddOrIgnore<T>(this ICollection<T> collection, T item)
 		{
 			if (collection.Contains(item)) return false;
-			else collection.Add(item);
+			collection.Add(item);
 			return true;
 		}
 	}

@@ -6,6 +6,8 @@ namespace DragonResonance.Extensions
 {
 	public static class ListExtensions
 	{
+		public static int LastIndex<T>(this List<T> list) => (list.Count - 1);
+
 		public static void Swap<T>(this IList<T> list, int indexA, int indexB)
 		{
 			(list[indexA], list[indexB]) = (list[indexB], list[indexA]);
@@ -14,9 +16,8 @@ namespace DragonResonance.Extensions
 		public static void Shuffle<T>(this List<T> list)
 		{
 			Random random = new();
-			for (int index = 0; index < list.Count; index++) {
+			for (int index = 0; index < list.Count; index++)
 				list.Swap(index, random.Next(index, list.Count));
-			}
 		}
 	}
 }
