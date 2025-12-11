@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace DragonResonance.Behaviours
 {
-	public abstract class PersistentSingletonPossumBehaviour<T> : InstantiablePossumBehaviour<T> where T : Component
+	public abstract class PersistentSingletonPossumBehaviour<T> : SingletonPossumBehaviour<T> where T : Component
 	{
 		#region Privates
 
-			protected override void AssessInstance()
+			protected new void AssessInstance()
 			{
 				if (_instance == null) {
 					_instance = this as T;

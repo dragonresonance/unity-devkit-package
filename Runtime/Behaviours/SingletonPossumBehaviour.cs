@@ -1,22 +1,59 @@
+using System;
 using UnityEngine;
 
 
 namespace DragonResonance.Behaviours
 {
-	public abstract class SingletonPossumBehaviour<T> : InstantiablePossumBehaviour<T> where T : Component
+	[DisallowMultipleComponent]
+	public abstract class SingletonPossumBehaviour<T> : PossumBehaviour where T : Component
 	{
+		internal static T _instance = null;
+		public static event Action OnInstanced = null;
+
+
+		#region Events
+
+			protected void Awake() => AssessInstance();
+
+		#endregion
+
+
+		#region Publics
+
+			public static bool TryGetInstance(out T instance) => ((instance = GetInstance()) != null);
+
+			public static T GetInstance()
+			{
+				if ((_instance == null) && (FindAnyObjectByType(typeof(T)) is SingletonPossumBehaviour<T> instance))
+					instance.AssessInstance();
+
+				return _instance;
+			}
+
+		#endregion
+
+
 		#region Privates
 
-			protected override void AssessInstance()
+			protected void InvokeInstantiationEvent() => OnInstanced?.Invoke();
+
+			protected void AssessInstance()
 			{
 				if (_instance == null) {
 					_instance = this as T;
-					base.InvokeInstantiationEvent();
+					InvokeInstantiationEvent();
 				}
 				else if (_instance != this) {
 					Destroy(this);
 				}
 			}
+
+		#endregion
+
+
+		#region Properties
+
+			public static T CachedInstance => _instance;
 
 		#endregion
 	}
