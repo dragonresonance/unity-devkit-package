@@ -23,7 +23,6 @@ namespace DragonResonance.GUI
 		private Image _image_internal = null;	// Caching only, use the property instead
 		private float _spriteDuration = 0f;
 		private int _spritesOffset = 0;
-		private int _spritesPassed = 0;
 
 
 
@@ -44,7 +43,6 @@ namespace DragonResonance.GUI
 			{
 				if (!_playing) return;
 
-				_spritesPassed = (int)(Time.realtimeSinceStartup / _spriteDuration);
 				int spriteIndex = GetCurrentSpriteIndex().NextCyclic(_sprites.Length, _spritesOffset);
 				this.Image.sprite = _sprites[spriteIndex];
 
@@ -81,7 +79,7 @@ namespace DragonResonance.GUI
 		#region Privates
 
 
-			private int GetCurrentSpriteIndex() => (_spritesPassed % _sprites.Length);
+			private int GetCurrentSpriteIndex() => (this.SpritesPassed % _sprites.Length);
 			private void CacheCalculations() => _spriteDuration = (1 / _speed);
 
 
@@ -98,7 +96,7 @@ namespace DragonResonance.GUI
 			public bool Playing => _playing;
 			public float SpriteDuration => _spriteDuration;
 			public int SpritesOffset => _spritesOffset;
-			public int SpritesPassed => _spritesPassed;
+			public int SpritesPassed => (int)(Time.realtimeSinceStartup / _spriteDuration);
 
 
 		#endregion
