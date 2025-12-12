@@ -13,16 +13,14 @@ namespace DragonResonance.GUI
 	[RequireComponent(typeof(Image))]
 	public class ImageSpritesheetPlayer : PossumBehaviour
 	{
-		[SerializeField] private bool _autoplay = true;
+		[SerializeField] private bool _playing = true;
 		[SerializeField] private bool _loop = true;
-		[SerializeField] private float _speed = 30f;
+		[SerializeField] private float _speed = 4f;
 		[SerializeField] private Sprite[] _sprites = { };
 
 
-		private bool _playing = true;
 		private Image _image_internal = null;	// Caching only, use the property instead
-		private float _spriteDuration = 0f;
-		private int _spritesOffset = 0;
+		private float _timeOffset = 0f;
 
 
 
@@ -30,24 +28,15 @@ namespace DragonResonance.GUI
 		#region Events
 
 
-			private void OnValidate() => Start();
-			private void Start()
-			{
-				if (_autoplay)
-					Play();
-				CacheCalculations();
-			}
-
-
 			private void Update()
 			{
-				if (!_playing) return;
+				if (!_playing || _sprites.Length.IsZero()) return;
 
-				int spriteIndex = GetCurrentSpriteIndex().NextCyclic(_sprites.Length, _spritesOffset);
+				int spriteIndex = this.CurrentSpriteIndex;
 				this.Image.sprite = _sprites[spriteIndex];
 
 				if ((spriteIndex == _sprites.LastIndex()) && !_loop)
-					_playing = false;
+					Stop();
 			}
 
 
@@ -59,28 +48,28 @@ namespace DragonResonance.GUI
 		#region Publics
 
 
-			public void Play()
+			[ContextMenu(nameof(Play))]
+			public void Play() => _playing = true;
+
+			[ContextMenu(nameof(Stop))]
+			public void Stop() => _playing = false;
+
+
+			[ContextMenu(nameof(PlayOnce))]
+			public void PlayOnce()
 			{
-				_spritesOffset = _sprites.Length - GetCurrentSpriteIndex();
-				_playing = true;
+				_timeOffset = Time.realtimeSinceStartup;
+				_loop = false;
+				Play();
 			}
 
-			public void Stop()
+			[ContextMenu(nameof(PlayLoop))]
+			public void PlayLoop()
 			{
-				_playing = false;
+				_timeOffset = 0f;
+				_loop = true;
+				Play();
 			}
-
-
-		#endregion
-
-
-
-
-		#region Privates
-
-
-			private int GetCurrentSpriteIndex() => (this.SpritesPassed % _sprites.Length);
-			private void CacheCalculations() => _spriteDuration = (1 / _speed);
 
 
 		#endregion
@@ -91,12 +80,26 @@ namespace DragonResonance.GUI
 		#region Properties
 
 
-			public Image Image => (_image_internal = GetComponentIfNull<Image>(_image_internal));
+			public float SpriteDuration => (1 / _speed);
+			public float OffsetRealtime => (Time.realtimeSinceStartup - _timeOffset);
+			public int SpritesPassed => (int)(this.OffsetRealtime / this.SpriteDuration);
+			public int CurrentSpriteIndex => (this.SpritesPassed % _sprites.Length.LowerClamp(1));
 
-			public bool Playing => _playing;
-			public float SpriteDuration => _spriteDuration;
-			public int SpritesOffset => _spritesOffset;
-			public int SpritesPassed => (int)(Time.realtimeSinceStartup / _spriteDuration);
+			public Image Image => (_image_internal = GetComponentIfNull<Image>(_image_internal));
+			public float TimeOffset => _timeOffset;
+
+
+			public bool Playing
+			{
+				get => _playing;
+				set => _playing = value;
+			}
+
+			public bool Loop
+			{
+				get => _loop;
+				set => _loop = value;
+			}
 
 
 		#endregion
@@ -116,14 +119,20 @@ namespace DragonResonance.GUI
 
 			UnityEditor.EditorGUILayout.LabelField("Playing", $"{imageSpritesheetPlayer.Playing}");
 			UnityEditor.EditorGUILayout.LabelField("Sprite Duration", $"{imageSpritesheetPlayer.SpriteDuration}");
-			UnityEditor.EditorGUILayout.LabelField("Sprites Offset", $"{imageSpritesheetPlayer.SpritesOffset}");
 			UnityEditor.EditorGUILayout.LabelField("Sprites Passed", $"{imageSpritesheetPlayer.SpritesPassed}");
+			UnityEditor.EditorGUILayout.LabelField("Time Offset", $"{imageSpritesheetPlayer.TimeOffset}");
 
 			UnityEditor.EditorGUILayout.Separator();
 			if (GUILayout.Button(nameof(ImageSpritesheetPlayer.Play)))
 				imageSpritesheetPlayer.Play();
 			if (GUILayout.Button(nameof(ImageSpritesheetPlayer.Stop)))
 				imageSpritesheetPlayer.Stop();
+
+			UnityEditor.EditorGUILayout.Separator();
+			if (GUILayout.Button(nameof(ImageSpritesheetPlayer.PlayOnce)))
+				imageSpritesheetPlayer.PlayOnce();
+			if (GUILayout.Button(nameof(ImageSpritesheetPlayer.PlayLoop)))
+				imageSpritesheetPlayer.PlayLoop();
 		}
 	}
 	#endif
